@@ -7,9 +7,24 @@ export default function InstitutionJourneyPage() {
       <Header />
       
       <main className="flex-grow">
+
+
+
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-orange-50 via-white to-orange-50 py-20">
           <div className="container mx-auto px-4">
+
+
+            <div className="max-w-6xl mx-auto">
+              <Link href="/programs/mentorship" className="inline-flex items-center text-orange-600 hover:text-orange-800 font-medium">
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Mentorship Hub
+              </Link>
+            </div>
+
+
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">
                 For Institutions
@@ -24,19 +39,62 @@ export default function InstitutionJourneyPage() {
           </div>
         </section>
 
-        {/* Back to Hub Navigation */}
-        <section className="py-8 bg-white">
+
+        {/* Benefits Section */}
+        <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <Link href="/programs/mentorship" className="inline-flex items-center text-orange-600 hover:text-orange-800 font-medium">
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Back to Mentorship Hub
-              </Link>
+              <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Benefits for Institutions</h2>
+              
+              <div className="space-y-8">
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Strengthen the academic-industry connection</h3>
+                  <p className="text-gray-600">
+                    Bridge the gap between academic learning and real-world industry practices through structured mentorship programs.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Contributing to UN SDGs</h3>
+                  <p className="text-gray-600">
+                    Support quality education, gender equality, decent work, industry and innovation, reduced inequalities, and partnerships through mentorship initiatives.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Alumni connections and social engagements</h3>
+                  <p className="text-gray-600">
+                    Strengthen relationships with alumni and create meaningful engagement opportunities through mentorship programs.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Branding</h3>
+                  <p className="text-gray-600">
+                    Strengthen your institution's recognition and social reputation through impactful mentorship and student development initiatives.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Bridging/enhancing the strong learning eco-systems</h3>
+                  <p className="text-gray-600">
+                    Build and enhance strong learning ecosystems on both academic and industry sides through collaborative mentorship.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Higher employers satisfaction through social impact</h3>
+                  <p className="text-gray-600">
+                    Build and share your institution's purpose with employers, creating higher satisfaction through meaningful social impact activities.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
+
+
+
 
         {/* How It Works Section */}
         <section className="py-16 bg-white">
@@ -213,6 +271,8 @@ export default function InstitutionJourneyPage() {
             </div>
           </div>
         </section>
+
+
 
         {/* Video Section */}
         <section className="py-16 bg-white">

@@ -10,6 +10,17 @@ export default function MenteeJourneyPage() {
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20">
           <div className="container mx-auto px-4">
+
+            <div className="max-w-6xl mx-auto">
+              <Link href="/programs/mentorship" className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Mentorship Hub
+              </Link>
+            </div>
+
+
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4">
                 Mentee Journey
@@ -24,19 +35,68 @@ export default function MenteeJourneyPage() {
           </div>
         </section>
 
-        {/* Back to Hub Navigation */}
-        <section className="py-8 bg-white">
+        {/* Benefits Section */}
+        <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <Link href="/programs/mentorship" className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Back to Mentorship Hub
-              </Link>
+              <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Benefits for Mentees</h2>
+              
+              <div className="space-y-8">
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Your mentor has already walked the path you are about to take</h3>
+                  <p className="text-gray-600">
+                    Mentorship gives you something no classroom can — direct access to someone who has been where you are going, made the mistakes, found the answers, and is ready to share all of it with you.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Early access to the professional world</h3>
+                  <p className="text-gray-600">
+                    Gain direct access to professionals, workplaces, and career paths before you have to make major decisions. Mentorship helps you understand how the world of work really functions — long before you have to navigate it alone.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Learning from real-life journeys</h3>
+                  <p className="text-gray-600">
+                    Benefit from the lived experience of someone who has already navigated study choices, career moves, setbacks, and successes. Learn faster, avoid common mistakes, and make decisions with more perspective and less guesswork.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Greater confidence and self-awareness</h3>
+                  <p className="text-gray-600">
+                    Build confidence through encouragement, reflection, and honest conversations. Mentorship helps you understand your own strengths more clearly, express yourself with greater conviction, and step into opportunities you might otherwise have walked past.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Better-informed academic and career choices</h3>
+                  <p className="text-gray-600">
+                    Explore different study paths, professions, and future opportunities with someone who can connect those options to real outcomes. This supports more confident, realistic, and grounded decision-making at every stage of your journey.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Access to meaningful professional networks</h3>
+                  <p className="text-gray-600">
+                    Expand beyond the classroom by building connections with mentors and, through them, with a wider professional ecosystem. These relationships can open doors to insights, opportunities, and long-term support that would take years to build on your own.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Practical insight beyond the classroom</h3>
+                  <p className="text-gray-600">
+                    Turn abstract ideas about careers and study paths into something concrete and real. Mentors provide honest, grounded perspective on workplace expectations, industry realities, and the skills that truly matter when it counts.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
+      
+
+
 
         {/* How It Works Section */}
         <section className="py-16 bg-white">
@@ -282,6 +342,8 @@ export default function MenteeJourneyPage() {
             </div>
           </div>
         </section>
+
+
 
         {/* Video Section */}
         <section className="py-16 bg-white">

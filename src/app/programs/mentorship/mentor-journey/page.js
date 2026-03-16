@@ -10,6 +10,17 @@ export default function MentorJourneyPage() {
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-green-50 via-white to-green-50 py-20">
           <div className="container mx-auto px-4">
+
+            <div className="max-w-6xl mx-auto">
+              <Link href="/programs/mentorship" className="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Mentorship Hub
+              </Link>
+            </div>
+
+
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-green-100 text-green-600 rounded-full text-sm font-semibold mb-4">
                 Mentor Journey
@@ -24,19 +35,63 @@ export default function MentorJourneyPage() {
           </div>
         </section>
 
-        {/* Back to Hub Navigation */}
-        <section className="py-8 bg-white">
+
+
+        {/* Benefits Section */}
+        <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <Link href="/programs/mentorship" className="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Back to Mentorship Hub
-              </Link>
+              <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Benefits for Mentors</h2>
+              
+              <div className="space-y-8">
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Leadership skills</h3>
+                  <p className="text-gray-600">
+                    Get the opportunity to gain practical experience in leadership and guide and develop a young person.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Connection to younger generation</h3>
+                  <p className="text-gray-600">
+                    Escape the daily routine and exchange knowledge directly with younger people, understand better emerging mindset, and gain a fresh view.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Network expanding and Personal branding</h3>
+                  <p className="text-gray-600">
+                    Get unique opportunities to meet new kinds of people and build strong relationships, position yourself as an experienced knowledgeable leader.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Improve interpersonal skills</h3>
+                  <p className="text-gray-600">
+                    Develop communication, empathy, relationship building, training, articulation, and presentation skills while gaining better self-understanding.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Drive social change</h3>
+                  <p className="text-gray-600">
+                    Create meaningful impact on someone's life and on society through your mentorship and guidance.
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Coach future talent</h3>
+                  <p className="text-gray-600">
+                    Identify exceptional talent early with potential for hiring opportunities and build your future team.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
+
+
+     
 
         {/* How It Works Section */}
         <section className="py-16 bg-white">
@@ -283,6 +338,7 @@ export default function MentorJourneyPage() {
             </div>
           </div>
         </section>
+
 
         {/* Video Section */}
         <section className="py-16 bg-white">

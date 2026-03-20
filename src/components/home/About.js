@@ -9,7 +9,7 @@ export default function About() {
           <div className="space-y-8">
             <div className="text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Why <span className="text-green-600">Luxembourg?</span>
+                Why <span className="text-green-600">WES Luxembourg?</span>
               </h2>
               <p className="text-gray-600 mb-8 text-lg">
                 Luxembourg offers a unique ecosystem for education and career development, 

@@ -47,7 +47,7 @@ export default function SchoolsPage() {
     setSelectedFiles(files);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Basic validation
@@ -59,28 +59,44 @@ export default function SchoolsPage() {
       return;
     }
     
-    // Here you would typically send the form data to a server
-    console.log('Form data:', formData);
-    console.log('Files:', selectedFiles);
-    
-    // Reset form
-    setFormData({
-      fullName: '',
-      organization: '',
-      email: '',
-      phone: '',
-      organizationType: '',
-      interests: [],
-      message: ''
-    });
-    setSelectedFiles([]);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    try {
+      const res = await fetch('/api/partner', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          partnerCategory: 'schools'
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // Reset form
+        setFormData({
+          fullName: '',
+          organization: '',
+          email: '',
+          phone: '',
+          organizationType: '',
+          interests: [],
+          message: ''
+        });
+        setSelectedFiles([]);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        
+        // Show success message
+        setShowForm(false);
+        setShowSuccess(true);
+      } else {
+        alert(data.message || 'Failed to submit application');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Something went wrong. Please try again.');
     }
-    
-    // Show success message
-    setShowForm(false);
-    setShowSuccess(true);
   };
 
   const openForm = () => setShowForm(true);

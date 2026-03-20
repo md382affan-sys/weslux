@@ -1,8 +1,77 @@
 'use client';
 
+import { useState } from 'react';
 import { Header, Footer } from '@/components';
 
 export default function VolunteerPage() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    country: '',
+    volunteerRole: '',
+    profession: '',
+    company: '',
+    experience: '',
+    expertise: '',
+    availability: '',
+    motivation: '',
+    linkedin: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+
+    try {
+      const res = await fetch('/api/volunteer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setSuccess(true);
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          country: '',
+          volunteerRole: '',
+          profession: '',
+          company: '',
+          experience: '',
+          expertise: '',
+          availability: '',
+          motivation: '',
+          linkedin: ''
+        });
+      } else {
+        setError(data.message || 'Failed to submit application');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const scrollToForm = () => {
     const formSection = document.getElementById('volunteer-form');
     if (formSection) {
@@ -314,8 +383,20 @@ export default function VolunteerPage() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Volunteer Application Form</h2>
               
+              {success && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-800 font-medium">Thank you! Your application has been submitted successfully. We'll review it and get back to you within 5-7 business days.</p>
+                </div>
+              )}
+
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-800 font-medium">{error}</p>
+                </div>
+              )}
+
               <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl">
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -325,6 +406,8 @@ export default function VolunteerPage() {
                         type="text"
                         id="firstName"
                         name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="John"
@@ -339,6 +422,8 @@ export default function VolunteerPage() {
                         type="text"
                         id="lastName"
                         name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="Doe"
@@ -354,6 +439,8 @@ export default function VolunteerPage() {
                       type="email"
                       id="email"
                       name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="john@example.com"
@@ -368,6 +455,8 @@ export default function VolunteerPage() {
                       type="tel"
                       id="phone"
                       name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="+352 123 456 789"
@@ -382,6 +471,8 @@ export default function VolunteerPage() {
                       type="text"
                       id="country"
                       name="country"
+                      value={formData.country}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="Luxembourg"
@@ -395,6 +486,8 @@ export default function VolunteerPage() {
                     <select
                       id="volunteerRole"
                       name="volunteerRole"
+                      value={formData.volunteerRole}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     >
@@ -416,6 +509,8 @@ export default function VolunteerPage() {
                       type="text"
                       id="profession"
                       name="profession"
+                      value={formData.profession}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="e.g., Software Engineer, Teacher, etc."
@@ -430,6 +525,8 @@ export default function VolunteerPage() {
                       type="text"
                       id="company"
                       name="company"
+                      value={formData.company}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="Your company name"
                     />
@@ -442,6 +539,8 @@ export default function VolunteerPage() {
                     <select
                       id="experience"
                       name="experience"
+                      value={formData.experience}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     >
@@ -460,6 +559,8 @@ export default function VolunteerPage() {
                     <textarea
                       id="expertise"
                       name="expertise"
+                      value={formData.expertise}
+                      onChange={handleChange}
                       required
                       rows="3"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
@@ -474,6 +575,8 @@ export default function VolunteerPage() {
                     <select
                       id="availability"
                       name="availability"
+                      value={formData.availability}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     >
@@ -492,6 +595,8 @@ export default function VolunteerPage() {
                     <textarea
                       id="motivation"
                       name="motivation"
+                      value={formData.motivation}
+                      onChange={handleChange}
                       required
                       rows="4"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
@@ -507,6 +612,8 @@ export default function VolunteerPage() {
                       type="url"
                       id="linkedin"
                       name="linkedin"
+                      value={formData.linkedin}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="https://linkedin.com/in/yourprofile"
                     />
@@ -539,9 +646,10 @@ export default function VolunteerPage() {
 
                   <button
                     type="submit"
-                    className="w-full px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-md hover:shadow-lg text-lg"
+                    disabled={loading}
+                    className="w-full px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-md hover:shadow-lg text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Submit Application
+                    {loading ? 'Submitting...' : 'Submit Application'}
                   </button>
 
                   <p className="text-xs text-gray-500 text-center">

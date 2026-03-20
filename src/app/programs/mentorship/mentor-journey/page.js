@@ -8,8 +8,14 @@ export default function MentorJourneyPage() {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-green-50 via-white to-green-50 py-20">
-          <div className="container mx-auto px-4">
+        <section className="bg-gradient-to-br from-green-50 via-white to-green-50 py-20 relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-green-400 rounded-full mix-blend-multiply filter blur-3xl"></div>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl animation-pulse"></div>
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10">
 
             <div className="max-w-6xl mx-auto">
               <Link href="/programs/mentorship" className="inline-flex items-center text-green-600 hover:text-green-800 font-medium">

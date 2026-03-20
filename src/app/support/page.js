@@ -6,8 +6,16 @@ import { useState } from 'react';
 
 export default function SupportPage() {
   const [selectedAmount, setSelectedAmount] = useState(null);
-  const [customAmount, setCustomAmount] = useState(''); // Initialize as empty string
-  const [donationType, setDonationType] = useState('one-time'); // 'one-time' or 'monthly'
+  const [customAmount, setCustomAmount] = useState('');
+  const [donationType, setDonationType] = useState('one-time');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    anonymous: false
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   const presetAmounts = [25, 50, 100, 250];
 
@@ -19,7 +27,60 @@ export default function SupportPage() {
   const handleCustomAmountChange = (e) => {
     const value = e.target.value;
     setCustomAmount(value);
-    setSelectedAmount(null); // Deselect preset amounts when custom amount is entered
+    setSelectedAmount(null);
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+
+    const amount = parseFloat(customAmount);
+    if (!amount || amount <= 0) {
+      setError('Please enter a valid donation amount');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/donation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          amount,
+          donationType
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          anonymous: false
+        });
+        setCustomAmount('');
+        setSelectedAmount(null);
+      } else {
+        setError(data.message || 'Failed to process donation');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const scrollToForm = () => {
@@ -195,7 +256,19 @@ export default function SupportPage() {
                   Choose your donation amount and help us continue our mission to empower students worldwide.
                 </p>
                 
-                <form className="space-y-6">
+                {success && (
+                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-green-800 font-medium">Thank you for your generous donation! You will receive a receipt via email.</p>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-red-800 font-medium">{error}</p>
+                  </div>
+                )}
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-4">Donation Type</label>
                     <div className="grid grid-cols-2 gap-4">
@@ -270,6 +343,9 @@ export default function SupportPage() {
                     <input
                       type="text"
                       id="donor-name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       placeholder="John Doe"
@@ -283,6 +359,9 @@ export default function SupportPage() {
                     <input
                       type="email"
                       id="donor-email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       placeholder="john@example.com"
@@ -293,6 +372,9 @@ export default function SupportPage() {
                     <input
                       type="checkbox"
                       id="anonymous"
+                      name="anonymous"
+                      checked={formData.anonymous}
+                      onChange={handleChange}
                       className="mt-1 mr-3 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
                     />
                     <label htmlFor="anonymous" className="text-sm text-gray-600">
@@ -302,9 +384,10 @@ export default function SupportPage() {
 
                   <button
                     type="submit"
-                    className="w-full px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-lg"
+                    disabled={loading}
+                    className="w-full px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Complete Donation
+                    {loading ? 'Processing...' : 'Complete Donation'}
                   </button>
 
                   <p className="text-xs text-gray-500 text-center">

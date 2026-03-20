@@ -1,6 +1,60 @@
+'use client';
+
+import { useState } from 'react';
 import { Header, Footer } from '@/components';
 
 export default function BecomeAmbassadorPage() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    roleInterest: '',
+    background: '',
+    ideas: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+
+    try {
+      const res = await fetch('/api/ambassador', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setSuccess(true);
+        setFormData({
+          fullName: '',
+          email: '',
+          roleInterest: '',
+          background: '',
+          ideas: ''
+        });
+      } else {
+        setError(data.message || 'Failed to submit application');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
   const ambassadorRoles = [
     {
       title: "Campus Ambassador",
@@ -225,8 +279,20 @@ export default function BecomeAmbassadorPage() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Ambassador Application</h2>
               
+              {success && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-800 font-medium">Thank you! Your application has been submitted successfully. We'll review it and contact you soon.</p>
+                </div>
+              )}
+
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-800 font-medium">{error}</p>
+                </div>
+              )}
+
               <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl">
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -236,6 +302,8 @@ export default function BecomeAmbassadorPage() {
                         type="text"
                         id="fullName"
                         name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="John Doe"
@@ -250,6 +318,8 @@ export default function BecomeAmbassadorPage() {
                         type="email"
                         id="email"
                         name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="john@example.com"
@@ -264,6 +334,8 @@ export default function BecomeAmbassadorPage() {
                     <select
                       id="roleInterest"
                       name="roleInterest"
+                      value={formData.roleInterest}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
@@ -282,6 +354,8 @@ export default function BecomeAmbassadorPage() {
                     <textarea
                       id="background"
                       name="background"
+                      value={formData.background}
+                      onChange={handleChange}
                       required
                       rows="4"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
@@ -296,6 +370,8 @@ export default function BecomeAmbassadorPage() {
                     <textarea
                       id="ideas"
                       name="ideas"
+                      value={formData.ideas}
+                      onChange={handleChange}
                       required
                       rows="3"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
@@ -306,9 +382,10 @@ export default function BecomeAmbassadorPage() {
                   <div className="pt-4">
                     <button
                       type="submit"
-                      className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                      disabled={loading}
+                      className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Submit Application
+                      {loading ? 'Submitting...' : 'Submit Application'}
                     </button>
                   </div>
                 </form>

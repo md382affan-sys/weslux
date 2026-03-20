@@ -175,9 +175,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-blue-600">1</span>
                     </div>
                     <span>Overview</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/about/vision-mission" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -185,9 +183,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-green-600">2</span>
                     </div>
                     <span>Vision & Mission</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/about/who-we-are" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -195,9 +191,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-purple-600">3</span>
                     </div>
                     <span>Who We Are</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/about/our-story" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -205,9 +199,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-orange-600">4</span>
                     </div>
                     <span>Our Story</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/about/our-team" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -215,9 +207,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-red-600">5</span>
                     </div>
                     <span>Our Team</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/about/our-donors" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -225,9 +215,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-indigo-600">6</span>
                     </div>
                     <span>Our Donors</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/about/Compliance-reports" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -235,9 +223,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-gray-600">7</span>
                     </div>
                     <span>Compliance & Reports</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                 </div>
               </div>
@@ -272,9 +258,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-blue-600">1</span>
                     </div>
                     <span>Mentorship Program</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/programs/tech-connect" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -282,9 +266,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-green-600">2</span>
                     </div>
                     <span>Global Tech Connect</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/programs/industrial-visit" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -292,9 +274,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-purple-600">3</span>
                     </div>
                     <span>Industrial Exposure Visit</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                 </div>
               </div>
@@ -329,9 +309,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-blue-600">1</span>
                     </div>
                     <span>Schools & Educational Institutions</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/partners/companies" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -339,9 +317,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-green-600">2</span>
                     </div>
                     <span>Companies</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/partners/government" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -349,9 +325,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-purple-600">3</span>
                     </div>
                     <span>Governments</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/partners/cso" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -359,9 +333,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-orange-600">4</span>
                     </div>
                     <span>Civil Society Organizations</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                 </div>
               </div>
@@ -410,9 +382,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-blue-600">1</span>
                     </div>
                     <span>Become an Ambassador</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/join-us/volunteer" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -420,9 +390,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-green-600">2</span>
                     </div>
                     <span>Become a Volunteer</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/join-us/find-internship" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -430,9 +398,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-purple-600">3</span>
                     </div>
                     <span>Find Internship</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                   
                   <Link href="/join-us/find-job" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
@@ -440,9 +406,7 @@ export default function Header() {
                       <span className="text-xs font-bold text-orange-600">4</span>
                     </div>
                     <span>Find Job</span>
-                    <svg className="w-4 h-4 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+              
                   </Link>
                 </div>
               </div>

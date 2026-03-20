@@ -1,6 +1,62 @@
+'use client';
+import { useState } from 'react';
 import { Header, Footer } from '@/components';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    program: '',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          program: '',
+          message: ''
+        });
+      } else {
+        setError(data.message || 'Failed to submit form');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -28,7 +84,20 @@ export default function ContactPage() {
                 {/* Contact Form */}
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-                  <form className="space-y-6">
+                  
+                  {success && (
+                    <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-green-800 font-medium">Thank you! Your message has been sent successfully.</p>
+                    </div>
+                  )}
+
+                  {error && (
+                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                      <p className="text-red-800 font-medium">{error}</p>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
                         Full Name *
@@ -37,6 +106,8 @@ export default function ContactPage() {
                         type="text"
                         id="name"
                         name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="John Doe"
@@ -51,6 +122,8 @@ export default function ContactPage() {
                         type="email"
                         id="email"
                         name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="john@example.com"
@@ -65,6 +138,8 @@ export default function ContactPage() {
                         type="tel"
                         id="phone"
                         name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="+352 123 456 789"
                       />
@@ -77,6 +152,8 @@ export default function ContactPage() {
                       <select
                         id="subject"
                         name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
@@ -91,12 +168,14 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="program" className="block text-sm font-semibold text-gray-700 mb-2">
                         Programs *
                       </label>
                       <select
-                        id="subject"
-                        name="subject"
+                        id="program"
+                        name="program"
+                        value={formData.program}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
@@ -116,6 +195,8 @@ export default function ContactPage() {
                       <textarea
                         id="message"
                         name="message"
+                        value={formData.message}
+                        onChange={handleChange}
                         required
                         rows="6"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
@@ -125,9 +206,10 @@ export default function ContactPage() {
 
                     <button
                       type="submit"
-                      className="w-full px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                      disabled={loading}
+                      className="w-full px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Send Message
+                      {loading ? 'Sending...' : 'Send Message'}
                     </button>
                   </form>
                 </div>

@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section 
       id="home" 
-      className="relative min-h-[600px] py-20"
+      className="relative min-h-[600px] pt-40 "
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
         backgroundSize: 'cover',

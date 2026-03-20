@@ -3,6 +3,7 @@
 import { Header, Footer } from '@/components';
 import Link from 'next/link';
 import { useState } from 'react';
+import SuccessModal from '@/components/SuccessModal';
 
 export default function SupportPage() {
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -14,7 +15,7 @@ export default function SupportPage() {
     anonymous: false
   });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState('');
 
   const presetAmounts = [25, 50, 100, 250];
@@ -65,7 +66,7 @@ export default function SupportPage() {
       const data = await res.json();
 
       if (data.success) {
-        setSuccess(true);
+        setShowSuccess(true);
         setFormData({
           name: '',
           email: '',
@@ -256,12 +257,6 @@ export default function SupportPage() {
                   Choose your donation amount and help us continue our mission to empower students worldwide.
                 </p>
                 
-                {success && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-green-800 font-medium">Thank you for your generous donation! You will receive a receipt via email.</p>
-                  </div>
-                )}
-
                 {error && (
                   <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                     <p className="text-red-800 font-medium">{error}</p>
@@ -550,6 +545,13 @@ export default function SupportPage() {
       </main>
 
       <Footer />
+
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        message="Thank you for your generous donation! Your support makes a real difference."
+      />
     </div>
   );
 }

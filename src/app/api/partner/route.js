@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Partner from '@/models/Partner';
+import { sendFormEmails } from '@/lib/email';
 
 // POST - Create new partner application
 export async function POST(request) {
@@ -29,6 +30,9 @@ export async function POST(request) {
       interests: interests || [],
       message: message || ''
     });
+
+    // Send emails to user and admin
+    await sendFormEmails('partner', body);
 
     return NextResponse.json(
       { success: true, message: 'Partner application submitted successfully', data: partner },

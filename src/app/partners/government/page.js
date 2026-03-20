@@ -3,6 +3,7 @@
 import { Header, Footer } from '@/components';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
+import SuccessModal from '@/components/SuccessModal';
 
 export default function GovernmentPage() {
   const [showForm, setShowForm] = useState(false);
@@ -556,6 +557,13 @@ export default function GovernmentPage() {
       </main>
       
       <Footer />
+
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        message="Thank you for your interest in partnering with us! We'll be in touch soon."
+      />
       
       {/* Add CSS for animations */}
       <style jsx global>{`

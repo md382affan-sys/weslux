@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Volunteer from '@/models/Volunteer';
+import { sendFormEmails } from '@/lib/email';
 
 export async function POST(request) {
   try {
@@ -8,6 +9,9 @@ export async function POST(request) {
     const data = await request.json();
 
     const volunteer = await Volunteer.create(data);
+
+    // Send emails to user and admin
+    await sendFormEmails('volunteer', data);
 
     return NextResponse.json({
       success: true,

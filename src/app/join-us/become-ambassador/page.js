@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Header, Footer } from '@/components';
+import SuccessModal from '@/components/SuccessModal';
 
 export default function BecomeAmbassadorPage() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ export default function BecomeAmbassadorPage() {
     ideas: ''
   });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
@@ -38,7 +39,7 @@ export default function BecomeAmbassadorPage() {
       const data = await res.json();
 
       if (data.success) {
-        setSuccess(true);
+        setShowSuccess(true);
         setFormData({
           fullName: '',
           email: '',
@@ -279,12 +280,6 @@ export default function BecomeAmbassadorPage() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Ambassador Application</h2>
               
-              {success && (
-                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-green-800 font-medium">Thank you! Your application has been submitted successfully. We'll review it and contact you soon.</p>
-                </div>
-              )}
-
               {error && (
                 <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                   <p className="text-red-800 font-medium">{error}</p>
@@ -434,6 +429,13 @@ export default function BecomeAmbassadorPage() {
       </main>
       
       <Footer />
+
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        message="Thank you for your interest in becoming an ambassador! We'll be in touch soon."
+      />
     </div>
   );
 }

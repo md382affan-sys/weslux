@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Header, Footer } from '@/components';
+import SuccessModal from '@/components/SuccessModal';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ export default function ContactPage() {
     message: ''
   });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
@@ -26,7 +27,6 @@ export default function ContactPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess(false);
 
     try {
       const res = await fetch('/api/contact', {
@@ -38,7 +38,7 @@ export default function ContactPage() {
       const data = await res.json();
 
       if (data.success) {
-        setSuccess(true);
+        setShowSuccess(true);
         setFormData({
           name: '',
           email: '',
@@ -85,12 +85,6 @@ export default function ContactPage() {
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
                   
-                  {success && (
-                    <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                      <p className="text-green-800 font-medium">Thank you! Your message has been sent successfully.</p>
-                    </div>
-                  )}
-
                   {error && (
                     <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                       <p className="text-red-800 font-medium">{error}</p>
@@ -428,6 +422,13 @@ export default function ContactPage() {
       </main>
 
       <Footer />
+
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        message="Thank you for contacting us! We'll get back to you soon."
+      />
     </div>
   );
 }

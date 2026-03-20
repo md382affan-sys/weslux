@@ -4,6 +4,7 @@ import {
   About,
   ProgramDetails,
   Impact,
+  SuccessStories,
   Partners,
   SDG,
   NewsEvents,
@@ -20,6 +21,7 @@ export default function Home() {
       <About />
       <ProgramDetails />
       <Impact />
+      <SuccessStories />
       <Partners />
       <SDG />
       <NewsEvents />

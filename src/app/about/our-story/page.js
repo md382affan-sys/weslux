@@ -21,18 +21,15 @@ export default function OurStoryPage() {
         </section>
 
         {/* Timeline Section */}
-        <section className="py-16 bg-white">
+        {/* <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Our Journey</h2>
               
               <div className="relative">
-                {/* Timeline line */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-blue-200"></div>
                 
-                {/* Timeline items */}
                 <div className="space-y-16">
-                  {/* 2018 */}
                   <div className="relative flex items-center">
                     <div className="w-1/2 pr-8 text-right">
                       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
@@ -49,7 +46,6 @@ export default function OurStoryPage() {
                     <div className="w-1/2"></div>
                   </div>
 
-                  {/* 2019 */}
                   <div className="relative flex items-center">
                     <div className="w-1/2"></div>
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-green-600 rounded-full border-4 border-white shadow-lg"></div>
@@ -66,7 +62,6 @@ export default function OurStoryPage() {
                     </div>
                   </div>
 
-                  {/* 2020 */}
                   <div className="relative flex items-center">
                     <div className="w-1/2 pr-8 text-right">
                       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
@@ -83,7 +78,6 @@ export default function OurStoryPage() {
                     <div className="w-1/2"></div>
                   </div>
 
-                  {/* 2021 */}
                   <div className="relative flex items-center">
                     <div className="w-1/2"></div>
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-orange-600 rounded-full border-4 border-white shadow-lg"></div>
@@ -100,7 +94,6 @@ export default function OurStoryPage() {
                     </div>
                   </div>
 
-                  {/* 2022 */}
                   <div className="relative flex items-center">
                     <div className="w-1/2 pr-8 text-right">
                       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
@@ -117,7 +110,6 @@ export default function OurStoryPage() {
                     <div className="w-1/2"></div>
                   </div>
 
-                  {/* 2023 */}
                   <div className="relative flex items-center">
                     <div className="w-1/2"></div>
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-indigo-600 rounded-full border-4 border-white shadow-lg"></div>
@@ -134,7 +126,6 @@ export default function OurStoryPage() {
                     </div>
                   </div>
 
-                  {/* Today */}
                   <div className="relative flex items-center">
                     <div className="w-1/2 pr-8 text-right">
                       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
@@ -154,7 +145,7 @@ export default function OurStoryPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section>  */}
 
         {/* Founding Story */}
         <section className="py-16 bg-gray-50">

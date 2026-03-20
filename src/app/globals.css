@@ -88,3 +88,154 @@ section {
 .dropdown-scroll::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
+
+/* ===== RESPONSIVE UTILITIES ===== */
+
+/* Container responsive padding */
+.container {
+  @apply px-4 sm:px-6 lg:px-8;
+}
+
+/* Responsive text sizes */
+.text-responsive-xs {
+  @apply text-xs sm:text-sm;
+}
+
+.text-responsive-sm {
+  @apply text-sm sm:text-base;
+}
+
+.text-responsive-base {
+  @apply text-base sm:text-lg;
+}
+
+.text-responsive-lg {
+  @apply text-lg sm:text-xl md:text-2xl;
+}
+
+.text-responsive-xl {
+  @apply text-xl sm:text-2xl md:text-3xl;
+}
+
+.text-responsive-2xl {
+  @apply text-2xl sm:text-3xl md:text-4xl;
+}
+
+.text-responsive-3xl {
+  @apply text-3xl sm:text-4xl md:text-5xl;
+}
+
+/* Responsive spacing */
+.section-padding {
+  @apply py-12 md:py-16 lg:py-20;
+}
+
+.section-padding-sm {
+  @apply py-8 md:py-12 lg:py-16;
+}
+
+/* Responsive grid */
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8;
+}
+
+.grid-responsive-2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8;
+}
+
+.grid-responsive-4 {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6;
+}
+
+/* Responsive cards */
+.card-responsive {
+  @apply p-4 md:p-6 lg:p-8 rounded-lg md:rounded-xl;
+}
+
+/* Responsive buttons */
+.btn-responsive {
+  @apply px-4 py-2 md:px-6 md:py-3 text-sm md:text-base;
+}
+
+/* Hide on mobile */
+.hide-mobile {
+  @apply hidden md:block;
+}
+
+/* Show only on mobile */
+.show-mobile {
+  @apply block md:hidden;
+}
+
+/* Responsive flex */
+.flex-responsive {
+  @apply flex flex-col md:flex-row gap-4 md:gap-6;
+}
+
+/* Responsive images */
+.img-responsive {
+  @apply w-full h-auto object-cover;
+}
+
+/* Form responsive */
+.form-responsive {
+  @apply space-y-4 md:space-y-6;
+}
+
+.input-responsive {
+  @apply w-full px-3 py-2 md:px-4 md:py-3 text-sm md:text-base;
+}
+
+/* Mobile menu overlay */
+@media (max-width: 1023px) {
+  .mobile-menu-open {
+    @apply overflow-hidden;
+  }
+}
+
+/* Tablet breakpoint adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tablet-adjust {
+    @apply px-6;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  button, a {
+    @apply active:scale-95;
+  }
+  
+  .hover-card {
+    @apply active:shadow-xl active:-translate-y-1;
+  }
+}
+
+/* Prevent text selection on buttons */
+button, .btn-primary, .btn-secondary {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, input, textarea, select {
+  @apply transition-all duration-200;
+}
+
+/* Responsive modal */
+.modal-responsive {
+  @apply w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-4;
+}
+
+/* Responsive table */
+@media (max-width: 767px) {
+  .table-responsive {
+    @apply block overflow-x-auto;
+  }
+  
+  .table-responsive table {
+    @apply min-w-full;
+  }
+}

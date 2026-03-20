@@ -3,6 +3,7 @@ export { default as Hero } from './home/Hero';
 export { default as About } from './home/About';
 export { default as ProgramDetails } from './home/ProgramDetails';
 export { default as Impact } from './home/Impact';
+export { default as SuccessStories } from './home/SuccessStories';
 export { default as Partners } from './home/Partners';
 export { default as SDG } from './home/SDG';
 export { default as NewsEvents } from './home/NewsEvents';

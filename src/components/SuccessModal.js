@@ -15,18 +15,18 @@ export default function SuccessModal({ isOpen, onClose, message = "Your message 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
-      <div className="bg-white rounded-2xl p-8 max-w-md mx-4 shadow-2xl transform animate-scaleIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn px-4">
+      <div className="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl transform animate-scaleIn">
         {/* Success Icon with Animation */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-4 md:mb-6">
           <div className="relative">
             {/* Outer Circle Animation */}
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center animate-ping absolute"></div>
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center animate-ping absolute"></div>
             
             {/* Main Success Icon */}
-            <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center relative animate-bounceIn">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center relative animate-bounceIn">
               <svg 
-                className="w-10 h-10 text-white animate-checkmark" 
+                className="w-8 h-8 md:w-10 md:h-10 text-white animate-checkmark" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -44,17 +44,17 @@ export default function SuccessModal({ isOpen, onClose, message = "Your message 
         </div>
 
         {/* Success Message */}
-        <h3 className="text-2xl font-bold text-gray-900 text-center mb-2 animate-slideUp">
+        <h3 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-2 animate-slideUp">
           Success!
         </h3>
-        <p className="text-gray-600 text-center animate-slideUp animation-delay-100">
+        <p className="text-sm md:text-base text-gray-600 text-center animate-slideUp animation-delay-100">
           {message}
         </p>
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="mt-6 w-full px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="mt-4 md:mt-6 w-full px-6 py-2.5 md:py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 text-sm md:text-base"
         >
           Close
         </button>

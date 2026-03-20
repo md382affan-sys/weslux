@@ -178,7 +178,7 @@ export default function OurTeamPage() {
         </section>
 
         {/* Board of Governance */}
-        <section className="py-16 bg-gray-50">
+        {/* <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
@@ -219,7 +219,7 @@ export default function OurTeamPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Core Team */}
         <section className="py-16 bg-white">
@@ -266,7 +266,7 @@ export default function OurTeamPage() {
         </section>
 
         {/* Ambassadors */}
-        <section className="py-16 bg-gray-50">
+        {/* <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
@@ -281,7 +281,6 @@ export default function OurTeamPage() {
                     <div className="p-6">
                       <div className="flex flex-col items-center text-center">
                         <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-50 rounded-full flex items-center justify-center mb-4 relative overflow-hidden">
-                          {/* Placeholder for image */}
                           <div className="w-full h-full bg-gradient-to-br from-orange-200 to-orange-300 flex items-center justify-center">
                             <span className="text-lg font-bold text-white">{member.initials}</span>
                           </div>
@@ -296,25 +295,25 @@ export default function OurTeamPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Team Structure Overview */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Our Team Structure</h2>
-              <div className="grid md:grid-cols-4 gap-6">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-2xl shadow-lg text-center">
                   <div className="text-2xl font-bold text-blue-600 mb-2">{foundingTeam.length}</div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">Founding Team</h3>
                   <p className="text-gray-600 text-sm">Visionary leaders and strategic direction</p>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl shadow-lg text-center">
+                {/* <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl shadow-lg text-center">
                   <div className="text-2xl font-bold text-green-600 mb-2">{boardOfGovernance.length}</div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">Board Members</h3>
                   <p className="text-gray-600 text-sm">Governance and oversight</p>
-                </div>
+                </div> */}
 
                 <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-2xl shadow-lg text-center">
                   <div className="text-2xl font-bold text-purple-600 mb-2">{coreTeam.length}</div>
@@ -322,11 +321,11 @@ export default function OurTeamPage() {
                   <p className="text-gray-600 text-sm">Operations and program management</p>
                 </div>
 
-                <div className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl shadow-lg text-center">
+                {/* <div className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl shadow-lg text-center">
                   <div className="text-2xl font-bold text-orange-600 mb-2">{ambassadors.length}</div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">Ambassadors</h3>
                   <p className="text-gray-600 text-sm">Community representation and outreach</p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

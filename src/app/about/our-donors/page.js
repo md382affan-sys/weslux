@@ -11,30 +11,6 @@ export default function OurDonorsPage() {
       textColor: "text-blue-600",
       isOfficial: true,
       image: "/doner/Œuvre Nationale de Secours Grande-Duchesse Charlotte.png"
-    },
-    {
-      name: "Luxembourg Education Foundation",
-      category: "Foundation",
-      support: "Core Program Funding",
-      logoColor: "bg-green-100",
-      textColor: "text-green-600",
-      image: "/doner/luxembourg-education-foundation.png" // Add this image later
-    },
-    {
-      name: "European Union Education Initiative",
-      category: "Government",
-      support: "International Partnership Grant",
-      logoColor: "bg-purple-100",
-      textColor: "text-purple-600",
-      image: "/doner/eu-education-initiative.png" // Add this image later
-    },
-    {
-      name: "TechForGood Alliance",
-      category: "Corporate",
-      support: "Technology Infrastructure",
-      logoColor: "bg-orange-100",
-      textColor: "text-orange-600",
-      image: "/doner/techforgood-alliance.png" // Add this image later
     }
   ];
 
@@ -173,7 +149,7 @@ export default function OurDonorsPage() {
         </section>
 
         {/* Corporate Partners */}
-        <section className="py-16 bg-white">
+        {/* <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Corporate Partners</h2>
@@ -192,7 +168,7 @@ export default function OurDonorsPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Individual Donors */}
         <section className="py-16 bg-gray-50">

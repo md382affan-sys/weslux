@@ -1,18 +1,17 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section id="home" className="relative min-h-[600px] py-20">
-      {/* Background Image with Overlay */}
-      <Image
-        src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-        alt="Team collaboration and learning"
-        fill
-        className="object-cover -z-10"
-        priority
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-50 -z-10"></div>
+    <section 
+      id="home" 
+      className="relative min-h-[600px] py-20"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">

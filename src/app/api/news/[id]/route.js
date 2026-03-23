@@ -6,7 +6,7 @@ import News from '@/models/News';
 export async function GET(request, { params }) {
   try {
     await connectDB();
-    const { id } = params;
+    const { id } = await params;
 
     const news = await News.findById(id);
 
@@ -44,7 +44,7 @@ export async function PUT(request, { params }) {
     }
 
     await connectDB();
-    const { id } = params;
+    const { id } = await params;
     const data = await request.json();
 
     const news = await News.findByIdAndUpdate(
@@ -88,7 +88,7 @@ export async function DELETE(request, { params }) {
     }
 
     await connectDB();
-    const { id } = params;
+    const { id } = await params;
 
     const news = await News.findByIdAndDelete(id);
 

@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import News from '@/models/News';
+import Admin from '@/models/Admin';
+import { sendNewsNotificationEmail } from '@/lib/email';
 
 // GET - Fetch all news (public)
 export async function GET(request) {
@@ -37,10 +40,42 @@ export async function POST(request) {
       );
     }
 
+    // Decode token to get admin info
+    const token = authHeader.replace('Bearer ', '');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    
     await connectDB();
-    const data = await request.json();
+    
+    // Get admin details
+    const admin = await Admin.findById(decoded.id).select('name email role');
+    if (!admin) {
+      return NextResponse.json(
+        { success: false, message: 'Admin not found' },
+        { status: 404 }
+      );
+    }
 
+    const data = await request.json();
     const news = await News.create(data);
+
+    // Send email notification to info@weslux.lu
+    try {
+      await sendNewsNotificationEmail({
+        adminName: admin.name,
+        adminEmail: admin.email,
+        adminRole: admin.role,
+        newsTitle: news.title,
+        newsCategory: news.category,
+        newsDescription: news.description,
+        newsDetails: news.details,
+        newsMonth: news.month,
+        newsDay: news.day,
+        newsStatus: news.status
+      });
+    } catch (emailError) {
+      console.error('Failed to send email notification:', emailError);
+      // Don't fail the request if email fails
+    }
 
     return NextResponse.json({
       success: true,

@@ -250,3 +250,119 @@ export async function sendFormEmails(formType, data) {
     adminEmail: adminResult
   };
 }
+
+// Send news notification email to admin
+export async function sendNewsNotificationEmail(data) {
+  try {
+    const mailOptions = {
+      from: process.env.SMTP_FROM,
+      to: process.env.ADMIN_EMAIL,
+      subject: `New News Posted: ${data.newsTitle}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0;">
+            <h2 style="color: white; margin: 0;">📰 New News & Event Posted</h2>
+          </div>
+          
+          <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px;">
+            <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <h3 style="color: #1f2937; margin-top: 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                Admin Details
+              </h3>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280; width: 120px;"><strong>Admin Name:</strong></td>
+                  <td style="padding: 8px 0; color: #1f2937;">${data.adminName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280;"><strong>Admin Email:</strong></td>
+                  <td style="padding: 8px 0; color: #1f2937;">${data.adminEmail}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280;"><strong>Admin Role:</strong></td>
+                  <td style="padding: 8px 0;">
+                    <span style="background: ${data.adminRole === 'super_admin' ? '#9333ea' : '#3b82f6'}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                      ${data.adminRole === 'super_admin' ? 'Super Admin' : 'Admin'}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280;"><strong>Posted At:</strong></td>
+                  <td style="padding: 8px 0; color: #1f2937;">${new Date().toLocaleString()}</td>
+                </tr>
+              </table>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-top: 20px;">
+              <h3 style="color: #1f2937; margin-top: 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                News Details
+              </h3>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280; width: 120px;"><strong>Date:</strong></td>
+                  <td style="padding: 8px 0; color: #1f2937;">${data.newsMonth} ${data.newsDay}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280;"><strong>Category:</strong></td>
+                  <td style="padding: 8px 0;">
+                    <span style="background: #f3f4f6; color: #374151; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                      ${data.newsCategory}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280;"><strong>Status:</strong></td>
+                  <td style="padding: 8px 0;">
+                    <span style="background: ${data.newsStatus === 'published' ? '#10b981' : '#f59e0b'}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                      ${data.newsStatus === 'published' ? 'Published' : 'Draft'}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="margin-top: 20px;">
+                <h4 style="color: #1f2937; margin-bottom: 10px;">Title:</h4>
+                <p style="color: #374151; font-size: 16px; font-weight: 600; margin: 0; padding: 12px; background: #f9fafb; border-left: 4px solid #667eea; border-radius: 4px;">
+                  ${data.newsTitle}
+                </p>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <h4 style="color: #1f2937; margin-bottom: 10px;">Description:</h4>
+                <p style="color: #4b5563; line-height: 1.6; margin: 0; padding: 12px; background: #f9fafb; border-radius: 4px;">
+                  ${data.newsDescription}
+                </p>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <h4 style="color: #1f2937; margin-bottom: 10px;">Details:</h4>
+                <p style="color: #4b5563; line-height: 1.6; margin: 0; padding: 12px; background: #f9fafb; border-radius: 4px;">
+                  ${data.newsDetails}
+                </p>
+              </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 4px;">
+              <p style="margin: 0; color: #1e40af; font-size: 14px;">
+                <strong>📌 Note:</strong> This news ${data.newsStatus === 'published' ? 'is now live on the website' : 'is saved as draft and not visible to public yet'}.
+              </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+              <p style="color: #6b7280; font-size: 14px; margin: 0;">
+                WES Luxembourg for Education ASBL<br>
+                <a href="https://weslux.lu" style="color: #667eea; text-decoration: none;">www.weslux.lu</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('News notification email sent successfully');
+  } catch (error) {
+    console.error('Error sending news notification email:', error);
+    throw error;
+  }
+}

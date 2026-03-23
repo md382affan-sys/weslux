@@ -1,14 +1,34 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header, Footer } from '@/components';
 
 export default function NewsPage() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [expandedCard, setExpandedCard] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = ['All', 'Funding', 'Partnerships', 'Legal', 'Platform', 'Outreach', 'Recognition', 'Program'];
 
-  const events = [
+  useEffect(() => {
+    fetchNews();
+  }, []);
+
+  const fetchNews = async () => {
+    try {
+      const res = await fetch('/api/news');
+      const data = await res.json();
+      if (data.success) {
+        setEvents(data.news);
+      }
+    } catch (error) {
+      console.error('Failed to fetch news:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const hardcodedEvents = [
     {
       id: 1,
       month: 'JAN',
@@ -165,9 +185,12 @@ export default function NewsPage() {
     }
   ];
 
+  // Use hardcoded events as fallback if DB is empty
+  const displayEvents = events.length > 0 ? events : hardcodedEvents;
+
   const filteredEvents = selectedFilter === 'All' 
-    ? events 
-    : events.filter(event => event.category === selectedFilter);
+    ? displayEvents 
+    : displayEvents.filter(event => event.category === selectedFilter);
 
   const colorClasses = {
     blue: {
@@ -340,14 +363,27 @@ export default function NewsPage() {
                 {selectedFilter === 'All' ? '2025 Timeline' : `${selectedFilter} Updates`}
               </h2>
               
+              {loading ? (
+                <div className="text-center py-12">
+                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+                  <p className="mt-4 text-gray-600">Loading news...</p>
+                </div>
+              ) : filteredEvents.length === 0 ? (
+                <div className="text-center py-12">
+                  <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                  </svg>
+                  <p className="text-gray-600">No news found for this category.</p>
+                </div>
+              ) : (
               <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                 {filteredEvents.map((event) => {
                   const colors = colorClasses[event.color] || colorClasses.blue;
-                  const isExpanded = expandedCard === event.id;
+                  const isExpanded = expandedCard === (event._id || event.id);
                   
                   return (
                     <div 
-                      key={event.id}
+                      key={event._id || event.id}
                       className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 ${colors.border}`}
                     >
                       <div className={`h-32 md:h-40 bg-gradient-to-br ${colors.bg} flex items-center justify-center relative`}>
@@ -379,7 +415,7 @@ export default function NewsPage() {
                         )}
                         
                         <button
-                          onClick={() => setExpandedCard(isExpanded ? null : event.id)}
+                          onClick={() => setExpandedCard(isExpanded ? null : (event._id || event.id))}
                           className={`${colors.text} font-semibold text-sm hover:underline flex items-center`}
                         >
                           {isExpanded ? 'Show Less' : 'Read More'}
@@ -397,6 +433,7 @@ export default function NewsPage() {
                   );
                 })}
               </div>
+              )}
             </div>
           </div>
         </section>

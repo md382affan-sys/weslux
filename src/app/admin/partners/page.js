@@ -53,16 +53,6 @@ export default function PartnersPage() {
     return badges[category] || 'bg-gray-100 text-gray-800';
   };
 
-  const getStatusBadge = (status) => {
-    const badges = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      reviewing: 'bg-blue-100 text-blue-800',
-      approved: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800'
-    };
-    return badges[status] || 'bg-gray-100 text-gray-800';
-  };
-
   return (
     <AdminLayout>
       <div className="p-8">
@@ -149,9 +139,6 @@ export default function PartnersPage() {
                       Type
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
                   </tr>
@@ -174,11 +161,6 @@ export default function PartnersPage() {
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900">
                         {partner.organizationType}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadge(partner.status)}`}>
-                          {partner.status}
-                        </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {new Date(partner.createdAt).toLocaleDateString()}

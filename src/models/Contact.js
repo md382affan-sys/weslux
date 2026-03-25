@@ -19,11 +19,6 @@ const ContactSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  status: {
-    type: String,
-    enum: ['new', 'in-progress', 'resolved'],
-    default: 'new',
-  },
 }, { timestamps: true });
 
 export default mongoose.models.Contact || mongoose.model('Contact', ContactSchema);

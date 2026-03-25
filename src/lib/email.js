@@ -205,6 +205,65 @@ export const emailTemplates = {
         </div>
       `
     })
+  },
+
+  mentee: {
+    user: (data) => ({
+      subject: 'Welcome to WES Luxembourg Mentorship Program!',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #3b82f6;">Welcome to Our Mentorship Program!</h2>
+          <p>Dear ${data.firstName} ${data.lastName},</p>
+          <p>Thank you for applying to join our mentorship program. We're excited about your interest!</p>
+          <div style="background: #eff6ff; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3b82f6;">
+            <h3 style="margin-top: 0; color: #1e40af;">Your Application Details:</h3>
+            <p><strong>Education:</strong> ${data.currentEducation} at ${data.institution}</p>
+            <p><strong>Field of Study:</strong> ${data.fieldOfStudy}</p>
+            <p><strong>Career Interests:</strong> ${data.careerInterests}</p>
+            <p><strong>Availability:</strong> ${data.availability}</p>
+          </div>
+          <p>Our team will review your application and match you with a suitable mentor. We'll contact you within 5-7 business days.</p>
+          <p>Best regards,<br>WES Luxembourg Mentorship Team</p>
+        </div>
+      `
+    }),
+    admin: (data) => ({
+      subject: `New Mentee Application - ${data.firstName} ${data.lastName}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #3b82f6;">New Mentee Application Received</h2>
+          <div style="background: #f3f4f6; padding: 20px; border-radius: 8px;">
+            <h3 style="color: #1f2937; border-bottom: 2px solid #3b82f6; padding-bottom: 8px;">Personal Information</h3>
+            <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone}</p>
+            <p><strong>Date of Birth:</strong> ${data.dateOfBirth}</p>
+            <p><strong>Gender:</strong> ${data.gender}</p>
+            <p><strong>Nationality:</strong> ${data.nationality}</p>
+            
+            <h3 style="color: #1f2937; border-bottom: 2px solid #9333ea; padding-bottom: 8px; margin-top: 20px;">Education</h3>
+            <p><strong>Education Level:</strong> ${data.currentEducation}</p>
+            <p><strong>Institution:</strong> ${data.institution}</p>
+            <p><strong>Field of Study:</strong> ${data.fieldOfStudy}</p>
+            <p><strong>Year of Study:</strong> ${data.yearOfStudy}</p>
+            
+            <h3 style="color: #1f2937; border-bottom: 2px solid #6366f1; padding-bottom: 8px; margin-top: 20px;">Mentorship Preferences</h3>
+            <p><strong>Career Interests:</strong> ${data.careerInterests}</p>
+            <p><strong>Mentorship Goals:</strong> ${data.mentorshipGoals}</p>
+            <p><strong>Preferred Mentor Background:</strong> ${data.preferredMentorBackground || 'Not specified'}</p>
+            <p><strong>Availability:</strong> ${data.availability}</p>
+            
+            <h3 style="color: #1f2937; border-bottom: 2px solid #10b981; padding-bottom: 8px; margin-top: 20px;">Language & Additional Info</h3>
+            <p><strong>English Proficiency:</strong> ${data.englishProficiency}</p>
+            <p><strong>Other Languages:</strong> ${data.otherLanguages || 'Not specified'}</p>
+            <p><strong>LinkedIn:</strong> ${data.linkedin || 'Not provided'}</p>
+            <p><strong>Motivation:</strong> ${data.motivation}</p>
+            
+            <p style="margin-top: 20px;"><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
+          </div>
+        </div>
+      `
+    })
   }
 };
 

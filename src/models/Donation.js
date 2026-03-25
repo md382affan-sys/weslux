@@ -22,11 +22,6 @@ const DonationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  status: {
-    type: String,
-    enum: ['pending', 'completed', 'failed'],
-    default: 'pending',
-  },
 }, { timestamps: true });
 
 export default mongoose.models.Donation || mongoose.model('Donation', DonationSchema);

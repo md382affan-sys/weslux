@@ -47,11 +47,6 @@ const VolunteerSchema = new mongoose.Schema({
     required: true,
   },
   linkedin: String,
-  status: {
-    type: String,
-    enum: ['pending', 'approved', 'rejected'],
-    default: 'pending',
-  },
 }, { timestamps: true });
 
 export default mongoose.models.Volunteer || mongoose.model('Volunteer', VolunteerSchema);

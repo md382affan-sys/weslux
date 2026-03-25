@@ -408,6 +408,14 @@ export default function Header() {
                     <span>Find Job</span>
               
                   </Link>
+
+                  <Link href="/join-us/mentee-form" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
+                    <div className="w-6 h-6 rounded-md bg-red-100 flex items-center justify-center mr-3">
+                      <span className="text-xs font-bold text-red-600">5</span>
+                    </div>
+                    <span>Mentee form</span>
+              
+                  </Link>
                 </div>
               </div>
             </div>

@@ -49,11 +49,6 @@ const partnerSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  status: {
-    type: String,
-    enum: ['pending', 'reviewing', 'approved', 'rejected'],
-    default: 'pending'
-  }
 }, {
   timestamps: true
 });

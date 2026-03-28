@@ -6,6 +6,7 @@ import AdminLayout from '@/components/admin/AdminLayout';
 export default function AdminAmbassadors() {
   const [ambassadors, setAmbassadors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAmbassador, setSelectedAmbassador] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -64,6 +65,7 @@ export default function AdminAmbassadors() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role Interest</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Background</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -80,6 +82,14 @@ export default function AdminAmbassadors() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(ambassador.createdAt).toLocaleDateString()}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={() => setSelectedAmbassador(ambassador)}
+                        className="px-3 py-1 bg-purple-100 text-purple-700 rounded hover:bg-purple-200 text-sm font-medium"
+                      >
+                        View Details
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -87,6 +97,139 @@ export default function AdminAmbassadors() {
           </div>
         )}
       </div>
+
+      {/* Detail Modal */}
+      {selectedAmbassador && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedAmbassador(null)}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-xl">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold">{selectedAmbassador.fullName}</h2>
+                  <p className="text-purple-100 mt-1">{selectedAmbassador.email}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedAmbassador(null)}
+                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Personal Information */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-purple-600">Personal Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Full Name</p>
+                    <p className="font-medium text-gray-900">{selectedAmbassador.fullName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Email</p>
+                    <p className="font-medium text-gray-900">{selectedAmbassador.email}</p>
+                  </div>
+                  {selectedAmbassador.phone && (
+                    <div>
+                      <p className="text-sm text-gray-500">Phone</p>
+                      <p className="font-medium text-gray-900">{selectedAmbassador.phone}</p>
+                    </div>
+                  )}
+                  {selectedAmbassador.country && (
+                    <div>
+                      <p className="text-sm text-gray-500">Country</p>
+                      <p className="font-medium text-gray-900">{selectedAmbassador.country}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Role & Background */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-pink-600">Role & Background</h3>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Role Interest</p>
+                    <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-semibold">
+                      {selectedAmbassador.roleInterest}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Background</p>
+                    <p className="font-medium text-gray-900">{selectedAmbassador.background}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Experience & Skills */}
+              {selectedAmbassador.experience && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-purple-500">Experience & Skills</h3>
+                  <div>
+                    <p className="text-sm text-gray-500">Experience</p>
+                    <p className="font-medium text-gray-900">{selectedAmbassador.experience}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Motivation */}
+              {selectedAmbassador.motivation && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-pink-500">Motivation</h3>
+                  <div>
+                    <p className="text-sm text-gray-500">Why do you want to be an ambassador?</p>
+                    <p className="font-medium text-gray-900">{selectedAmbassador.motivation}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Social Media */}
+              {(selectedAmbassador.linkedin || selectedAmbassador.instagram || selectedAmbassador.twitter) && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-purple-400">Social Media</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {selectedAmbassador.linkedin && (
+                      <div>
+                        <p className="text-sm text-gray-500">LinkedIn</p>
+                        <a href={selectedAmbassador.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                          {selectedAmbassador.linkedin}
+                        </a>
+                      </div>
+                    )}
+                    {selectedAmbassador.instagram && (
+                      <div>
+                        <p className="text-sm text-gray-500">Instagram</p>
+                        <a href={selectedAmbassador.instagram} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                          {selectedAmbassador.instagram}
+                        </a>
+                      </div>
+                    )}
+                    {selectedAmbassador.twitter && (
+                      <div>
+                        <p className="text-sm text-gray-500">Twitter</p>
+                        <a href={selectedAmbassador.twitter} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                          {selectedAmbassador.twitter}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Application Date */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-500">Applied On</p>
+                  <p className="font-medium text-gray-900">{new Date(selectedAmbassador.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }

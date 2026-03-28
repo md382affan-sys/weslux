@@ -6,6 +6,7 @@ import AdminLayout from '@/components/admin/AdminLayout';
 export default function AdminVolunteers() {
   const [volunteers, setVolunteers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedVolunteer, setSelectedVolunteer] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -67,9 +68,8 @@ export default function AdminVolunteers() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profession</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Experience</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -85,10 +85,16 @@ export default function AdminVolunteers() {
                         {volunteer.volunteerRole}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">{volunteer.profession}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">{volunteer.experience}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(volunteer.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={() => setSelectedVolunteer(volunteer)}
+                        className="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 text-sm font-medium"
+                      >
+                        View Details
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -97,6 +103,88 @@ export default function AdminVolunteers() {
           </div>
         )}
       </div>
+
+      {/* Detail Modal */}
+      {selectedVolunteer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedVolunteer(null)}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-gradient-to-r from-green-600 to-teal-600 text-white p-6 rounded-t-xl">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold">{selectedVolunteer.firstName} {selectedVolunteer.lastName}</h2>
+                  <p className="text-green-100 mt-1">{selectedVolunteer.email}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedVolunteer(null)}
+                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Personal Information */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-600">Personal Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Phone</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.phone}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Volunteer Role</p>
+                    <p className="font-medium text-gray-900 capitalize">{selectedVolunteer.volunteerRole}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Skills & Interests */}
+              {selectedVolunteer.skills && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-teal-600">Skills & Interests</h3>
+                  <div>
+                    <p className="text-sm text-gray-500">Skills</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.skills}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Availability */}
+              {selectedVolunteer.availability && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-500">Availability</h3>
+                  <div>
+                    <p className="text-sm text-gray-500">Available Time</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.availability}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Motivation */}
+              {selectedVolunteer.motivation && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-teal-500">Motivation</h3>
+                  <div>
+                    <p className="text-sm text-gray-500">Why do you want to volunteer?</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.motivation}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Application Date */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-500">Applied On</p>
+                  <p className="font-medium text-gray-900">{new Date(selectedVolunteer.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }

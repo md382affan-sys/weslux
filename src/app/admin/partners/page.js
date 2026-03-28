@@ -8,6 +8,7 @@ export default function PartnersPage() {
   const [partners, setPartners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [selectedPartner, setSelectedPartner] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -141,6 +142,9 @@ export default function PartnersPage() {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -165,6 +169,14 @@ export default function PartnersPage() {
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {new Date(partner.createdAt).toLocaleDateString()}
                       </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          onClick={() => setSelectedPartner(partner)}
+                          className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm font-medium"
+                        >
+                          View Details
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -173,6 +185,120 @@ export default function PartnersPage() {
           )}
         </div>
       </div>
+
+      {/* Detail Modal */}
+      {selectedPartner && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedPartner(null)}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className={`sticky top-0 text-white p-6 rounded-t-xl ${
+              selectedPartner.partnerCategory === 'companies' ? 'bg-gradient-to-r from-green-600 to-emerald-600' :
+              selectedPartner.partnerCategory === 'schools' ? 'bg-gradient-to-r from-blue-600 to-indigo-600' :
+              selectedPartner.partnerCategory === 'government' ? 'bg-gradient-to-r from-purple-600 to-violet-600' :
+              'bg-gradient-to-r from-orange-600 to-amber-600'
+            }`}>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold">{selectedPartner.organization}</h2>
+                  <p className="text-white/90 mt-1">{selectedPartner.email}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedPartner(null)}
+                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Organization Information */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-blue-600">Organization Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Organization Name</p>
+                    <p className="font-medium text-gray-900">{selectedPartner.organization}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Category</p>
+                    <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getCategoryBadge(selectedPartner.partnerCategory)}`}>
+                      {selectedPartner.partnerCategory}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Organization Type</p>
+                    <p className="font-medium text-gray-900">{selectedPartner.organizationType}</p>
+                  </div>
+                  {selectedPartner.website && (
+                    <div>
+                      <p className="text-sm text-gray-500">Website</p>
+                      <a href={selectedPartner.website} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                        {selectedPartner.website}
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Contact Person */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-600">Contact Person</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Full Name</p>
+                    <p className="font-medium text-gray-900">{selectedPartner.fullName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Email</p>
+                    <p className="font-medium text-gray-900">{selectedPartner.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Phone</p>
+                    <p className="font-medium text-gray-900">{selectedPartner.phone}</p>
+                  </div>
+                  {selectedPartner.position && (
+                    <div>
+                      <p className="text-sm text-gray-500">Position</p>
+                      <p className="font-medium text-gray-900">{selectedPartner.position}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Partnership Details */}
+              {selectedPartner.partnershipInterest && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-purple-600">Partnership Details</h3>
+                  <div>
+                    <p className="text-sm text-gray-500">Partnership Interest</p>
+                    <p className="font-medium text-gray-900">{selectedPartner.partnershipInterest}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Additional Information */}
+              {selectedPartner.message && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-orange-600">Additional Message</h3>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-900 whitespace-pre-wrap">{selectedPartner.message}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Application Date */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-500">Applied On</p>
+                  <p className="font-medium text-gray-900">{new Date(selectedPartner.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }

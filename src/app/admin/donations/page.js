@@ -6,6 +6,7 @@ import AdminLayout from '@/components/admin/AdminLayout';
 export default function AdminDonations() {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDonation, setSelectedDonation] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export default function AdminDonations() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Anonymous</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -113,6 +115,14 @@ export default function AdminDonations() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(donation.createdAt).toLocaleDateString()}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={() => setSelectedDonation(donation)}
+                        className="px-3 py-1 bg-orange-100 text-orange-700 rounded hover:bg-orange-200 text-sm font-medium"
+                      >
+                        View Details
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -120,6 +130,125 @@ export default function AdminDonations() {
           </div>
         )}
       </div>
+
+      {/* Detail Modal */}
+      {selectedDonation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedDonation(null)}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-gradient-to-r from-orange-600 to-red-600 text-white p-6 rounded-t-xl">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {selectedDonation.anonymous ? 'Anonymous Donor' : selectedDonation.name}
+                  </h2>
+                  <p className="text-orange-100 mt-1">
+                    {selectedDonation.anonymous ? 'Anonymous donation' : selectedDonation.email}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setSelectedDonation(null)}
+                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Donation Information */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-orange-600">Donation Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Amount</p>
+                    <p className="text-2xl font-bold text-green-600">€{selectedDonation.amount.toFixed(2)}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Donation Type</p>
+                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      selectedDonation.donationType === 'monthly' 
+                        ? 'bg-blue-100 text-blue-800' 
+                        : 'bg-green-100 text-green-800'
+                    }`}>
+                      {selectedDonation.donationType}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Anonymous</p>
+                    <p className="font-medium text-gray-900">{selectedDonation.anonymous ? 'Yes' : 'No'}</p>
+                  </div>
+                  {selectedDonation.paymentMethod && (
+                    <div>
+                      <p className="text-sm text-gray-500">Payment Method</p>
+                      <p className="font-medium text-gray-900 capitalize">{selectedDonation.paymentMethod}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Donor Information */}
+              {!selectedDonation.anonymous && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-red-600">Donor Information</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-500">Name</p>
+                      <p className="font-medium text-gray-900">{selectedDonation.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Email</p>
+                      <p className="font-medium text-gray-900">{selectedDonation.email}</p>
+                    </div>
+                    {selectedDonation.phone && (
+                      <div>
+                        <p className="text-sm text-gray-500">Phone</p>
+                        <p className="font-medium text-gray-900">{selectedDonation.phone}</p>
+                      </div>
+                    )}
+                    {selectedDonation.country && (
+                      <div>
+                        <p className="text-sm text-gray-500">Country</p>
+                        <p className="font-medium text-gray-900">{selectedDonation.country}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Message */}
+              {selectedDonation.message && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-orange-500">Message</h3>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-900 whitespace-pre-wrap">{selectedDonation.message}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Tax Receipt */}
+              {selectedDonation.taxReceipt && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-red-500">Tax Receipt</h3>
+                  <div>
+                    <p className="text-sm text-gray-500">Tax Receipt Requested</p>
+                    <p className="font-medium text-gray-900">{selectedDonation.taxReceipt ? 'Yes' : 'No'}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Donation Date */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-500">Donated On</p>
+                  <p className="font-medium text-gray-900">{new Date(selectedDonation.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }

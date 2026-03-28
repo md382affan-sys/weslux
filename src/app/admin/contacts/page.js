@@ -6,6 +6,7 @@ import AdminLayout from '@/components/admin/AdminLayout';
 export default function AdminContacts() {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedContact, setSelectedContact] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -69,6 +70,7 @@ export default function AdminContacts() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subject</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -86,6 +88,14 @@ export default function AdminContacts() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(contact.createdAt).toLocaleDateString()}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={() => setSelectedContact(contact)}
+                        className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm font-medium"
+                      >
+                        View Details
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -93,6 +103,85 @@ export default function AdminContacts() {
           </div>
         )}
       </div>
+
+      {/* Detail Modal */}
+      {selectedContact && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedContact(null)}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-6 rounded-t-xl">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold">{selectedContact.name}</h2>
+                  <p className="text-blue-100 mt-1">{selectedContact.email}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedContact(null)}
+                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Contact Information */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-blue-600">Contact Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Name</p>
+                    <p className="font-medium text-gray-900">{selectedContact.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Email</p>
+                    <p className="font-medium text-gray-900">{selectedContact.email}</p>
+                  </div>
+                  {selectedContact.phone && (
+                    <div>
+                      <p className="text-sm text-gray-500">Phone</p>
+                      <p className="font-medium text-gray-900">{selectedContact.phone}</p>
+                    </div>
+                  )}
+                  {selectedContact.company && (
+                    <div>
+                      <p className="text-sm text-gray-500">Company</p>
+                      <p className="font-medium text-gray-900">{selectedContact.company}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Subject */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-cyan-600">Subject</h3>
+                <div>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+                    {selectedContact.subject}
+                  </span>
+                </div>
+              </div>
+
+              {/* Message */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-blue-500">Message</h3>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-900 whitespace-pre-wrap">{selectedContact.message}</p>
+                </div>
+              </div>
+
+              {/* Submission Date */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-500">Submitted On</p>
+                  <p className="font-medium text-gray-900">{new Date(selectedContact.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }

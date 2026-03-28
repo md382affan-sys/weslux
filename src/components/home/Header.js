@@ -133,13 +133,13 @@ export default function Header() {
               <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent leading-tight">
                 WES
               </h1>
-              <p className="text-[10px] font-medium text-gray-500 leading-tight">Luxembourg for Education</p>
+              <p className="text-[15px] font-medium text-gray-500 leading-tight">Luxembourg for Education</p>
             </div>
           </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-0.5">
-            <Link href="/" className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 group">
+            <Link href="/" className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[15px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 group">
               <span className="relative">
                 Home
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
@@ -152,7 +152,7 @@ export default function Header() {
               onMouseEnter={handleDesktopAboutMouseEnter}
               onMouseLeave={handleDesktopAboutMouseLeave}
             >
-              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
+              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[15px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
                 <span>About Us</span>
                 <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${desktopAboutOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -225,6 +225,22 @@ export default function Header() {
                     <span>Compliance & Reports</span>
               
                   </Link>
+
+
+                  <Link href="/impact" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group/item">
+                    <div className="w-6 h-6 rounded-md bg-blue-100 flex items-center justify-center mr-3">
+                      <span className="text-xs font-bold text-blue-600">8</span>
+                    </div>
+                    <span>Our Impact</span>
+              
+                  </Link>
+          
+          
+          
+          
+
+
+
                 </div>
               </div>
             </div>
@@ -235,7 +251,7 @@ export default function Header() {
               onMouseEnter={handleDesktopProgramMouseEnter}
               onMouseLeave={handleDesktopProgramMouseLeave}
             >
-              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
+              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[15px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
                 <span>Program</span>
                 <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${desktopProgramOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -286,7 +302,7 @@ export default function Header() {
               onMouseEnter={handleDesktopPartnersMouseEnter}
               onMouseLeave={handleDesktopPartnersMouseLeave}
             >
-              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
+              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[15px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
                 <span>Partners</span>
                 <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${desktopPartnersOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -339,16 +355,11 @@ export default function Header() {
               </div>
             </div>
             
-            <Link href="/impact" className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 group">
-              <span className="relative">
-                Our Impact
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-              </span>
-            </Link>
 
-            <Link href="/news" className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 group">
+
+            <Link href="/news" className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[15px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 group">
               <span className="relative">
-                News & Events
+                News
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
               </span>
             </Link>
@@ -359,7 +370,7 @@ export default function Header() {
               onMouseEnter={handleDesktopJoinUsMouseEnter}
               onMouseLeave={handleDesktopJoinUsMouseLeave}
             >
-              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
+              <button className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[15px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 flex items-center space-x-1">
                 <span>Join Us</span>
                 <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${desktopJoinUsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -420,7 +431,7 @@ export default function Header() {
               </div>
             </div>
             
-            <Link href="/contact" className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[10px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 group">
+            <Link href="/contact" className="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium text-[15px] rounded-lg hover:bg-blue-50/80 transition-all duration-200 group">
               <span className="relative">
                 Contact
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
@@ -568,7 +579,7 @@ export default function Header() {
               </div>
               
               <Link href="/impact" onClick={closeMobileMenu} className="block px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">Our Impact</Link>
-              <Link href="/news" onClick={closeMobileMenu} className="block px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">News & Events</Link>
+              <Link href="/news" onClick={closeMobileMenu} className="block px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">News</Link>
               
               {/* Mobile Join Us Dropdown */}
               <div>

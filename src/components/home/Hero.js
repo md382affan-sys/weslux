@@ -1,17 +1,65 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Hero() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Unsplash images for education, mentorship, and professional growth
+  const images = [
+    'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80', // Students studying together
+    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80', // Team collaboration
+    'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80', // Laptop and learning
+    'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1920&q=80', // Professional workspace
+    'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1920&q=80', // Group discussion
+    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80', // Team meeting
+  ];
+
+  // Auto-slide effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % images.length);
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <section 
       id="home" 
-      className="relative min-h-[500px] md:min-h-[600px] lg:min-h-[700px] pt-24 md:pt-32 lg:pt-40 pb-16 md:pb-20"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
+      className="relative min-h-[500px] md:min-h-[600px] lg:min-h-[400px] pt-24 md:pt-32 lg:pt-40 pb-16 md:pb-20 overflow-hidden"
     >
+      {/* Background Images with Fade Transition */}
+      {images.map((image, index) => (
+        <div
+          key={index}
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          style={{
+            opacity: currentSlide === index ? 1 : 0,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${image}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        />
+      ))}
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              currentSlide === index 
+                ? 'bg-white w-8' 
+                : 'bg-white/50 hover:bg-white/75'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
       
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">

@@ -39,10 +39,9 @@ export default function MenteesPage() {
     const labels = {
       '6th-10th': '6th or 10th Grade',
       '11th-12th': '11th or 12th Grade',
-      'bachelor': "Bachelor's Degree",
-      'master': "Master's Degree",
-      'phd': 'PhD',
-      'other': 'Other'
+      'university': 'University Student',
+      'young-professional': 'Young Professional',
+      'mentor': 'Mentor'
     };
     return labels[level] || level;
   };
@@ -71,8 +70,8 @@ export default function MenteesPage() {
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Education</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Field</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Applied</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
               </tr>
@@ -88,15 +87,15 @@ export default function MenteesPage() {
                 mentees.map((mentee) => (
                   <tr key={mentee._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{mentee.firstName} {mentee.lastName}</div>
-                      <div className="text-sm text-gray-500">{mentee.nationality}</div>
+                      <div className="font-medium text-gray-900">{mentee.fullName}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{mentee.email}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{mentee.phone}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{getEducationLabel(mentee.currentEducation)}</div>
-                      <div className="text-xs text-gray-500">{mentee.institution}</div>
+                      <span className="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {getEducationLabel(mentee.educationLevel)}
+                      </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{mentee.fieldOfStudy}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(mentee.createdAt).toLocaleDateString()}
                     </td>
@@ -123,8 +122,9 @@ export default function MenteesPage() {
             <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-xl">
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-2xl font-bold">{selectedMentee.firstName} {selectedMentee.lastName}</h2>
+                  <h2 className="text-2xl font-bold">{selectedMentee.fullName}</h2>
                   <p className="text-blue-100 mt-1">{selectedMentee.email}</p>
+                  <p className="text-blue-100 text-sm mt-1">{selectedMentee.phone}</p>
                 </div>
                 <button
                   onClick={() => setSelectedMentee(null)}
@@ -138,108 +138,31 @@ export default function MenteesPage() {
             </div>
 
             <div className="p-6 space-y-6">
-              {/* Personal Information */}
+              {/* Basic Information */}
               <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-blue-600">Personal Information</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-blue-600">Basic Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Full Name</p>
+                    <p className="font-medium text-gray-900">{selectedMentee.fullName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Email</p>
+                    <p className="font-medium text-gray-900">{selectedMentee.email}</p>
+                  </div>
                   <div>
                     <p className="text-sm text-gray-500">Phone</p>
                     <p className="font-medium text-gray-900">{selectedMentee.phone}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Date of Birth</p>
-                    <p className="font-medium text-gray-900">{new Date(selectedMentee.dateOfBirth).toLocaleDateString()}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Gender</p>
-                    <p className="font-medium text-gray-900 capitalize">{selectedMentee.gender}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Nationality</p>
-                    <p className="font-medium text-gray-900">{selectedMentee.nationality}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Education */}
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-purple-600">Education Information</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Education Level</p>
-                    <p className="font-medium text-gray-900">{getEducationLabel(selectedMentee.currentEducation)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Institution</p>
-                    <p className="font-medium text-gray-900">{selectedMentee.institution}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Field of Study</p>
-                    <p className="font-medium text-gray-900">{selectedMentee.fieldOfStudy}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Year of Study</p>
-                    <p className="font-medium text-gray-900">{selectedMentee.yearOfStudy}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Mentorship Preferences */}
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-indigo-600">Mentorship Preferences</h3>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Career Interests</p>
-                    <p className="font-medium text-gray-900">{selectedMentee.careerInterests}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Mentorship Goals</p>
-                    <p className="font-medium text-gray-900">{selectedMentee.mentorshipGoals}</p>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-gray-500">Preferred Mentor Background</p>
-                      <p className="font-medium text-gray-900">{selectedMentee.preferredMentorBackground || 'Not specified'}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Availability</p>
-                      <p className="font-medium text-gray-900">{selectedMentee.availability}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Language & Additional */}
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-600">Language & Additional Information</h3>
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-gray-500">English Proficiency</p>
-                      <p className="font-medium text-gray-900 capitalize">{selectedMentee.englishProficiency}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Other Languages</p>
-                      <p className="font-medium text-gray-900">{selectedMentee.otherLanguages || 'Not specified'}</p>
-                    </div>
-                  </div>
-                  {selectedMentee.linkedin && (
-                    <div>
-                      <p className="text-sm text-gray-500">LinkedIn Profile</p>
-                      <a href={selectedMentee.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
-                        {selectedMentee.linkedin}
-                      </a>
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-sm text-gray-500">Motivation</p>
-                    <p className="font-medium text-gray-900">{selectedMentee.motivation}</p>
+                    <p className="text-sm text-gray-500">Category</p>
+                    <p className="font-medium text-gray-900">{getEducationLabel(selectedMentee.educationLevel)}</p>
                   </div>
                 </div>
               </div>
 
               {/* Foundation Level (6th & 10th) */}
-              {selectedMentee.currentEducation === '6th-10th' && selectedMentee.careerAspirations && (
+              {selectedMentee.educationLevel === '6th-10th' && (
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-500">Foundation Level Details</h3>
                   <div className="space-y-4">
@@ -255,32 +178,36 @@ export default function MenteesPage() {
                         <p className="font-medium text-gray-900">{selectedMentee.academicInterests}</p>
                       </div>
                     )}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {selectedMentee.streamSelectionCertainty && (
-                        <div>
-                          <p className="text-sm text-gray-500">Stream Selection Certainty</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.streamSelectionCertainty}/5</p>
-                        </div>
-                      )}
-                      {selectedMentee.currentGuidance && (
-                        <div>
-                          <p className="text-sm text-gray-500">Current Guidance Source</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.currentGuidance}</p>
-                        </div>
-                      )}
-                      {selectedMentee.mentorshipInterest && (
-                        <div>
-                          <p className="text-sm text-gray-500">Mentorship Interest</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.mentorshipInterest}</p>
-                        </div>
-                      )}
-                      {selectedMentee.learningStyle && (
-                        <div>
-                          <p className="text-sm text-gray-500">Learning Style</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.learningStyle}</p>
-                        </div>
-                      )}
-                    </div>
+                    {selectedMentee.streamCertainty && (
+                      <div>
+                        <p className="text-sm text-gray-500">Stream Selection Certainty</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.streamCertainty}</p>
+                      </div>
+                    )}
+                    {selectedMentee.currentGuidance && (
+                      <div>
+                        <p className="text-sm text-gray-500">Current Guidance Source</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.currentGuidance}</p>
+                      </div>
+                    )}
+                    {selectedMentee.mentorshipProblems && (
+                      <div>
+                        <p className="text-sm text-gray-500">Mentorship Problems</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.mentorshipProblems}</p>
+                      </div>
+                    )}
+                    {selectedMentee.exposureLevel && (
+                      <div>
+                        <p className="text-sm text-gray-500">Exposure Level</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.exposureLevel}</p>
+                      </div>
+                    )}
+                    {selectedMentee.exposureDetails && (
+                      <div>
+                        <p className="text-sm text-gray-500">Exposure Details</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.exposureDetails}</p>
+                      </div>
+                    )}
                     {selectedMentee.roleModel && (
                       <div>
                         <p className="text-sm text-gray-500">Role Model</p>
@@ -299,6 +226,18 @@ export default function MenteesPage() {
                         <p className="font-medium text-gray-900">{selectedMentee.fearFactor}</p>
                       </div>
                     )}
+                    {selectedMentee.familyExpectations && (
+                      <div>
+                        <p className="text-sm text-gray-500">Family Expectations</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.familyExpectations}</p>
+                      </div>
+                    )}
+                    {selectedMentee.learningStyle && (
+                      <div>
+                        <p className="text-sm text-gray-500">Learning Style</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.learningStyle}</p>
+                      </div>
+                    )}
                     {selectedMentee.curiosityCheck && (
                       <div>
                         <p className="text-sm text-gray-500">Curiosity Check</p>
@@ -310,7 +249,7 @@ export default function MenteesPage() {
               )}
 
               {/* Bridge Level (11th & 12th) */}
-              {selectedMentee.currentEducation === '11th-12th' && selectedMentee.professionalVision && (
+              {selectedMentee.educationLevel === '11th-12th' && (
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-purple-500">Bridge Level Details</h3>
                   <div className="space-y-4">
@@ -320,36 +259,22 @@ export default function MenteesPage() {
                         <p className="font-medium text-gray-900">{selectedMentee.professionalVision}</p>
                       </div>
                     )}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {selectedMentee.currentDomain && (
-                        <div>
-                          <p className="text-sm text-gray-500">Current Domain/Stream</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.currentDomain}</p>
-                        </div>
-                      )}
-                      {selectedMentee.careerClarityScore && (
-                        <div>
-                          <p className="text-sm text-gray-500">Career Clarity Score</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.careerClarityScore}/5</p>
-                        </div>
-                      )}
-                      {selectedMentee.industryExposure && (
-                        <div>
-                          <p className="text-sm text-gray-500">Industry Exposure</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.industryExposure}</p>
-                        </div>
-                      )}
-                      {selectedMentee.timeInvestment && (
-                        <div>
-                          <p className="text-sm text-gray-500">Daily Time Investment</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.timeInvestment}</p>
-                        </div>
-                      )}
-                    </div>
+                    {selectedMentee.currentDomain && (
+                      <div>
+                        <p className="text-sm text-gray-500">Current Domain/Stream</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.currentDomain}</p>
+                      </div>
+                    )}
                     {selectedMentee.choiceValidation && (
                       <div>
                         <p className="text-sm text-gray-500">Choice Validation</p>
                         <p className="font-medium text-gray-900">{selectedMentee.choiceValidation}</p>
+                      </div>
+                    )}
+                    {selectedMentee.industryAccess && (
+                      <div>
+                        <p className="text-sm text-gray-500">Industry Access</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.industryAccess}</p>
                       </div>
                     )}
                     {selectedMentee.supportGap && (
@@ -358,16 +283,40 @@ export default function MenteesPage() {
                         <p className="font-medium text-gray-900">{selectedMentee.supportGap}</p>
                       </div>
                     )}
-                    {selectedMentee.entranceExamStrategy && (
+                    {selectedMentee.careerClarity && (
                       <div>
-                        <p className="text-sm text-gray-500">Entrance Exam Strategy</p>
-                        <p className="font-medium text-gray-900">{selectedMentee.entranceExamStrategy}</p>
+                        <p className="text-sm text-gray-500">Career Clarity</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.careerClarity}</p>
                       </div>
                     )}
-                    {selectedMentee.skillGapAwareness && (
+                    {selectedMentee.backupPlan && (
                       <div>
-                        <p className="text-sm text-gray-500">Skill Gap Awareness</p>
-                        <p className="font-medium text-gray-900">{selectedMentee.skillGapAwareness}</p>
+                        <p className="text-sm text-gray-500">Backup Plan</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.backupPlan}</p>
+                      </div>
+                    )}
+                    {selectedMentee.entranceExams && (
+                      <div>
+                        <p className="text-sm text-gray-500">Entrance Exams</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.entranceExams}</p>
+                      </div>
+                    )}
+                    {selectedMentee.informationSource && (
+                      <div>
+                        <p className="text-sm text-gray-500">Information Source</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.informationSource}</p>
+                      </div>
+                    )}
+                    {selectedMentee.skillGap && (
+                      <div>
+                        <p className="text-sm text-gray-500">Skill Gap</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.skillGap}</p>
+                      </div>
+                    )}
+                    {selectedMentee.timeInvestment && (
+                      <div>
+                        <p className="text-sm text-gray-500">Time Investment</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.timeInvestment}</p>
                       </div>
                     )}
                     {selectedMentee.decisionSatisfaction && (
@@ -376,59 +325,75 @@ export default function MenteesPage() {
                         <p className="font-medium text-gray-900">{selectedMentee.decisionSatisfaction}</p>
                       </div>
                     )}
+                    {selectedMentee.realWorldExposure && (
+                      <div>
+                        <p className="text-sm text-gray-500">Real World Exposure</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.realWorldExposure}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
 
               {/* Launch Level (University) */}
-              {selectedMentee.currentEducation === 'bachelor' && selectedMentee.ultimateCareerGoal && (
+              {selectedMentee.educationLevel === 'university' && (
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-indigo-500">Launch Level Details</h3>
                   <div className="space-y-4">
-                    {selectedMentee.ultimateCareerGoal && (
+                    {selectedMentee.fieldOfStudy && (
                       <div>
-                        <p className="text-sm text-gray-500">Ultimate Career Goal</p>
-                        <p className="font-medium text-gray-900">{selectedMentee.ultimateCareerGoal}</p>
+                        <p className="text-sm text-gray-500">Field of Study</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.fieldOfStudy}</p>
                       </div>
                     )}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {selectedMentee.postStudyCertainty && (
-                        <div>
-                          <p className="text-sm text-gray-500">Post-Study Certainty</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.postStudyCertainty}/5</p>
-                        </div>
-                      )}
-                      {selectedMentee.careerDirection && (
-                        <div>
-                          <p className="text-sm text-gray-500">Career Direction</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.careerDirection}</p>
-                        </div>
-                      )}
-                      {selectedMentee.skillConfidence && (
-                        <div>
-                          <p className="text-sm text-gray-500">Skill Confidence</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.skillConfidence}/5</p>
-                        </div>
-                      )}
-                      {selectedMentee.portfolioStatus && (
-                        <div>
-                          <p className="text-sm text-gray-500">Portfolio Status</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.portfolioStatus}</p>
-                        </div>
-                      )}
-                      {selectedMentee.resumeReadiness && (
-                        <div>
-                          <p className="text-sm text-gray-500">Resume Readiness</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.resumeReadiness}</p>
-                        </div>
-                      )}
-                      {selectedMentee.industryAwareness && (
-                        <div>
-                          <p className="text-sm text-gray-500">Industry Awareness</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.industryAwareness}/5</p>
-                        </div>
-                      )}
-                    </div>
+                    {selectedMentee.immediateCareerGoal && (
+                      <div>
+                        <p className="text-sm text-gray-500">Immediate Career Goal</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.immediateCareerGoal}</p>
+                      </div>
+                    )}
+                    {selectedMentee.careerDirection && (
+                      <div>
+                        <p className="text-sm text-gray-500">Career Direction</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.careerDirection}</p>
+                      </div>
+                    )}
+                    {selectedMentee.postStudyCertainty && (
+                      <div>
+                        <p className="text-sm text-gray-500">Post-Study Certainty</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.postStudyCertainty}</p>
+                      </div>
+                    )}
+                    {selectedMentee.mentorshipNetwork && (
+                      <div>
+                        <p className="text-sm text-gray-500">Mentorship Network</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.mentorshipNetwork}</p>
+                      </div>
+                    )}
+                    {selectedMentee.skillConfidence && (
+                      <div>
+                        <p className="text-sm text-gray-500">Skill Confidence</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.skillConfidence}</p>
+                      </div>
+                    )}
+                    {selectedMentee.skillConfidentIn && (
+                      <div>
+                        <p className="text-sm text-gray-500">Skills Confident In</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.skillConfidentIn}</p>
+                      </div>
+                    )}
+                    {selectedMentee.skillNotConfidentIn && (
+                      <div>
+                        <p className="text-sm text-gray-500">Skills Not Confident In</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.skillNotConfidentIn}</p>
+                      </div>
+                    )}
+                    {selectedMentee.portfolioStatus && (
+                      <div>
+                        <p className="text-sm text-gray-500">Portfolio Status</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.portfolioStatus}</p>
+                      </div>
+                    )}
                     {selectedMentee.internshipExperience && (
                       <div>
                         <p className="text-sm text-gray-500">Internship Experience</p>
@@ -438,13 +403,19 @@ export default function MenteesPage() {
                     {selectedMentee.networkingEfforts && (
                       <div>
                         <p className="text-sm text-gray-500">Networking Efforts</p>
-                        <p className="font-medium text-gray-900 capitalize">{selectedMentee.networkingEfforts}</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.networkingEfforts}</p>
                       </div>
                     )}
-                    {selectedMentee.biggestChallenge && (
+                    {selectedMentee.cvReadiness && (
                       <div>
-                        <p className="text-sm text-gray-500">Biggest Challenge</p>
-                        <p className="font-medium text-gray-900">{selectedMentee.biggestChallenge}</p>
+                        <p className="text-sm text-gray-500">CV Readiness</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.cvReadiness}</p>
+                      </div>
+                    )}
+                    {selectedMentee.industryAwareness && (
+                      <div>
+                        <p className="text-sm text-gray-500">Industry Awareness</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.industryAwareness}</p>
                       </div>
                     )}
                     {selectedMentee.salaryExpectations && (
@@ -457,6 +428,12 @@ export default function MenteesPage() {
                       <div>
                         <p className="text-sm text-gray-500">Action Taken (Last 3 months)</p>
                         <p className="font-medium text-gray-900">{selectedMentee.actionTaken}</p>
+                      </div>
+                    )}
+                    {selectedMentee.biggestChallenge && (
+                      <div>
+                        <p className="text-sm text-gray-500">Biggest Challenge</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.biggestChallenge}</p>
                       </div>
                     )}
                     {selectedMentee.jobReadinessNeeds && selectedMentee.jobReadinessNeeds.length > 0 && (
@@ -475,70 +452,198 @@ export default function MenteesPage() {
                 </div>
               )}
 
-              {/* Final Validation & Feedback */}
-              {selectedMentee.problemStatementValidation && (
+              {/* Young Professional */}
+              {selectedMentee.educationLevel === 'young-professional' && (
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-orange-500">Final Validation & Feedback</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-teal-500">Young Professional Details</h3>
                   <div className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {selectedMentee.problemStatementValidation && (
-                        <div>
-                          <p className="text-sm text-gray-500">Problem Statement Validation</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.problemStatementValidation.replace('-', ' ')}</p>
-                        </div>
-                      )}
-                      {selectedMentee.mentorshipNecessity && (
-                        <div>
-                          <p className="text-sm text-gray-500">Mentorship Necessity</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.mentorshipNecessity.replace('-', ' ')}</p>
-                        </div>
-                      )}
-                      {selectedMentee.referralIntent && (
-                        <div>
-                          <p className="text-sm text-gray-500">Referral Intent</p>
-                          <p className="font-medium text-gray-900 capitalize">{selectedMentee.referralIntent}</p>
-                        </div>
-                      )}
-                      {selectedMentee.urgencyLevel && (
-                        <div>
-                          <p className="text-sm text-gray-500">Urgency Level</p>
-                          <p className="font-medium text-gray-900">{selectedMentee.urgencyLevel}/5</p>
-                        </div>
-                      )}
-                    </div>
-                    {selectedMentee.openFeedback && (
+                    {selectedMentee.careerStart && (
                       <div>
-                        <p className="text-sm text-gray-500">Open Feedback</p>
-                        <p className="font-medium text-gray-900">{selectedMentee.openFeedback}</p>
+                        <p className="text-sm text-gray-500">Career Start</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.careerStart}</p>
                       </div>
                     )}
-                    {selectedMentee.outcomeExpectation && (
+                    {selectedMentee.currentExperience && (
                       <div>
-                        <p className="text-sm text-gray-500">Outcome Expectation</p>
-                        <p className="font-medium text-gray-900">{selectedMentee.outcomeExpectation}</p>
+                        <p className="text-sm text-gray-500">Current Experience</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.currentExperience}</p>
                       </div>
                     )}
-                    {selectedMentee.biggestPainPoint && (
+                    {selectedMentee.careerSatisfaction && (
                       <div>
-                        <p className="text-sm text-gray-500">Biggest Pain Point</p>
-                        <p className="font-medium text-gray-900">{selectedMentee.biggestPainPoint}</p>
+                        <p className="text-sm text-gray-500">Career Satisfaction</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.careerSatisfaction}</p>
                       </div>
                     )}
-                    {selectedMentee.mentorshipFormatPreference && (
+                    {selectedMentee.careerSupport && (
                       <div>
-                        <p className="text-sm text-gray-500">Mentorship Format Preference</p>
-                        <p className="font-medium text-gray-900 capitalize">{selectedMentee.mentorshipFormatPreference}</p>
+                        <p className="text-sm text-gray-500">Career Support</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.careerSupport}</p>
                       </div>
                     )}
-                    {selectedMentee.willingnessToInvest && (
+                    {selectedMentee.mentorshipExperience && (
                       <div>
-                        <p className="text-sm text-gray-500">Willingness to Invest</p>
-                        <p className="font-medium text-gray-900 capitalize">{selectedMentee.willingnessToInvest}</p>
+                        <p className="text-sm text-gray-500">Mentorship Experience</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.mentorshipExperience}</p>
+                      </div>
+                    )}
+                    {selectedMentee.careerDevelopment && (
+                      <div>
+                        <p className="text-sm text-gray-500">Career Development</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.careerDevelopment}</p>
+                      </div>
+                    )}
+                    {selectedMentee.careerMobility && (
+                      <div>
+                        <p className="text-sm text-gray-500">Career Mobility</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.careerMobility}</p>
                       </div>
                     )}
                   </div>
                 </div>
               )}
+
+              {/* Mentor */}
+              {selectedMentee.educationLevel === 'mentor' && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-amber-500">Mentor Details</h3>
+                  <div className="space-y-4">
+                    {selectedMentee.initialMotivation && (
+                      <div>
+                        <p className="text-sm text-gray-500">Initial Motivation</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.initialMotivation}</p>
+                      </div>
+                    )}
+                    {selectedMentee.skillsToShare && (
+                      <div>
+                        <p className="text-sm text-gray-500">Skills to Share</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.skillsToShare}</p>
+                      </div>
+                    )}
+                    {selectedMentee.challenges && (
+                      <div>
+                        <p className="text-sm text-gray-500">Challenges</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.challenges}</p>
+                      </div>
+                    )}
+                    {selectedMentee.resourcesNeeded && (
+                      <div>
+                        <p className="text-sm text-gray-500">Resources Needed</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.resourcesNeeded}</p>
+                      </div>
+                    )}
+                    {selectedMentee.longTermMotivation && (
+                      <div>
+                        <p className="text-sm text-gray-500">Long Term Motivation</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.longTermMotivation}</p>
+                      </div>
+                    )}
+                    {selectedMentee.youngerGenExperience && (
+                      <div>
+                        <p className="text-sm text-gray-500">Younger Generation Experience</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.youngerGenExperience}</p>
+                      </div>
+                    )}
+                    {selectedMentee.menteeNeeds && (
+                      <div>
+                        <p className="text-sm text-gray-500">Mentee Needs Understanding</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.menteeNeeds}</p>
+                      </div>
+                    )}
+                    {selectedMentee.perceivedValue && (
+                      <div>
+                        <p className="text-sm text-gray-500">Perceived Value</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.perceivedValue}</p>
+                      </div>
+                    )}
+                    {selectedMentee.timeInvestmentMentor && (
+                      <div>
+                        <p className="text-sm text-gray-500">Time Investment</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.timeInvestmentMentor}</p>
+                      </div>
+                    )}
+                    {selectedMentee.coordinatorInvolvement && (
+                      <div>
+                        <p className="text-sm text-gray-500">Coordinator Involvement</p>
+                        <p className="font-medium text-gray-900">{selectedMentee.coordinatorInvolvement}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Final Validation & Feedback */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-orange-500">Final Validation & Feedback</h3>
+                <div className="space-y-4">
+                  {selectedMentee.problemValidation && (
+                    <div>
+                      <p className="text-sm text-gray-500">Problem Validation</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.problemValidation}</p>
+                    </div>
+                  )}
+                  {selectedMentee.mentorshipNecessity && (
+                    <div>
+                      <p className="text-sm text-gray-500">Mentorship Necessity</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.mentorshipNecessity}</p>
+                    </div>
+                  )}
+                  {selectedMentee.openFeedback && (
+                    <div>
+                      <p className="text-sm text-gray-500">Open Feedback</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.openFeedback}</p>
+                    </div>
+                  )}
+                  {selectedMentee.referralIntent && (
+                    <div>
+                      <p className="text-sm text-gray-500">Referral Intent</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.referralIntent}</p>
+                    </div>
+                  )}
+                  {selectedMentee.outcomeExpectation && (
+                    <div>
+                      <p className="text-sm text-gray-500">Outcome Expectation</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.outcomeExpectation}</p>
+                    </div>
+                  )}
+                  {selectedMentee.willingnessToInvest && (
+                    <div>
+                      <p className="text-sm text-gray-500">Willingness to Invest</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.willingnessToInvest}</p>
+                    </div>
+                  )}
+                  {selectedMentee.urgencyLevel && (
+                    <div>
+                      <p className="text-sm text-gray-500">Urgency Level</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.urgencyLevel}</p>
+                    </div>
+                  )}
+                  {selectedMentee.awareness && (
+                    <div>
+                      <p className="text-sm text-gray-500">Awareness</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.awareness}</p>
+                    </div>
+                  )}
+                  {selectedMentee.mentorshipStructure && (
+                    <div>
+                      <p className="text-sm text-gray-500">Mentorship Structure</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.mentorshipStructure}</p>
+                    </div>
+                  )}
+                  {selectedMentee.successDefinition && (
+                    <div>
+                      <p className="text-sm text-gray-500">Success Definition</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.successDefinition}</p>
+                    </div>
+                  )}
+                  {selectedMentee.formatPreference && (
+                    <div>
+                      <p className="text-sm text-gray-500">Format Preference</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.formatPreference}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
 
               {/* Application Date */}
               <div className="bg-gray-50 p-4 rounded-lg">

@@ -1,111 +1,104 @@
 import mongoose from 'mongoose';
 
 const menteeSchema = new mongoose.Schema({
-  // Personal Information
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  // Section 1: Applicant Profile
+  fullName: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
-  dateOfBirth: { type: Date, required: true },
-  gender: { 
+  educationLevel: { 
     type: String, 
-    enum: ['male', 'female', 'other', 'prefer-not-to-say'],
-    required: true 
-  },
-  nationality: { type: String, required: true },
-  
-  // Education Information
-  currentEducation: { 
-    type: String, 
-    enum: ['6th-10th', '11th-12th', 'bachelor', 'master', 'phd', 'other'],
-    required: true 
-  },
-  institution: { type: String, required: true },
-  fieldOfStudy: { type: String, required: true },
-  yearOfStudy: { type: String, required: true },
-  
-  // Mentorship Preferences
-  careerInterests: { type: String, required: true },
-  mentorshipGoals: { type: String, required: true },
-  preferredMentorBackground: { type: String },
-  availability: { 
-    type: String, 
-    enum: ['1-2-hours-week', '3-4-hours-week', '5+-hours-week', 'flexible'],
+    enum: ['6th-10th', '11th-12th', 'university', 'young-professional', 'mentor'],
     required: true 
   },
   
-  // Language & Additional Info
-  englishProficiency: { 
-    type: String, 
-    enum: ['basic', 'intermediate', 'advanced', 'native'],
-    required: true 
-  },
-  otherLanguages: { type: String },
-  linkedin: { type: String },
-  motivation: { type: String, required: true },
-  
-  // Foundation Level (6th & 10th Grade) - Optional
+  // Section 2: Foundation Level (6th & 10th Grade)
   careerAspirations: { type: String },
   academicInterests: { type: String },
-  streamSelectionCertainty: { type: String },
+  streamCertainty: { type: String },
   currentGuidance: { type: String },
-  mentorshipInterest: { type: String },
+  mentorshipProblems: { type: String },
   exposureLevel: { type: String },
-  exposureDetail: { type: String },
+  exposureDetails: { type: String },
   roleModel: { type: String },
   skillAwareness: { type: String },
   fearFactor: { type: String },
-  decisionPressure: { type: String },
-  decisionPressureExplain: { type: String },
+  familyExpectations: { type: String },
   learningStyle: { type: String },
   curiosityCheck: { type: String },
   
-  // Bridge Level (11th & 12th Grade) - Optional
+  // Section 3: Bridge Level (11th & 12th Grade)
   professionalVision: { type: String },
   currentDomain: { type: String },
   choiceValidation: { type: String },
-  industryExposure: { type: String },
+  industryAccess: { type: String },
   supportGap: { type: String },
-  careerClarityScore: { type: String },
+  careerClarity: { type: String },
   backupPlan: { type: String },
-  backupPlanExplain: { type: String },
-  entranceExamStrategy: { type: String },
+  entranceExams: { type: String },
   informationSource: { type: String },
-  skillGapAwareness: { type: String },
+  skillGap: { type: String },
   timeInvestment: { type: String },
   decisionSatisfaction: { type: String },
   realWorldExposure: { type: String },
-  realWorldExposureDetail: { type: String },
   
-  // Launch Level (University Students) - Optional
-  ultimateCareerGoal: { type: String },
+  // Section 4: Launch Level (University Students)
+  fieldOfStudy: { type: String },
+  immediateCareerGoal: { type: String },
+  careerDirection: { type: String },
   postStudyCertainty: { type: String },
   mentorshipNetwork: { type: String },
-  careerDirection: { type: String },
   skillConfidence: { type: String },
+  skillConfidentIn: { type: String },
+  skillNotConfidentIn: { type: String },
   portfolioStatus: { type: String },
   internshipExperience: { type: String },
   networkingEfforts: { type: String },
-  biggestChallenge: { type: String },
-  resumeReadiness: { type: String },
+  cvReadiness: { type: String },
   industryAwareness: { type: String },
   salaryExpectations: { type: String },
   actionTaken: { type: String },
+  biggestChallenge: { type: String },
   jobReadinessNeeds: [{ type: String }],
   
-  // Final Validation & Feedback - Optional
-  problemStatementValidation: { type: String },
+  // Section 5: Young Professionals
+  careerStart: { type: String },
+  currentExperience: { type: String },
+  careerSatisfaction: { type: String },
+  careerSupport: { type: String },
+  mentorshipExperience: { type: String },
+  careerDevelopment: { type: String },
+  careerMobility: { type: String },
+  
+  // Section 6: Mentors
+  initialMotivation: { type: String },
+  skillsToShare: { type: String },
+  challenges: { type: String },
+  resourcesNeeded: { type: String },
+  longTermMotivation: { type: String },
+  youngerGenExperience: { type: String },
+  menteeNeeds: { type: String },
+  perceivedValue: { type: String },
+  timeInvestmentMentor: { type: String },
+  coordinatorInvolvement: { type: String },
+  
+  // Section 7: Final Validation & Feedback (Common for all)
+  problemValidation: { type: String },
   mentorshipNecessity: { type: String },
   openFeedback: { type: String },
   referralIntent: { type: String },
   outcomeExpectation: { type: String },
-  
-  // Additional for Section 3 & 4 - Optional
-  mentorshipFormatPreference: { type: String },
   willingnessToInvest: { type: String },
   urgencyLevel: { type: String },
-  biggestPainPoint: { type: String }
+  awareness: { type: String },
+  mentorshipStructure: { type: String },
+  successDefinition: { type: String },
+  formatPreference: { type: String }
 }, { timestamps: true });
+
+// Add indexes for better query performance
+menteeSchema.index({ email: 1 });
+menteeSchema.index({ educationLevel: 1 });
+menteeSchema.index({ createdAt: -1 });
 
 // Force model refresh in development
 if (mongoose.models.Mentee) {

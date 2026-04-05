@@ -7,6 +7,10 @@ export default function AdminAmbassadors() {
   const [ambassadors, setAmbassadors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAmbassador, setSelectedAmbassador] = useState(null);
+  const [editingStatus, setEditingStatus] = useState(false);
+  const [newStatus, setNewStatus] = useState('');
+  const [statusNote, setStatusNote] = useState('');
+  const [updating, setUpdating] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,6 +36,39 @@ export default function AdminAmbassadors() {
       console.error('Failed to fetch ambassadors');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!newStatus) return;
+    
+    setUpdating(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`/api/ambassador/update-status/${selectedAmbassador._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus, statusNote })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        const updatedAmbassador = data.data;
+        setAmbassadors(ambassadors.map(a => 
+          a._id === updatedAmbassador._id ? updatedAmbassador : a
+        ));
+        setEditingStatus(false);
+        setSelectedAmbassador(null);
+        setNewStatus('');
+        setStatusNote('');
+      }
+    } catch (err) {
+      console.error('Failed to update status');
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -64,6 +101,7 @@ export default function AdminAmbassadors() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role Interest</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Background</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
@@ -79,12 +117,35 @@ export default function AdminAmbassadors() {
                       </span>
                     </td>
                     <td className="px-6 py-4 max-w-xs truncate text-gray-600">{ambassador.background}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedAmbassador(ambassador);
+                          setNewStatus(ambassador.status || 'pending');
+                          setStatusNote(ambassador.statusNote || '');
+                          setEditingStatus(true);
+                        }}
+                        className={`px-3 py-1 text-xs font-semibold rounded-full cursor-pointer hover:opacity-80 transition-opacity ${
+                          (!ambassador.status || ambassador.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                          ambassador.status === 'replied' ? 'bg-green-100 text-green-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        {!ambassador.status || ambassador.status === 'pending' ? 'Pending' : 
+                         ambassador.status === 'replied' ? 'Replied' : 
+                         ambassador.statusNote || 'Other'}
+                      </button>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(ambassador.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
-                        onClick={() => setSelectedAmbassador(ambassador)}
+                        onClick={() => {
+                          setSelectedAmbassador(ambassador);
+                          setEditingStatus(false);
+                        }}
                         className="px-3 py-1 bg-purple-100 text-purple-700 rounded hover:bg-purple-200 text-sm font-medium"
                       >
                         View Details
@@ -98,8 +159,95 @@ export default function AdminAmbassadors() {
         )}
       </div>
 
+      {/* Status Update Modal */}
+      {editingStatus && selectedAmbassador && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => {
+          setEditingStatus(false);
+          setSelectedAmbassador(null);
+          setNewStatus('');
+          setStatusNote('');
+        }}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-900">Update Status</h3>
+              <button
+                onClick={() => {
+                  setEditingStatus(false);
+                  setSelectedAmbassador(null);
+                  setNewStatus('');
+                  setStatusNote('');
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Ambassador:</strong> {selectedAmbassador.fullName}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Email:</strong> {selectedAmbassador.email}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Status</label>
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="replied">Replied</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              {newStatus === 'other' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Custom Status Note</label>
+                  <input
+                    type="text"
+                    value={statusNote}
+                    onChange={(e) => setStatusNote(e.target.value)}
+                    placeholder="Enter custom status..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+              )}
+              
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={handleStatusUpdate}
+                  disabled={updating || (newStatus === 'other' && !statusNote)}
+                  className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                >
+                  {updating ? 'Saving...' : 'Save Status'}
+                </button>
+                <button
+                  onClick={() => {
+                    setEditingStatus(false);
+                    setSelectedAmbassador(null);
+                    setNewStatus('');
+                    setStatusNote('');
+                  }}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Detail Modal */}
-      {selectedAmbassador && (
+      {selectedAmbassador && !editingStatus && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedAmbassador(null)}>
           <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-xl">
@@ -144,6 +292,18 @@ export default function AdminAmbassadors() {
                       <p className="font-medium text-gray-900">{selectedAmbassador.country}</p>
                     </div>
                   )}
+                  <div>
+                    <p className="text-sm text-gray-500">Status</p>
+                    <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
+                      (!selectedAmbassador.status || selectedAmbassador.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                      selectedAmbassador.status === 'replied' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {!selectedAmbassador.status || selectedAmbassador.status === 'pending' ? 'Pending' : 
+                       selectedAmbassador.status === 'replied' ? 'Replied' : 
+                       selectedAmbassador.statusNote || 'Other'}
+                    </span>
+                  </div>
                 </div>
               </div>
 

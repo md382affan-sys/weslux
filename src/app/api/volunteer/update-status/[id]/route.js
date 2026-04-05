@@ -14,7 +14,7 @@ export async function PATCH(request, { params }) {
 
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     const { status, statusNote } = await request.json();
 
     const updateData = { status };
@@ -27,7 +27,7 @@ export async function PATCH(request, { params }) {
     const volunteer = await Volunteer.findByIdAndUpdate(
       id,
       updateData,
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!volunteer) {

@@ -119,13 +119,14 @@ export default function Header() {
             <div className="w-10 h-10 relative">
               <div className="w-full h-full relative bg-white rounded-lg p-1">
                 <Image 
-                  src="/image.png" 
+                  src="/image.png?v=2" 
                   alt="WESLUX Logo" 
                   fill
                   className="object-contain p-0.5"
                   sizes="40px"
                   priority
                   quality={100}
+                  unoptimized
                 />
               </div>
             </div>

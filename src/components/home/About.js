@@ -71,13 +71,14 @@ export default function About() {
                 <div className="w-32 h-32 mx-auto mb-6 bg-white rounded-3xl flex items-center justify-center shadow-2xl transform hover:rotate-6 transition-transform duration-300 p-3">
                   <div className="w-full h-full relative">
                     <Image 
-                      src="/image.png" 
+                      src="/image.png?v=2" 
                       alt="WESLUX Logo" 
                       width={104}
                       height={104}
                       className="object-contain w-full h-full"
                       priority
                       quality={100}
+                      unoptimized
                     />
                   </div>
                 </div>

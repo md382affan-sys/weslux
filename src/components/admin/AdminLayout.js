@@ -87,12 +87,14 @@ export default function AdminLayout({ children }) {
           <Link href="/admin/dashboard" className="flex items-center space-x-3" onClick={closeMobileSidebar}>
             <div className="w-10 h-10 relative flex-shrink-0">
               <Image 
-                src="/image.png" 
+                src="/image.png?v=2" 
                 alt="WESLUX Logo" 
                 fill
                 className="object-contain"
                 sizes="40px"
                 priority
+                quality={100}
+                unoptimized
               />
             </div>
             {(sidebarOpen || isMobile) && (

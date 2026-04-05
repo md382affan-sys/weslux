@@ -7,6 +7,10 @@ export default function MenteesPage() {
   const [mentees, setMentees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMentee, setSelectedMentee] = useState(null);
+  const [editingStatus, setEditingStatus] = useState(false);
+  const [newStatus, setNewStatus] = useState('');
+  const [statusNote, setStatusNote] = useState('');
+  const [updating, setUpdating] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -46,6 +50,40 @@ export default function MenteesPage() {
     return labels[level] || level;
   };
 
+  const handleStatusUpdate = async () => {
+    if (!newStatus) return;
+    
+    setUpdating(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`/api/mentee/update-status/${selectedMentee._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus, statusNote })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        // Update local state with the returned data
+        const updatedMentee = data.data;
+        setMentees(mentees.map(m => 
+          m._id === updatedMentee._id ? updatedMentee : m
+        ));
+        setEditingStatus(false);
+        setSelectedMentee(null);
+        setNewStatus('');
+        setStatusNote('');
+      }
+    } catch (err) {
+      console.error('Failed to update status');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   if (loading) {
     return (
       <AdminLayout>
@@ -72,6 +110,7 @@ export default function MenteesPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Applied</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
               </tr>
@@ -79,7 +118,7 @@ export default function MenteesPage() {
             <tbody className="divide-y divide-gray-100">
               {mentees.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
                     No mentee applications found.
                   </td>
                 </tr>
@@ -96,12 +135,35 @@ export default function MenteesPage() {
                         {getEducationLabel(mentee.educationLevel)}
                       </span>
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedMentee(mentee);
+                          setNewStatus(mentee.status || 'pending');
+                          setStatusNote(mentee.statusNote || '');
+                          setEditingStatus(true);
+                        }}
+                        className={`px-3 py-1 text-xs font-semibold rounded-full cursor-pointer hover:opacity-80 transition-opacity ${
+                          (!mentee.status || mentee.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                          mentee.status === 'replied' ? 'bg-green-100 text-green-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        {!mentee.status || mentee.status === 'pending' ? 'Pending' : 
+                         mentee.status === 'replied' ? 'Replied' : 
+                         mentee.statusNote || 'Other'}
+                      </button>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(mentee.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
-                        onClick={() => setSelectedMentee(mentee)}
+                        onClick={() => {
+                          setSelectedMentee(mentee);
+                          setEditingStatus(false);
+                        }}
                         className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm font-medium"
                       >
                         View Details
@@ -115,8 +177,95 @@ export default function MenteesPage() {
         </div>
       </div>
 
+      {/* Status Update Modal */}
+      {editingStatus && selectedMentee && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => {
+          setEditingStatus(false);
+          setSelectedMentee(null);
+          setNewStatus('');
+          setStatusNote('');
+        }}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-900">Update Status</h3>
+              <button
+                onClick={() => {
+                  setEditingStatus(false);
+                  setSelectedMentee(null);
+                  setNewStatus('');
+                  setStatusNote('');
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Applicant:</strong> {selectedMentee.fullName}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Email:</strong> {selectedMentee.email}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Status</label>
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="replied">Replied</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              {newStatus === 'other' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Custom Status Note</label>
+                  <input
+                    type="text"
+                    value={statusNote}
+                    onChange={(e) => setStatusNote(e.target.value)}
+                    placeholder="Enter custom status..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+              )}
+              
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={handleStatusUpdate}
+                  disabled={updating || (newStatus === 'other' && !statusNote)}
+                  className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                >
+                  {updating ? 'Saving...' : 'Save Status'}
+                </button>
+                <button
+                  onClick={() => {
+                    setEditingStatus(false);
+                    setSelectedMentee(null);
+                    setNewStatus('');
+                    setStatusNote('');
+                  }}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Detail Modal */}
-      {selectedMentee && (
+      {selectedMentee && !editingStatus && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedMentee(null)}>
           <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-xl">
@@ -157,6 +306,18 @@ export default function MenteesPage() {
                   <div>
                     <p className="text-sm text-gray-500">Category</p>
                     <p className="font-medium text-gray-900">{getEducationLabel(selectedMentee.educationLevel)}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Status</p>
+                    <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
+                      (!selectedMentee.status || selectedMentee.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                      selectedMentee.status === 'replied' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {!selectedMentee.status || selectedMentee.status === 'pending' ? 'Pending' : 
+                       selectedMentee.status === 'replied' ? 'Replied' : 
+                       selectedMentee.statusNote || 'Other'}
+                    </span>
                   </div>
                 </div>
               </div>

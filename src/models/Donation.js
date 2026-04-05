@@ -22,6 +22,14 @@ const DonationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  
+  // Admin Status Management
+  status: { 
+    type: String, 
+    enum: ['pending', 'replied', 'other'],
+    default: 'pending'
+  },
+  statusNote: { type: String }
 }, { timestamps: true });
 
 export default mongoose.models.Donation || mongoose.model('Donation', DonationSchema);

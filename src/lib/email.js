@@ -24,7 +24,7 @@ export const emailTemplates = {
           <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0;">Your Message Details:</h3>
             <p><strong>Subject:</strong> ${data.subject}</p>
-            <p><strong>Program Interest:</strong> ${data.program}</p>
+            ${data.program ? `<p><strong>Program Interest:</strong> ${data.program}</p>` : ''}
             <p><strong>Message:</strong> ${data.message}</p>
           </div>
           <p>Best regards,<br>WES Luxembourg Team</p>
@@ -39,9 +39,9 @@ export const emailTemplates = {
           <div style="background: #f3f4f6; padding: 20px; border-radius: 8px;">
             <p><strong>Name:</strong> ${data.name}</p>
             <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Phone:</strong> ${data.phone}</p>
+            ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
             <p><strong>Subject:</strong> ${data.subject}</p>
-            <p><strong>Program:</strong> ${data.program}</p>
+            ${data.program ? `<p><strong>Program:</strong> ${data.program}</p>` : ''}
             <p><strong>Message:</strong> ${data.message}</p>
             <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
           </div>
@@ -81,11 +81,11 @@ export const emailTemplates = {
             <p><strong>Country:</strong> ${data.country}</p>
             <p><strong>Role:</strong> ${data.volunteerRole}</p>
             <p><strong>Profession:</strong> ${data.profession}</p>
-            <p><strong>Company:</strong> ${data.company}</p>
+            ${data.company ? `<p><strong>Company:</strong> ${data.company}</p>` : ''}
             <p><strong>Experience:</strong> ${data.experience}</p>
             <p><strong>Expertise:</strong> ${data.expertise}</p>
             <p><strong>Availability:</strong> ${data.availability}</p>
-            <p><strong>LinkedIn:</strong> ${data.linkedin}</p>
+            ${data.linkedin ? `<p><strong>LinkedIn:</strong> ${data.linkedin}</p>` : ''}
             <p><strong>Motivation:</strong> ${data.motivation}</p>
             <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
           </div>
@@ -198,8 +198,13 @@ export const emailTemplates = {
             <p><strong>Phone:</strong> ${data.phone}</p>
             <p><strong>Organization Type:</strong> ${data.organizationType}</p>
             <p><strong>Category:</strong> ${data.partnerCategory}</p>
-            <p><strong>Interests:</strong> ${data.interests}</p>
-            <p><strong>Message:</strong> ${data.message}</p>
+            ${data.interests && data.interests.length > 0 ? `
+              <p><strong>Interests:</strong></p>
+              <ul style="margin: 5px 0; padding-left: 20px;">
+                ${data.interests.map(interest => `<li>${interest}</li>`).join('')}
+              </ul>
+            ` : '<p><strong>Interests:</strong> Not specified</p>'}
+            ${data.message ? `<p><strong>Message:</strong> ${data.message}</p>` : ''}
             <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
           </div>
         </div>
@@ -213,57 +218,117 @@ export const emailTemplates = {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #3b82f6;">Welcome to Our Mentorship Program!</h2>
-          <p>Dear ${data.firstName} ${data.lastName},</p>
+          <p>Dear ${data.fullName},</p>
           <p>Thank you for applying to join our mentorship program. We're excited about your interest!</p>
           <div style="background: #eff6ff; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3b82f6;">
             <h3 style="margin-top: 0; color: #1e40af;">Your Application Details:</h3>
-            <p><strong>Education:</strong> ${data.currentEducation} at ${data.institution}</p>
-            <p><strong>Field of Study:</strong> ${data.fieldOfStudy}</p>
-            <p><strong>Career Interests:</strong> ${data.careerInterests}</p>
-            <p><strong>Availability:</strong> ${data.availability}</p>
+            <p><strong>Category:</strong> ${data.educationLevel === '6th-10th' ? '6th or 10th Grade' : data.educationLevel === '11th-12th' ? '11th or 12th Grade' : data.educationLevel === 'university' ? 'University Student' : data.educationLevel === 'young-professional' ? 'Young Professional' : 'Mentor'}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone}</p>
           </div>
           <p>Our team will review your application and match you with a suitable mentor. We'll contact you within 5-7 business days.</p>
           <p>Best regards,<br>WES Luxembourg Mentorship Team</p>
         </div>
       `
     }),
-    admin: (data) => ({
-      subject: `New Mentee Application - ${data.firstName} ${data.lastName}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #3b82f6;">New Mentee Application Received</h2>
-          <div style="background: #f3f4f6; padding: 20px; border-radius: 8px;">
-            <h3 style="color: #1f2937; border-bottom: 2px solid #3b82f6; padding-bottom: 8px;">Personal Information</h3>
-            <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Phone:</strong> ${data.phone}</p>
-            <p><strong>Date of Birth:</strong> ${data.dateOfBirth}</p>
-            <p><strong>Gender:</strong> ${data.gender}</p>
-            <p><strong>Nationality:</strong> ${data.nationality}</p>
-            
-            <h3 style="color: #1f2937; border-bottom: 2px solid #9333ea; padding-bottom: 8px; margin-top: 20px;">Education</h3>
-            <p><strong>Education Level:</strong> ${data.currentEducation}</p>
-            <p><strong>Institution:</strong> ${data.institution}</p>
-            <p><strong>Field of Study:</strong> ${data.fieldOfStudy}</p>
-            <p><strong>Year of Study:</strong> ${data.yearOfStudy}</p>
-            
-            <h3 style="color: #1f2937; border-bottom: 2px solid #6366f1; padding-bottom: 8px; margin-top: 20px;">Mentorship Preferences</h3>
-            <p><strong>Career Interests:</strong> ${data.careerInterests}</p>
-            <p><strong>Mentorship Goals:</strong> ${data.mentorshipGoals}</p>
-            <p><strong>Preferred Mentor Background:</strong> ${data.preferredMentorBackground || 'Not specified'}</p>
-            <p><strong>Availability:</strong> ${data.availability}</p>
-            
-            <h3 style="color: #1f2937; border-bottom: 2px solid #10b981; padding-bottom: 8px; margin-top: 20px;">Language & Additional Info</h3>
-            <p><strong>English Proficiency:</strong> ${data.englishProficiency}</p>
-            <p><strong>Other Languages:</strong> ${data.otherLanguages || 'Not specified'}</p>
-            <p><strong>LinkedIn:</strong> ${data.linkedin || 'Not provided'}</p>
-            <p><strong>Motivation:</strong> ${data.motivation}</p>
-            
-            <p style="margin-top: 20px;"><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
+    admin: (data) => {
+      const getCategoryLabel = (level) => {
+        const labels = {
+          '6th-10th': '6th or 10th Grade',
+          '11th-12th': '11th or 12th Grade',
+          'university': 'University Student',
+          'young-professional': 'Young Professional',
+          'mentor': 'Mentor'
+        };
+        return labels[level] || level;
+      };
+
+      let categorySpecificHtml = '';
+      
+      // Foundation Level (6th-10th)
+      if (data.educationLevel === '6th-10th') {
+        categorySpecificHtml = `
+          <h3 style="color: #1f2937; border-bottom: 2px solid #10b981; padding-bottom: 8px; margin-top: 20px;">Foundation Level Details</h3>
+          ${data.careerAspirations ? `<p><strong>Career Aspirations:</strong> ${data.careerAspirations}</p>` : ''}
+          ${data.academicInterests ? `<p><strong>Academic Interests:</strong> ${data.academicInterests}</p>` : ''}
+          ${data.streamCertainty ? `<p><strong>Stream Certainty:</strong> ${data.streamCertainty}</p>` : ''}
+          ${data.currentGuidance ? `<p><strong>Current Guidance:</strong> ${data.currentGuidance}</p>` : ''}
+          ${data.roleModel ? `<p><strong>Role Model:</strong> ${data.roleModel}</p>` : ''}
+        `;
+      }
+      
+      // Bridge Level (11th-12th)
+      if (data.educationLevel === '11th-12th') {
+        categorySpecificHtml = `
+          <h3 style="color: #1f2937; border-bottom: 2px solid #9333ea; padding-bottom: 8px; margin-top: 20px;">Bridge Level Details</h3>
+          ${data.professionalVision ? `<p><strong>Professional Vision:</strong> ${data.professionalVision}</p>` : ''}
+          ${data.currentDomain ? `<p><strong>Current Domain:</strong> ${data.currentDomain}</p>` : ''}
+          ${data.careerClarity ? `<p><strong>Career Clarity:</strong> ${data.careerClarity}</p>` : ''}
+          ${data.supportGap ? `<p><strong>Support Gap:</strong> ${data.supportGap}</p>` : ''}
+        `;
+      }
+      
+      // Launch Level (University)
+      if (data.educationLevel === 'university') {
+        categorySpecificHtml = `
+          <h3 style="color: #1f2937; border-bottom: 2px solid #6366f1; padding-bottom: 8px; margin-top: 20px;">Launch Level Details</h3>
+          ${data.fieldOfStudy ? `<p><strong>Field of Study:</strong> ${data.fieldOfStudy}</p>` : ''}
+          ${data.immediateCareerGoal ? `<p><strong>Career Goal:</strong> ${data.immediateCareerGoal}</p>` : ''}
+          ${data.careerDirection ? `<p><strong>Career Direction:</strong> ${data.careerDirection}</p>` : ''}
+          ${data.skillConfidence ? `<p><strong>Skill Confidence:</strong> ${data.skillConfidence}</p>` : ''}
+          ${data.biggestChallenge ? `<p><strong>Biggest Challenge:</strong> ${data.biggestChallenge}</p>` : ''}
+        `;
+      }
+      
+      // Young Professional
+      if (data.educationLevel === 'young-professional') {
+        categorySpecificHtml = `
+          <h3 style="color: #1f2937; border-bottom: 2px solid #14b8a6; padding-bottom: 8px; margin-top: 20px;">Young Professional Details</h3>
+          ${data.careerStart ? `<p><strong>Career Start:</strong> ${data.careerStart}</p>` : ''}
+          ${data.currentExperience ? `<p><strong>Current Experience:</strong> ${data.currentExperience}</p>` : ''}
+          ${data.careerSatisfaction ? `<p><strong>Career Satisfaction:</strong> ${data.careerSatisfaction}</p>` : ''}
+          ${data.careerDevelopment ? `<p><strong>Career Development:</strong> ${data.careerDevelopment}</p>` : ''}
+        `;
+      }
+      
+      // Mentor
+      if (data.educationLevel === 'mentor') {
+        categorySpecificHtml = `
+          <h3 style="color: #1f2937; border-bottom: 2px solid #f59e0b; padding-bottom: 8px; margin-top: 20px;">Mentor Details</h3>
+          ${data.initialMotivation ? `<p><strong>Motivation:</strong> ${data.initialMotivation}</p>` : ''}
+          ${data.skillsToShare ? `<p><strong>Skills to Share:</strong> ${data.skillsToShare}</p>` : ''}
+          ${data.challenges ? `<p><strong>Challenges:</strong> ${data.challenges}</p>` : ''}
+          ${data.perceivedValue ? `<p><strong>Perceived Value:</strong> ${data.perceivedValue}</p>` : ''}
+        `;
+      }
+
+      return {
+        subject: `New Mentee Application - ${data.fullName}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #3b82f6;">New Mentee Application Received</h2>
+            <div style="background: #f3f4f6; padding: 20px; border-radius: 8px;">
+              <h3 style="color: #1f2937; border-bottom: 2px solid #3b82f6; padding-bottom: 8px;">Personal Information</h3>
+              <p><strong>Name:</strong> ${data.fullName}</p>
+              <p><strong>Email:</strong> ${data.email}</p>
+              <p><strong>Phone:</strong> ${data.phone}</p>
+              <p><strong>Category:</strong> ${getCategoryLabel(data.educationLevel)}</p>
+              
+              ${categorySpecificHtml}
+              
+              ${data.problemValidation || data.mentorshipNecessity || data.openFeedback ? `
+                <h3 style="color: #1f2937; border-bottom: 2px solid #ef4444; padding-bottom: 8px; margin-top: 20px;">Final Validation</h3>
+                ${data.problemValidation ? `<p><strong>Problem Validation:</strong> ${data.problemValidation}</p>` : ''}
+                ${data.mentorshipNecessity ? `<p><strong>Mentorship Necessity:</strong> ${data.mentorshipNecessity}</p>` : ''}
+                ${data.openFeedback ? `<p><strong>Feedback:</strong> ${data.openFeedback}</p>` : ''}
+              ` : ''}
+              
+              <p style="margin-top: 20px;"><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
+            </div>
           </div>
-        </div>
-      `
-    })
+        `
+      };
+    }
   }
 };
 

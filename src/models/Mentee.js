@@ -92,7 +92,15 @@ const menteeSchema = new mongoose.Schema({
   awareness: { type: String },
   mentorshipStructure: { type: String },
   successDefinition: { type: String },
-  formatPreference: { type: String }
+  formatPreference: { type: String },
+  
+  // Admin Status Management
+  status: { 
+    type: String, 
+    enum: ['pending', 'replied', 'other'],
+    default: 'pending'
+  },
+  statusNote: { type: String } // For 'other' status custom text
 }, { timestamps: true });
 
 // Add indexes for better query performance

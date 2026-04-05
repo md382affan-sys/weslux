@@ -9,6 +9,10 @@ export default function PartnersPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [selectedPartner, setSelectedPartner] = useState(null);
+  const [editingStatus, setEditingStatus] = useState(false);
+  const [newStatus, setNewStatus] = useState('');
+  const [statusNote, setStatusNote] = useState('');
+  const [updating, setUpdating] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -52,6 +56,39 @@ export default function PartnersPage() {
       cso: 'bg-orange-100 text-orange-800'
     };
     return badges[category] || 'bg-gray-100 text-gray-800';
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!newStatus) return;
+    
+    setUpdating(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`/api/partner/update-status/${selectedPartner._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus, statusNote })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        const updatedPartner = data.data;
+        setPartners(partners.map(p => 
+          p._id === updatedPartner._id ? updatedPartner : p
+        ));
+        setEditingStatus(false);
+        setSelectedPartner(null);
+        setNewStatus('');
+        setStatusNote('');
+      }
+    } catch (err) {
+      console.error('Failed to update status');
+    } finally {
+      setUpdating(false);
+    }
   };
 
   return (
@@ -140,6 +177,9 @@ export default function PartnersPage() {
                       Type
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -166,12 +206,35 @@ export default function PartnersPage() {
                       <td className="px-6 py-4 text-sm text-gray-900">
                         {partner.organizationType}
                       </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedPartner(partner);
+                            setNewStatus(partner.status || 'pending');
+                            setStatusNote(partner.statusNote || '');
+                            setEditingStatus(true);
+                          }}
+                          className={`px-3 py-1 text-xs font-semibold rounded-full cursor-pointer hover:opacity-80 transition-opacity ${
+                            (!partner.status || partner.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                            partner.status === 'replied' ? 'bg-green-100 text-green-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}
+                        >
+                          {!partner.status || partner.status === 'pending' ? 'Pending' : 
+                           partner.status === 'replied' ? 'Replied' : 
+                           partner.statusNote || 'Other'}
+                        </button>
+                      </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {new Date(partner.createdAt).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <button
-                          onClick={() => setSelectedPartner(partner)}
+                          onClick={() => {
+                            setSelectedPartner(partner);
+                            setEditingStatus(false);
+                          }}
                           className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm font-medium"
                         >
                           View Details
@@ -186,8 +249,95 @@ export default function PartnersPage() {
         </div>
       </div>
 
+      {/* Status Update Modal */}
+      {editingStatus && selectedPartner && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => {
+          setEditingStatus(false);
+          setSelectedPartner(null);
+          setNewStatus('');
+          setStatusNote('');
+        }}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-900">Update Status</h3>
+              <button
+                onClick={() => {
+                  setEditingStatus(false);
+                  setSelectedPartner(null);
+                  setNewStatus('');
+                  setStatusNote('');
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Organization:</strong> {selectedPartner.organization}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Contact:</strong> {selectedPartner.fullName}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Status</label>
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="replied">Replied</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              {newStatus === 'other' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Custom Status Note</label>
+                  <input
+                    type="text"
+                    value={statusNote}
+                    onChange={(e) => setStatusNote(e.target.value)}
+                    placeholder="Enter custom status..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+              )}
+              
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={handleStatusUpdate}
+                  disabled={updating || (newStatus === 'other' && !statusNote)}
+                  className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                >
+                  {updating ? 'Saving...' : 'Save Status'}
+                </button>
+                <button
+                  onClick={() => {
+                    setEditingStatus(false);
+                    setSelectedPartner(null);
+                    setNewStatus('');
+                    setStatusNote('');
+                  }}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Detail Modal */}
-      {selectedPartner && (
+      {selectedPartner && !editingStatus && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedPartner(null)}>
           <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className={`sticky top-0 text-white p-6 rounded-t-xl ${
@@ -231,14 +381,18 @@ export default function PartnersPage() {
                     <p className="text-sm text-gray-500">Organization Type</p>
                     <p className="font-medium text-gray-900">{selectedPartner.organizationType}</p>
                   </div>
-                  {selectedPartner.website && (
-                    <div>
-                      <p className="text-sm text-gray-500">Website</p>
-                      <a href={selectedPartner.website} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
-                        {selectedPartner.website}
-                      </a>
-                    </div>
-                  )}
+                  <div>
+                    <p className="text-sm text-gray-500">Status</p>
+                    <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
+                      (!selectedPartner.status || selectedPartner.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                      selectedPartner.status === 'replied' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {!selectedPartner.status || selectedPartner.status === 'pending' ? 'Pending' : 
+                       selectedPartner.status === 'replied' ? 'Replied' : 
+                       selectedPartner.statusNote || 'Other'}
+                    </span>
+                  </div>
                 </div>
               </div>
 

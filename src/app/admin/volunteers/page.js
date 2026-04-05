@@ -7,6 +7,10 @@ export default function AdminVolunteers() {
   const [volunteers, setVolunteers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedVolunteer, setSelectedVolunteer] = useState(null);
+  const [editingStatus, setEditingStatus] = useState(false);
+  const [newStatus, setNewStatus] = useState('');
+  const [statusNote, setStatusNote] = useState('');
+  const [updating, setUpdating] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,6 +36,39 @@ export default function AdminVolunteers() {
       console.error('Failed to fetch volunteers');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!newStatus) return;
+    
+    setUpdating(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`/api/volunteer/update-status/${selectedVolunteer._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus, statusNote })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        const updatedVolunteer = data.data;
+        setVolunteers(volunteers.map(v => 
+          v._id === updatedVolunteer._id ? updatedVolunteer : v
+        ));
+        setEditingStatus(false);
+        setSelectedVolunteer(null);
+        setNewStatus('');
+        setStatusNote('');
+      }
+    } catch (err) {
+      console.error('Failed to update status');
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -68,6 +105,7 @@ export default function AdminVolunteers() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
@@ -85,12 +123,35 @@ export default function AdminVolunteers() {
                         {volunteer.volunteerRole}
                       </span>
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedVolunteer(volunteer);
+                          setNewStatus(volunteer.status || 'pending');
+                          setStatusNote(volunteer.statusNote || '');
+                          setEditingStatus(true);
+                        }}
+                        className={`px-3 py-1 text-xs font-semibold rounded-full cursor-pointer hover:opacity-80 transition-opacity ${
+                          (!volunteer.status || volunteer.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                          volunteer.status === 'replied' ? 'bg-green-100 text-green-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        {!volunteer.status || volunteer.status === 'pending' ? 'Pending' : 
+                         volunteer.status === 'replied' ? 'Replied' : 
+                         volunteer.statusNote || 'Other'}
+                      </button>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(volunteer.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
-                        onClick={() => setSelectedVolunteer(volunteer)}
+                        onClick={() => {
+                          setSelectedVolunteer(volunteer);
+                          setEditingStatus(false);
+                        }}
                         className="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 text-sm font-medium"
                       >
                         View Details
@@ -104,8 +165,95 @@ export default function AdminVolunteers() {
         )}
       </div>
 
+      {/* Status Update Modal */}
+      {editingStatus && selectedVolunteer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => {
+          setEditingStatus(false);
+          setSelectedVolunteer(null);
+          setNewStatus('');
+          setStatusNote('');
+        }}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-900">Update Status</h3>
+              <button
+                onClick={() => {
+                  setEditingStatus(false);
+                  setSelectedVolunteer(null);
+                  setNewStatus('');
+                  setStatusNote('');
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Volunteer:</strong> {selectedVolunteer.firstName} {selectedVolunteer.lastName}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Email:</strong> {selectedVolunteer.email}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Status</label>
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="replied">Replied</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              {newStatus === 'other' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Custom Status Note</label>
+                  <input
+                    type="text"
+                    value={statusNote}
+                    onChange={(e) => setStatusNote(e.target.value)}
+                    placeholder="Enter custom status..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  />
+                </div>
+              )}
+              
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={handleStatusUpdate}
+                  disabled={updating || (newStatus === 'other' && !statusNote)}
+                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                >
+                  {updating ? 'Saving...' : 'Save Status'}
+                </button>
+                <button
+                  onClick={() => {
+                    setEditingStatus(false);
+                    setSelectedVolunteer(null);
+                    setNewStatus('');
+                    setStatusNote('');
+                  }}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Detail Modal */}
-      {selectedVolunteer && (
+      {selectedVolunteer && !editingStatus && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedVolunteer(null)}>
           <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="sticky top-0 bg-gradient-to-r from-green-600 to-teal-600 text-white p-6 rounded-t-xl">
@@ -131,48 +279,119 @@ export default function AdminVolunteers() {
                 <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-600">Personal Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
+                    <p className="text-sm text-gray-500">Name</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.firstName} {selectedVolunteer.lastName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Email</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.email}</p>
+                  </div>
+                  <div>
                     <p className="text-sm text-gray-500">Phone</p>
                     <p className="font-medium text-gray-900">{selectedVolunteer.phone}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Country</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.country}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Volunteer Role</p>
                     <p className="font-medium text-gray-900 capitalize">{selectedVolunteer.volunteerRole}</p>
                   </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Status</p>
+                    <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
+                      (selectedVolunteer.status || 'pending') === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                      (selectedVolunteer.status || 'pending') === 'replied' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {(selectedVolunteer.status || 'pending') === 'pending' ? 'Pending' : 
+                       (selectedVolunteer.status || 'pending') === 'replied' ? 'Replied' : 
+                       selectedVolunteer.statusNote || 'Other'}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              {/* Skills & Interests */}
-              {selectedVolunteer.skills && (
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-teal-600">Skills & Interests</h3>
+              {/* Professional Information */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-teal-600">Professional Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Skills</p>
-                    <p className="font-medium text-gray-900">{selectedVolunteer.skills}</p>
+                    <p className="text-sm text-gray-500">Profession</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.profession}</p>
                   </div>
-                </div>
-              )}
-
-              {/* Availability */}
-              {selectedVolunteer.availability && (
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-500">Availability</h3>
+                  {selectedVolunteer.company && (
+                    <div>
+                      <p className="text-sm text-gray-500">Company</p>
+                      <p className="font-medium text-gray-900">{selectedVolunteer.company}</p>
+                    </div>
+                  )}
                   <div>
-                    <p className="text-sm text-gray-500">Available Time</p>
+                    <p className="text-sm text-gray-500">Experience</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.experience}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Expertise</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.expertise}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Availability</p>
                     <p className="font-medium text-gray-900">{selectedVolunteer.availability}</p>
                   </div>
+                  {selectedVolunteer.linkedin && (
+                    <div>
+                      <p className="text-sm text-gray-500">LinkedIn</p>
+                      <a href={selectedVolunteer.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                        View Profile
+                      </a>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+
+              {/* Professional Information */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-teal-600">Professional Information</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Profession</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.profession}</p>
+                  </div>
+                  {selectedVolunteer.company && (
+                    <div>
+                      <p className="text-sm text-gray-500">Company</p>
+                      <p className="font-medium text-gray-900">{selectedVolunteer.company}</p>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm text-gray-500">Experience</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.experience}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Expertise</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.expertise}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Availability</p>
+                    <p className="font-medium text-gray-900">{selectedVolunteer.availability}</p>
+                  </div>
+                  {selectedVolunteer.linkedin && (
+                    <div>
+                      <p className="text-sm text-gray-500">LinkedIn</p>
+                      <a href={selectedVolunteer.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                        View Profile
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
 
               {/* Motivation */}
-              {selectedVolunteer.motivation && (
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-teal-500">Motivation</h3>
-                  <div>
-                    <p className="text-sm text-gray-500">Why do you want to volunteer?</p>
-                    <p className="font-medium text-gray-900">{selectedVolunteer.motivation}</p>
-                  </div>
-                </div>
-              )}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-green-500">Motivation</h3>
+                <p className="font-medium text-gray-900">{selectedVolunteer.motivation}</p>
+              </div>
 
               {/* Application Date */}
               <div className="bg-gray-50 p-4 rounded-lg">

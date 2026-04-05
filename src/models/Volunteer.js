@@ -47,6 +47,14 @@ const VolunteerSchema = new mongoose.Schema({
     required: true,
   },
   linkedin: String,
+  
+  // Admin Status Management
+  status: { 
+    type: String, 
+    enum: ['pending', 'replied', 'other'],
+    default: 'pending'
+  },
+  statusNote: { type: String }
 }, { timestamps: true });
 
 export default mongoose.models.Volunteer || mongoose.model('Volunteer', VolunteerSchema);

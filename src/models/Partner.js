@@ -49,6 +49,14 @@ const partnerSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  
+  // Admin Status Management
+  status: { 
+    type: String, 
+    enum: ['pending', 'replied', 'other'],
+    default: 'pending'
+  },
+  statusNote: { type: String }
 }, {
   timestamps: true
 });

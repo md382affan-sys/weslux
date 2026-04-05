@@ -7,6 +7,10 @@ export default function AdminContacts() {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [editingStatus, setEditingStatus] = useState(false);
+  const [newStatus, setNewStatus] = useState('');
+  const [statusNote, setStatusNote] = useState('');
+  const [updating, setUpdating] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,6 +36,39 @@ export default function AdminContacts() {
       console.error('Failed to fetch contacts');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!newStatus) return;
+    
+    setUpdating(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`/api/contact/update-status/${selectedContact._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus, statusNote })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        const updatedContact = data.data;
+        setContacts(contacts.map(c => 
+          c._id === updatedContact._id ? updatedContact : c
+        ));
+        setEditingStatus(false);
+        setSelectedContact(null);
+        setNewStatus('');
+        setStatusNote('');
+      }
+    } catch (err) {
+      console.error('Failed to update status');
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -68,7 +105,7 @@ export default function AdminContacts() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subject</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
@@ -84,13 +121,35 @@ export default function AdminContacts() {
                         {contact.subject}
                       </span>
                     </td>
-                    <td className="px-6 py-4 max-w-xs truncate text-gray-600">{contact.message}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedContact(contact);
+                          setNewStatus(contact.status || 'pending');
+                          setStatusNote(contact.statusNote || '');
+                          setEditingStatus(true);
+                        }}
+                        className={`px-3 py-1 text-xs font-semibold rounded-full cursor-pointer hover:opacity-80 transition-opacity ${
+                          (contact.status || 'pending') === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          (contact.status || 'pending') === 'replied' ? 'bg-green-100 text-green-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        {!contact.status || contact.status === 'pending' ? 'Pending' : 
+                         contact.status === 'replied' ? 'Replied' : 
+                         contact.statusNote || 'Other'}
+                      </button>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(contact.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
-                        onClick={() => setSelectedContact(contact)}
+                        onClick={() => {
+                          setSelectedContact(contact);
+                          setEditingStatus(false);
+                        }}
                         className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm font-medium"
                       >
                         View Details
@@ -104,8 +163,95 @@ export default function AdminContacts() {
         )}
       </div>
 
+      {/* Status Update Modal */}
+      {editingStatus && selectedContact && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => {
+          setEditingStatus(false);
+          setSelectedContact(null);
+          setNewStatus('');
+          setStatusNote('');
+        }}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-900">Update Status</h3>
+              <button
+                onClick={() => {
+                  setEditingStatus(false);
+                  setSelectedContact(null);
+                  setNewStatus('');
+                  setStatusNote('');
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Contact:</strong> {selectedContact.name}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Email:</strong> {selectedContact.email}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Status</label>
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="replied">Replied</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              {newStatus === 'other' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Custom Status Note</label>
+                  <input
+                    type="text"
+                    value={statusNote}
+                    onChange={(e) => setStatusNote(e.target.value)}
+                    placeholder="Enter custom status..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              )}
+              
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={handleStatusUpdate}
+                  disabled={updating || (newStatus === 'other' && !statusNote)}
+                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                >
+                  {updating ? 'Saving...' : 'Save Status'}
+                </button>
+                <button
+                  onClick={() => {
+                    setEditingStatus(false);
+                    setSelectedContact(null);
+                    setNewStatus('');
+                    setStatusNote('');
+                  }}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Detail Modal */}
-      {selectedContact && (
+      {selectedContact && !editingStatus && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedContact(null)}>
           <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-6 rounded-t-xl">
@@ -144,12 +290,24 @@ export default function AdminContacts() {
                       <p className="font-medium text-gray-900">{selectedContact.phone}</p>
                     </div>
                   )}
-                  {selectedContact.company && (
+                  {selectedContact.program && (
                     <div>
-                      <p className="text-sm text-gray-500">Company</p>
-                      <p className="font-medium text-gray-900">{selectedContact.company}</p>
+                      <p className="text-sm text-gray-500">Program Interest</p>
+                      <p className="font-medium text-gray-900">{selectedContact.program}</p>
                     </div>
                   )}
+                  <div>
+                    <p className="text-sm text-gray-500">Status</p>
+                    <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
+                      (!selectedContact.status || selectedContact.status === 'pending') ? 'bg-yellow-100 text-yellow-800' :
+                      selectedContact.status === 'replied' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {!selectedContact.status || selectedContact.status === 'pending' ? 'Pending' : 
+                       selectedContact.status === 'replied' ? 'Replied' : 
+                       selectedContact.statusNote || 'Other'}
+                    </span>
+                  </div>
                 </div>
               </div>
 

@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ExportButton from '@/components/admin/ExportButton';
+import { exportMenteesToExcel } from '@/lib/exportToExcel';
 
 export default function MenteesPage() {
   const [mentees, setMentees] = useState([]);
@@ -11,6 +13,7 @@ export default function MenteesPage() {
   const [newStatus, setNewStatus] = useState('');
   const [statusNote, setStatusNote] = useState('');
   const [updating, setUpdating] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -84,6 +87,18 @@ export default function MenteesPage() {
     }
   };
 
+  const handleExport = () => {
+    setExporting(true);
+    try {
+      exportMenteesToExcel(mentees);
+    } catch (err) {
+      console.error('Export failed:', err);
+      alert('Failed to export data. Please try again.');
+    } finally {
+      setExporting(false);
+    }
+  };
+
   if (loading) {
     return (
       <AdminLayout>
@@ -98,8 +113,17 @@ export default function MenteesPage() {
     <AdminLayout>
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
         <div className="p-6 border-b border-gray-100">
-          <h3 className="text-lg font-bold text-gray-900">Mentee Applications</h3>
-          <p className="text-sm text-gray-500 mt-1">Manage mentee applications and match with mentors</p>
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">Mentee Applications</h3>
+              <p className="text-sm text-gray-500 mt-1">Manage mentee applications and match with mentors</p>
+            </div>
+            <ExportButton 
+              onClick={handleExport}
+              disabled={mentees.length === 0}
+              loading={exporting}
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto">

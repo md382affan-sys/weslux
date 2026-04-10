@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ExportButton from '@/components/admin/ExportButton';
+import { exportVolunteersToExcel } from '@/lib/exportToExcel';
 
 export default function AdminVolunteers() {
   const [volunteers, setVolunteers] = useState([]);
@@ -11,6 +13,7 @@ export default function AdminVolunteers() {
   const [newStatus, setNewStatus] = useState('');
   const [statusNote, setStatusNote] = useState('');
   const [updating, setUpdating] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -72,6 +75,18 @@ export default function AdminVolunteers() {
     }
   };
 
+  const handleExport = () => {
+    setExporting(true);
+    try {
+      exportVolunteersToExcel(volunteers);
+    } catch (err) {
+      console.error('Export failed:', err);
+      alert('Failed to export data. Please try again.');
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
@@ -81,6 +96,11 @@ export default function AdminVolunteers() {
               <h3 className="text-lg font-bold text-gray-900">Volunteer Applications</h3>
               <p className="text-sm text-gray-500 mt-1">Total: {volunteers.length} applications</p>
             </div>
+            <ExportButton 
+              onClick={handleExport}
+              disabled={volunteers.length === 0}
+              loading={exporting}
+            />
           </div>
         </div>
 

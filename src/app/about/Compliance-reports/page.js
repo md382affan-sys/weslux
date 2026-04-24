@@ -325,7 +325,7 @@ export default function LegalComplianceReportsPage() {
 
                 {/* Board of Directors */}
                 <div className="mt-8 pt-8 border-t border-gray-200">
-                  <h4 className="text-lg font-bold text-gray-900 mb-4 text-center">Board of Directors</h4>
+                  <h4 className="text-lg font-bold text-gray-900 mb-4 text-center">Board of Governance</h4>
                   <div className="grid md:grid-cols-3 gap-6">
                     <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <div className="font-bold text-gray-900">Mohmmad Arif</div>

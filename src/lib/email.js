@@ -335,16 +335,24 @@ export const emailTemplates = {
 // Send email function
 export async function sendEmail(to, subject, html) {
   try {
+    console.log('Attempting to send email:', { to, subject });
+    
     const info = await transporter.sendMail({
       from: `"WES Luxembourg" <${process.env.SMTP_FROM}>`,
       to,
       subject,
       html,
     });
-    console.log('Email sent:', info.messageId);
+    
+    console.log('Email sent successfully:', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Email error:', error);
+    console.error('Email error details:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response
+    });
     return { success: false, error: error.message };
   }
 }

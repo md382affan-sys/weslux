@@ -515,7 +515,7 @@ export default function CoursePage() {
   const finalQuiz = [
     {
       id: 1,
-      question: "Which of the following is NOT a responsibility of a WESLUX mentor?",
+      question: "Which of the following is NOT a responsibility of a WES mentor?",
       options: [
         "Providing career guidance",
         "Guaranteeing a job offer",
@@ -545,7 +545,7 @@ export default function CoursePage() {
       id: 4,
       question: "A mentor notices their mentee consistently misses deadlines for action items. What should the mentor do first?",
       options: [
-        "Report to WESLUX and request a new mentee",
+        "Report to WES and request a new mentee",
         "Explore barriers with curiosity: 'What's making it hard to complete these tasks?'",
         "Shame the mentee publicly",
         "Complete the tasks for the mentee"
@@ -554,7 +554,7 @@ export default function CoursePage() {
     },
     {
       id: 5,
-      question: "Which WESLUX program is designed for a shorter, goal-specific engagement (approx. 3 months)?",
+      question: "Which WES program is designed for a shorter, goal-specific engagement (approx. 3 months)?",
       options: [
         "Anchor mentorship",
         "Special mentorship",

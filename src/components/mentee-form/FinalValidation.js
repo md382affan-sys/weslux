@@ -1,9 +1,31 @@
+'use client';
+
+import VideoUpload from './VideoUpload';
+
 export default function FinalValidation({ formData, onChange, category }) {
   const isStudent = ['6th-10th', '11th-12th', 'university', 'young-professional'].includes(category);
   const isMentor = category === 'mentor';
 
+  const handleVideoUpload = (videoData) => {
+    onChange({
+      target: {
+        name: 'videoIntroduction',
+        value: videoData,
+        type: 'text'
+      }
+    });
+  };
+
   return (
     <div className="space-y-10">
+      {/* Video Upload Section */}
+      <VideoUpload 
+        onVideoUpload={handleVideoUpload}
+        videoUrl={formData.videoIntroduction?.driveLink}
+      />
+
+      <div className="border-t-2 border-gray-200 pt-10 animate-fadeIn"></div>
+
       <div className="animate-fadeIn">
         <label className="block text-xl md:text-2xl font-bold text-gray-900 mb-2">
           Problem Statement Validation *

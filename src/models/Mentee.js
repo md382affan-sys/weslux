@@ -94,6 +94,14 @@ const menteeSchema = new mongoose.Schema({
   successDefinition: { type: String },
   formatPreference: { type: String },
   
+  // Video Introduction
+  videoIntroduction: {
+    driveFileId: { type: String },
+    driveLink: { type: String },
+    fileName: { type: String },
+    uploadedAt: { type: Date, default: null }
+  },
+  
   // Admin Status Management
   status: { 
     type: String, 

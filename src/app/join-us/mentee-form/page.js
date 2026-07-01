@@ -39,7 +39,8 @@ export default function MenteeFormPage() {
     problemValidation: '', mentorshipNecessity: '', openFeedback: '',
     referralIntent: '', outcomeExpectation: '', willingnessToInvest: '',
     urgencyLevel: '', awareness: '', mentorshipStructure: '',
-    successDefinition: '', formatPreference: ''
+    successDefinition: '', formatPreference: '',
+    videoIntroduction: null
   });
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);

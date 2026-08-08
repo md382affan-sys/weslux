@@ -2,7 +2,11 @@
 
 import { useState, useRef } from 'react';
 
-export default function VideoUpload({ onVideoUpload, videoUrl }) {
+const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+const CHUNK_SIZE = 2 * 1024 * 1024; // 2MB - keeps every request under Vercel's 4.5MB limit
+const ALLOWED_TYPES = ['video/mp4', 'video/mpeg', 'video/quicktime', 'video/x-msvideo', 'video/webm'];
+
+export default function VideoUpload({ onVideoUpload, videoUrl, subFolderName }) {
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -10,12 +14,20 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
   const [fileName, setFileName] = useState('');
   const fileInputRef = useRef(null);
 
-  const MAX_FILE_SIZE = 1024 * 1024 * 1024; // 1GB - no practical limit
-
-  const ALLOWED_TYPES = ['video/mp4', 'video/mpeg', 'video/quicktime', 'video/x-msvideo', 'video/webm'];
-
   const validateFile = (file) => {
-    // Accept any type - silent fail on backend
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setError('Unsupported file type. Please upload an MP4, MOV, AVI or WebM video.');
+      return false;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      setError(`File exceeds ${MAX_FILE_SIZE / (1024 * 1024)}MB limit.`);
+      return false;
+    }
+    if (file.size <= 0) {
+      setError('The selected file is empty.');
+      return false;
+    }
+    setError('');
     return true;
   };
 
@@ -25,77 +37,83 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
     setFileName(file.name);
     setUploading(true);
     setProgress(0);
+    setError('');
+
+    let driveFileId = null;
+    let driveLink = null;
+    let uploadId = null;
+    let sentBytes = 0;
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const xhr = new XMLHttpRequest();
-
-      // Track upload progress
-      xhr.upload.addEventListener('progress', (e) => {
-        if (e.lengthComputable) {
-          const percentComplete = Math.round((e.loaded / e.total) * 100);
-          setProgress(percentComplete);
-        }
+      // Step 1 - start the resumable session on Google Drive.
+      const initRes = await fetch('/api/upload-video/init', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileName: file.name,
+          fileType: file.type,
+          size: file.size,
+          subFolderName: subFolderName || '',
+        }),
       });
 
-      // Handle completion
-      xhr.addEventListener('load', () => {
-        try {
-          const response = JSON.parse(xhr.responseText);
-          if (response.success) {
-            setProgress(100);
-            setUploading(false);
-            onVideoUpload({
-              driveFileId: response.fileId,
-              driveLink: response.fileLink,
-              fileName: file.name
-            });
-            setTimeout(() => {
-              setProgress(0);
-            }, 1000);
-          } else {
-            setProgress(100);
-            setUploading(false);
-            onVideoUpload({
-              driveFileId: response.fileId || 'backup-' + Date.now(),
-              driveLink: response.fileLink || 'https://drive.google.com/file/d/backup/view',
-              fileName: file.name
-            });
-          }
-        } catch (e) {
-          setProgress(100);
-          setUploading(false);
-          onVideoUpload({
-            driveFileId: 'upload-' + Date.now(),
-            driveLink: 'https://drive.google.com/file/d/upload/view',
-            fileName: file.name
-          });
-        }
-      });
+      const init = await initRes.json();
+      if (!initRes.ok || !init.ok || !init.uploadId) {
+        throw new Error(init.message || 'Could not start video upload.');
+      }
 
-      // Handle error silently
-      xhr.addEventListener('error', () => {
-        setProgress(100);
-        setUploading(false);
-        onVideoUpload({
-          driveFileId: 'error-backup-' + Date.now(),
-          driveLink: 'https://drive.google.com/file/d/error-backup/view',
-          fileName: file.name
+      uploadId = init.uploadId;
+
+      // Step 2 - send the file piece by piece to /api/upload-video/chunk.
+      let start = 0;
+      while (start < file.size) {
+        const end = Math.min(file.size, start + CHUNK_SIZE);
+        const blob = file.slice(start, end);
+
+        const chunkRes = await fetch('/api/upload-video/chunk', {
+          method: 'POST',
+          headers: {
+            'x-upload-id': uploadId,
+            'x-chunk-start': String(start),
+            'x-total-size': String(file.size),
+            'x-is-last-chunk': String(end >= file.size),
+          },
+          body: blob,
         });
-      });
 
-      xhr.open('POST', '/api/upload-video');
-      xhr.send(formData);
-    } catch (err) {
+        const chunk = await chunkRes.json();
+        if (!chunkRes.ok || !chunk.ok) {
+          if (chunk.code === 'SESSION_EXPIRED') {
+            throw new Error('Upload session expired. Please try again.');
+          }
+          throw new Error(chunk.message || 'Upload failed.');
+        }
+
+        sentBytes += end - start;
+        start = end;
+        setProgress(Math.min(100, Math.round((sentBytes / file.size) * 100)));
+
+        if (chunk.done) {
+          driveFileId = chunk.fileId;
+          driveLink = chunk.fileLink;
+          break;
+        }
+      }
+
+      if (!driveFileId) {
+        throw new Error('Upload did not complete. Please try again.');
+      }
+
       setProgress(100);
-      setUploading(false);
       onVideoUpload({
-        driveFileId: 'catch-' + Date.now(),
-        driveLink: 'https://drive.google.com/file/d/catch/view',
-        fileName: file.name
+        driveFileId,
+        driveLink,
+        fileName: file.name,
       });
+    } catch (err) {
+      setError(err.message || 'Upload failed. Please try again.');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -115,7 +133,6 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-
     const files = e.dataTransfer.files;
     if (files.length > 0) {
       uploadFile(files[0]);
@@ -129,6 +146,14 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
     }
   };
 
+  const resetUpload = () => {
+    onVideoUpload(null);
+    setFileName('');
+    setProgress(0);
+    setError('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
   return (
     <div className="space-y-6 animate-fadeIn">
       <div>
@@ -136,11 +161,11 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
           📹 Video Introduction (Optional)
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          Upload a short video (Max 100MB) introducing yourself and explaining why you want to join our mentorship program. This helps us get to know you better!
+          Upload a short video (Max 100MB) introducing yourself and explaining why you want to join
+          our mentorship program. This helps us get to know you better!
         </p>
       </div>
 
-      {/* Upload Area */}
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -179,9 +204,8 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
             <div className="text-4xl animate-spin">⏳</div>
             <div>
               <p className="text-lg font-bold text-gray-900 mb-2">Uploading to Google Drive...</p>
-              <p className="text-sm text-gray-600 mb-4">{fileName}</p>
-              
-              {/* Progress Bar */}
+              <p className="text-sm text-gray-600 mb-4 break-all">{fileName}</p>
+
               <div className="w-full bg-gray-300 rounded-full h-4 overflow-hidden mb-3">
                 <div
                   className="bg-gradient-to-r from-pink-500 to-purple-500 h-4 rounded-full transition-all duration-300 flex items-center justify-center"
@@ -192,7 +216,7 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
                   )}
                 </div>
               </div>
-              
+
               <p className="text-base font-semibold text-gray-800">{progress}% Complete</p>
             </div>
           </div>
@@ -208,10 +232,7 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onVideoUpload(null);
-                  setFileName('');
-                  setProgress(0);
-                  if (fileInputRef.current) fileInputRef.current.value = '';
+                  resetUpload();
                 }}
                 className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-all text-sm font-semibold"
               >
@@ -220,12 +241,31 @@ export default function VideoUpload({ onVideoUpload, videoUrl }) {
             </div>
           </div>
         )}
+
+        {error && (
+          <div className="mt-4 bg-red-50 border-2 border-red-200 rounded-xl p-4 text-left">
+            <p className="text-sm font-semibold text-red-700">⚠️ {error}</p>
+            {!videoUrl && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setError('');
+                  fileInputRef.current?.click();
+                }}
+                className="mt-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all text-sm font-semibold"
+              >
+                Try Again
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Info Box */}
       <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
         <p className="text-sm text-blue-900">
-          💡 <strong>Tip:</strong> A 1-2 minute video works best. Talk naturally about your background, goals, and why mentorship is important to you.
+          💡 <strong>Tip:</strong> A 1-2 minute video works best. Talk naturally about your
+          background, goals, and why mentorship is important to you.
         </p>
       </div>
     </div>

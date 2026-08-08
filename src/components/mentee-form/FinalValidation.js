@@ -22,6 +22,7 @@ export default function FinalValidation({ formData, onChange, category }) {
       <VideoUpload 
         onVideoUpload={handleVideoUpload}
         videoUrl={formData.videoIntroduction?.driveLink}
+        subFolderName={formData.fullName}
       />
 
       <div className="border-t-2 border-gray-200 pt-10 animate-fadeIn"></div>

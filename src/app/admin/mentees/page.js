@@ -346,6 +346,37 @@ export default function MenteesPage() {
                 </div>
               </div>
 
+              {/* Video Introduction */}
+              {selectedMentee.videoIntroduction?.driveLink && (
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-pink-600">📹 Video Introduction</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-sm text-gray-500">Video File</p>
+                      <p className="font-medium text-gray-900">{selectedMentee.videoIntroduction.fileName}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 mb-2">Video Link</p>
+                      <a 
+                        href={selectedMentee.videoIntroduction.driveLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                      >
+                     
+                        Watch Video on Google Drive
+                      </a>
+                    </div>
+                    {selectedMentee.videoIntroduction.uploadedAt && (
+                      <div>
+                        <p className="text-sm text-gray-500">Uploaded On</p>
+                        <p className="font-medium text-gray-900">{new Date(selectedMentee.videoIntroduction.uploadedAt).toLocaleString()}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Foundation Level (6th & 10th) */}
               {selectedMentee.educationLevel === '6th-10th' && (
                 <div>

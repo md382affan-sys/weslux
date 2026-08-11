@@ -10,6 +10,7 @@ import LaunchLevel from '@/components/mentee-form/LaunchLevel';
 import YoungProfessional from '@/components/mentee-form/YoungProfessional';
 import MentorQuestions from '@/components/mentee-form/MentorQuestions';
 import FinalValidation from '@/components/mentee-form/FinalValidation';
+import ApplicationReview from '@/components/mentee-form/ApplicationReview';
 
 export default function MenteeFormPage() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -40,10 +41,13 @@ export default function MenteeFormPage() {
     referralIntent: '', outcomeExpectation: '', willingnessToInvest: '',
     urgencyLevel: '', awareness: '', mentorshipStructure: '',
     successDefinition: '', formatPreference: '',
+    websiteRating: '', navigationEase: '', interfaceRating: '',
+    likedMost: '', suggestedChanges: '', additionalFeedback: '',
     videoIntroduction: null
   });
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const hasReviewForm = true; // Application Review form shown for both mentors and mentees, as the final step
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -81,11 +85,15 @@ export default function MenteeFormPage() {
   };
 
   const getTotalSteps = () => {
-    return 4; // Category Selection + Profile + Category Questions + Final Validation
+    return 4; // Category Selection + Profile + Questions + Final Validation (+ Application Review is the final step for mentors)
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.videoIntroduction?.driveFileId) {
+      alert('Please upload your Video Reflection before submitting.');
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch('/api/mentee', {
@@ -96,23 +104,48 @@ export default function MenteeFormPage() {
       const data = await res.json();
       if (data.success) {
         setShowSuccess(true);
-        setTimeout(() => {
-          setCurrentStep(0);
-          setCategory('');
-          setFormData({
-            fullName: '', email: '', phone: '', educationLevel: '',
-            careerAspirations: '', academicInterests: '', streamCertainty: '',
-            currentGuidance: '', mentorshipProblems: '', exposureLevel: '',
-            exposureDetails: '', roleModel: '', skillAwareness: '', fearFactor: '',
-            familyExpectations: '', learningStyle: '', curiosityCheck: ''
-          });
-        }, 3000);
+        setTimeout(() => resetForm(), 3000);
       }
     } catch (err) {
       console.error('Submission error:', err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const resetForm = () => {
+    setCurrentStep(0);
+    setCategory('');
+    setFormData({
+      fullName: '', email: '', phone: '', educationLevel: '',
+      careerAspirations: '', academicInterests: '', streamCertainty: '',
+      currentGuidance: '', mentorshipProblems: '', exposureLevel: '',
+      exposureDetails: '', roleModel: '', skillAwareness: '', fearFactor: '',
+      familyExpectations: '', learningStyle: '', curiosityCheck: '',
+      professionalVision: '', currentDomain: '', choiceValidation: '',
+      industryAccess: '', supportGap: '', careerClarity: '', backupPlan: '',
+      entranceExams: '', informationSource: '', skillGap: '', timeInvestment: '',
+      decisionSatisfaction: '', realWorldExposure: '',
+      fieldOfStudy: '', immediateCareerGoal: '', careerDirection: '',
+      postStudyCertainty: '', mentorshipNetwork: '', skillConfidence: '',
+      skillConfidentIn: '', skillNotConfidentIn: '', portfolioStatus: '',
+      internshipExperience: '', networkingEfforts: '', cvReadiness: '',
+      industryAwareness: '', salaryExpectations: '', actionTaken: '',
+      biggestChallenge: '', jobReadinessNeeds: [],
+      careerStart: '', currentExperience: '', careerSatisfaction: '',
+      careerSupport: '', mentorshipExperience: '', careerDevelopment: '',
+      careerMobility: '', initialMotivation: '', skillsToShare: '',
+      challenges: '', resourcesNeeded: '', longTermMotivation: '',
+      youngerGenExperience: '', menteeNeeds: '', perceivedValue: '',
+      timeInvestmentMentor: '', coordinatorInvolvement: '',
+      problemValidation: '', mentorshipNecessity: '', openFeedback: '',
+      referralIntent: '', outcomeExpectation: '', willingnessToInvest: '',
+      urgencyLevel: '', awareness: '', mentorshipStructure: '',
+      successDefinition: '', formatPreference: '',
+      websiteRating: '', navigationEase: '', interfaceRating: '',
+      likedMost: '', suggestedChanges: '', additionalFeedback: '',
+      videoIntroduction: null
+    });
   };
 
   return (
@@ -170,6 +203,10 @@ export default function MenteeFormPage() {
                   <FinalValidation formData={formData} onChange={handleChange} category={category} />
                 )}
 
+                {currentStep === 4 && hasReviewForm && (
+                  <ApplicationReview formData={formData} onChange={handleChange} />
+                )}
+
                 <div className="flex justify-between mt-12 pt-8 border-t-2 border-gray-100">
                   <button
                     type="button"
@@ -208,7 +245,8 @@ export default function MenteeFormPage() {
             <div className="text-7xl mb-6 animate-bounce">✅</div>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Success!</h2>
             <p className="text-lg text-gray-600 mb-8">
-              Your application has been submitted successfully. We'll get back to you soon!
+              Thank you for sharing your feedback. We&apos;ll get back to you with further details,
+              and if you will be eligible, you will be rewarded with a brochure. We appreciate your valuable input!
             </p>
             <button
               onClick={() => setShowSuccess(false)}

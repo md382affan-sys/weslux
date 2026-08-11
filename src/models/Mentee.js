@@ -101,6 +101,14 @@ const menteeSchema = new mongoose.Schema({
     fileName: { type: String },
     uploadedAt: { type: Date, default: null }
   },
+
+  // Section 8: Application Review (Mentees only - Mentors Connect platform feedback)
+  websiteRating: { type: String },
+  navigationEase: { type: String },
+  interfaceRating: { type: String },
+  likedMost: { type: String },
+  suggestedChanges: { type: String },
+  additionalFeedback: { type: String },
   
   // Admin Status Management
   status: { 

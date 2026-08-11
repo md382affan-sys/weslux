@@ -309,7 +309,7 @@ export default function FinalValidation({ formData, onChange, category }) {
           className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:border-pink-500 focus:ring-4 focus:ring-pink-100 transition-all"
         >
           <option value="">Select an option</option>
-          <option value="1-on-1">1:1</option>
+          <option value="1-on-1">In-Person 1:1</option>
           <option value="group">Group</option>
           <option value="workshops">Workshops</option>
           <option value="online-sessions">Online Sessions</option>

@@ -27,6 +27,7 @@ export default function CategorySelection({ onSelect }) {
           <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 mb-4">
             Mentorship Program Registration
           </h2>
+          
 <<<<<<< HEAD
           <p className="text-xl text-gray-600">
             {roleSelected === null ? 'Choose your role' : 

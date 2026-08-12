@@ -152,15 +152,21 @@ export default function MentorQuestions({ formData, onChange }) {
         <p className="text-sm md:text-base text-gray-600 mb-4">
           Given mentorship is a long journey and it would require an investment of time, how much time would you be able to dedicate to help the mentees?
         </p>
-        <input
-          type="text"
+        <select
           name="timeInvestmentMentor"
           value={formData.timeInvestmentMentor}
           onChange={onChange}
           required
           className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
-          placeholder="e.g., 2-3 hours per week"
-        />
+        >
+          <option value="">Select time commitment</option>
+          <option value="1-2 hours per week">1-2 hours per week</option>
+          <option value="2-3 hours per week">2-3 hours per week</option>
+          <option value="3-4 hours per week">3-4 hours per week</option>
+          <option value="4-5 hours per week">4-5 hours per week</option>
+          <option value="5+ hours per week">5+ hours per week</option>
+          <option value="flexible/as needed">Flexible/As needed</option>
+        </select>
       </div>
 
       <div className="animate-fadeIn">

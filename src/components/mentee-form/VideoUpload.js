@@ -158,11 +158,11 @@ export default function VideoUpload({ onVideoUpload, videoUrl, subFolderName }) 
     <div className="space-y-6 animate-fadeIn">
       <div>
         <label className="block text-xl md:text-2xl font-bold text-gray-900 mb-2">
-          📹 Video Introduction (Optional)
+          📹 Video Reflection *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          Upload a short video (Max 100MB) introducing yourself and explaining why you want to join
-          our mentorship program. This helps us get to know you better!
+          Please upload a short video (Max 100MB) with your reflection on this mentorship program.
+          This is required to submit your form.
         </p>
       </div>
 
@@ -195,6 +195,9 @@ export default function VideoUpload({ onVideoUpload, videoUrl, subFolderName }) 
             <p className="text-gray-600 mb-4">or click to select from your device</p>
             <p className="text-sm text-gray-500">
               Supported formats: MP4, MOV, AVI, WebM • Max size: 100MB
+            </p>
+            <p className="mt-3 text-sm font-semibold text-pink-600">
+              * Required - your form cannot be submitted without a video
             </p>
           </>
         )}

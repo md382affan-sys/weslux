@@ -425,11 +425,7 @@ export default function Header() {
                     <div className="w-6 h-6 rounded-md bg-red-100 flex items-center justify-center mr-3">
                       <span className="text-xs font-bold text-red-600">5</span>
                     </div>
-<<<<<<< HEAD
-<span>Mentorship Feedback Form</span>
-=======
-                    <span>Mentorship form</span>
->>>>>>> 5033b070b14db9085f727fa3be04141eea7a3d29
+                    <span>Mentorship Feedback Form</span>
               
                   </Link>
                 </div>

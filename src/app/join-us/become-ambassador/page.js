@@ -27,7 +27,6 @@ export default function BecomeAmbassadorPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess(false);
 
     try {
       const res = await fetch('/api/ambassador', {

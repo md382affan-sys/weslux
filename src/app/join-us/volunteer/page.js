@@ -35,7 +35,6 @@ export default function VolunteerPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess(false);
 
     try {
       const res = await fetch('/api/volunteer', {

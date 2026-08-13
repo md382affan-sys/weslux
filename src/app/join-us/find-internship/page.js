@@ -1,6 +1,76 @@
+'use client';
+
+import { useState } from 'react';
 import { Header, Footer } from '@/components';
+import SuccessModal from '@/components/SuccessModal';
+import DocumentUpload from '@/components/DocumentUpload';
 
 export default function FindInternshipPage() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    university: '',
+    major: '',
+    internshipType: '',
+    skills: '',
+    motivation: ''
+  });
+  const [documents, setDocuments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.fullName || !formData.email || !formData.university || !formData.major || !formData.internshipType || !formData.skills || !formData.motivation) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    if (documents.length === 0) {
+      setError('Please upload at least one document (Resume or Transcript).');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/internship', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          documents
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setShowSuccess(true);
+        setFormData({
+          fullName: '',
+          email: '',
+          university: '',
+          major: '',
+          internshipType: '',
+          skills: '',
+          motivation: ''
+        });
+        setDocuments([]);
+      } else {
+        setError(data.message || 'Failed to submit application');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const internshipTypes = [
     {
       title: "Summer Internships",
@@ -180,17 +250,25 @@ export default function FindInternshipPage() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Apply for Internship</h2>
               
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-800 font-medium">{error}</p>
+                </div>
+              )}
+
               <div className="bg-gradient-to-br from-green-50 to-white p-8 md:p-12 rounded-2xl shadow-xl">
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="internName" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-2">
                         Full Name *
                       </label>
                       <input
                         type="text"
-                        id="internName"
-                        name="internName"
+                        id="fullName"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="John Doe"
@@ -198,13 +276,15 @@ export default function FindInternshipPage() {
                     </div>
 
                     <div>
-                      <label htmlFor="internEmail" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
                         Email Address *
                       </label>
                       <input
                         type="email"
-                        id="internEmail"
-                        name="internEmail"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="john@example.com"
@@ -221,6 +301,8 @@ export default function FindInternshipPage() {
                         type="text"
                         id="university"
                         name="university"
+                        value={formData.university}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="University of Luxembourg"
@@ -235,6 +317,8 @@ export default function FindInternshipPage() {
                         type="text"
                         id="major"
                         name="major"
+                        value={formData.major}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="Computer Science"
@@ -249,6 +333,8 @@ export default function FindInternshipPage() {
                     <select
                       id="internshipType"
                       name="internshipType"
+                      value={formData.internshipType}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
@@ -267,6 +353,8 @@ export default function FindInternshipPage() {
                     <textarea
                       id="skills"
                       name="skills"
+                      value={formData.skills}
+                      onChange={handleChange}
                       required
                       rows="3"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
@@ -281,6 +369,8 @@ export default function FindInternshipPage() {
                     <textarea
                       id="motivation"
                       name="motivation"
+                      value={formData.motivation}
+                      onChange={handleChange}
                       required
                       rows="4"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
@@ -289,29 +379,19 @@ export default function FindInternshipPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="internshipUpload" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <span className="block text-sm font-semibold text-gray-700 mb-2">
                       Upload Documents (Resume, Transcript) *
-                    </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-green-500 transition-colors duration-300">
-                      <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                      </svg>
-                      <p className="text-gray-600 mb-2">Drag & drop your documents here</p>
-                      <p className="text-gray-500 text-sm mb-4">or</p>
-                      <label htmlFor="internshipFileInput" className="px-6 py-2 bg-green-100 text-green-600 font-medium rounded-lg hover:bg-green-200 transition-colors duration-300 cursor-pointer">
-                        Browse Files
-                      </label>
-                      <input type="file" id="internshipFileInput" className="hidden" accept=".pdf,.doc,.docx" multiple />
-                      <p className="text-gray-500 text-sm mt-4">Maximum file size: 10MB total</p>
-                    </div>
+                    </span>
+                    <DocumentUpload documents={documents} onDocumentsChange={setDocuments} />
                   </div>
 
                   <div className="pt-4">
                     <button
                       type="submit"
-                      className="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                      disabled={loading}
+                      className="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Submit Application
+                      {loading ? 'Submitting...' : 'Submit Application'}
                     </button>
                   </div>
                 </form>
@@ -368,6 +448,12 @@ export default function FindInternshipPage() {
       </main>
       
       <Footer />
+
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        message="Thank you for applying! Your internship application has been received. Our team will review it and get back to you soon."
+      />
     </div>
   );
 }

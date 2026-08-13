@@ -11,6 +11,16 @@ export const ALLOWED_MIMES = [
   'video/webm',
 ];
 
+// Allowed document types for form attachments (internship/job applications).
+export const DOC_ALLOWED_MIMES = [
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'text/plain',
+];
+
 
 // Build the Drive auth object from env credentials.
 // Order of preference:

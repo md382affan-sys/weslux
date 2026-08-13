@@ -43,7 +43,6 @@ export default function SupportPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess(false);
 
     const amount = parseFloat(customAmount);
     if (!amount || amount <= 0) {

@@ -1,0 +1,77 @@
+
+> weslux@0.1.0 dev
+> next dev
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\shrey\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\shrey\Downloads\wes lux\weslux\package-lock.json
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.10.44.27:3000
+- Environments: .env
+
+✓ Starting...
+✓ Ready in 2.6s
+ GET / 200 in 3.1s (compile: 1944ms, render: 1156ms)
+ GET /join-us/mentee-form 200 in 296ms (compile: 249ms, render: 47ms)
+ POST /api/upload-video/init 200 in 5.4s (compile: 3.6s, render: 1847ms)
+ POST /api/upload-video/chunk 200 in 1069ms (compile: 148ms, render: 921ms)
+ POST /api/upload-video/chunk 200 in 484ms (compile: 5ms, render: 479ms)
+ POST /api/upload-video/chunk 200 in 3.8s (compile: 5ms, render: 3.8s)
+Attempting to send email: {
+  to: 'weslux4edu@gmail.com',
+  subject: 'Welcome to WES Luxembourg Mentorship Program!'
+}
+Email error details: {
+  message: 'Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5a478bee46e88-32678dd26a0sm10695515eec.2 - gsmtp',
+  code: 'EAUTH',
+  command: 'AUTH PLAIN',
+  response: '535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5a478bee46e88-32678dd26a0sm10695515eec.2 - gsmtp'
+}
+Attempting to send email: { to: 'info@weslux.lu', subject: 'New Mentee Application - WESLUX' }
+Email error details: {
+  message: 'Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-14153186ad5sm14140644c88.14 - gsmtp',
+  code: 'EAUTH',
+  command: 'AUTH PLAIN',
+  response: '535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-14153186ad5sm14140644c88.14 - gsmtp'
+}
+ POST /api/mentee 201 in 10.6s (compile: 919ms, render: 9.7s)
+✓ Compiled in 121ms
+ GET /join-us/mentee-form 200 in 459ms (compile: 131ms, render: 328ms)
+ POST /api/upload-video/init 200 in 1773ms (compile: 15ms, render: 1757ms)
+ POST /api/upload-video/chunk 200 in 503ms (compile: 5ms, render: 498ms)
+ POST /api/upload-video/chunk 200 in 491ms (compile: 8ms, render: 483ms)
+ POST /api/upload-video/chunk 200 in 3.9s (compile: 10ms, render: 3.8s)
+Attempting to send email: {
+  to: 'weslux4edu@gmail.com',
+  subject: 'Welcome to WES Luxembourg Mentorship Program!'
+}
+Email error details: {
+  message: 'Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5a478bee46e88-3267c388e3csm9593727eec.21 - gsmtp',
+  code: 'EAUTH',
+  command: 'AUTH PLAIN',
+  response: '535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5a478bee46e88-3267c388e3csm9593727eec.21 - gsmtp'
+}
+Attempting to send email: { to: 'info@weslux.lu', subject: 'New Mentee Application - WESLUX' }
+Email error details: {
+  message: 'Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5a478bee46e88-3267c3876c9sm9152113eec.24 - gsmtp',
+  code: 'EAUTH',
+  command: 'AUTH PLAIN',
+  response: '535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5a478bee46e88-3267c3876c9sm9152113eec.24 - gsmtp'
+}
+ POST /api/mentee 201 in 9.2s (compile: 7ms, render: 9.2s)
+✓ Compiled in 110ms
+✓ Compiled in 105ms
+✓ Compiled in 102ms

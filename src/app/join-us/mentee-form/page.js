@@ -242,12 +242,12 @@ export default function MenteeFormPage() {
       {showSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 animate-fadeIn">
           <div className="bg-white rounded-3xl p-12 max-w-md w-full text-center transform animate-scaleIn shadow-2xl">
-            <div className="text-7xl mb-6 animate-bounce">✅</div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Success!</h2>
-            <p className="text-lg text-gray-600 mb-2">
+            <div className="text-7xl mb-4 animate-bounce">✅</div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-3">Success!</h2>
+            <p className="text-lg text-gray-600 leading-relaxed mb-2">
               Thank you for sharing your feedback, We appreciate your valuable input!
             </p>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="text-lg text-gray-600 leading-relaxed mb-8">
               We&apos;ll get back to you with further details. if eligible, we will send you a reward voucher.
             </p>
             <button

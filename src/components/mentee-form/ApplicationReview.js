@@ -9,7 +9,7 @@ export default function ApplicationReview({ formData, onChange }) {
         </h2>
         <p className="text-lg text-gray-600">
           Thank you for completing your application on <strong>Mentor Connect</strong>. Before you submit,
-          please take a moment to review the platform and share your feedback. Your opinions help us improve.
+          please take a moment to review the application and share your feedback. Your opinions help us improve.
         </p>
       </div>
 
@@ -75,7 +75,7 @@ export default function ApplicationReview({ formData, onChange }) {
           Interface Rating *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          What do you think about the design and look of the Mentor Connect interface?
+          What do you think about the design and look of the Mentor Connect application?
         </p>
         <select
           name="interfaceRating"
@@ -98,7 +98,7 @@ export default function ApplicationReview({ formData, onChange }) {
           What did you like the most?
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          Tell us what you enjoyed most about the Mentor Connect platform.
+          Tell us what you enjoyed most about the Mentor Connect application.
         </p>
         <textarea
           name="likedMost"

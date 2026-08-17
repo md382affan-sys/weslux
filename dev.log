@@ -75,3 +75,9 @@ Email error details: {
 ✓ Compiled in 110ms
 ✓ Compiled in 105ms
 ✓ Compiled in 102ms
+ GET /programs/tech-connect 200 in 1389ms (compile: 1277ms, render: 112ms)
+ GET /join-us/mentee-form 200 in 228ms (compile: 140ms, render: 88ms)
+ POST /api/upload-video/init 200 in 2.1s (compile: 11ms, render: 2.1s)
+ POST /api/upload-video/chunk 200 in 499ms (compile: 4ms, render: 495ms)
+ POST /api/upload-video/chunk 200 in 481ms (compile: 4ms, render: 477ms)
+ POST /api/upload-video/chunk 200 in 2.9s (compile: 5ms, render: 2.9s)

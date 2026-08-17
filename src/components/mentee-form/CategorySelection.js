@@ -10,7 +10,7 @@ export default function CategorySelection({ onSelect }) {
       <div className="max-w-5xl w-full">
         <div className="text-center mb-12 animate-fadeIn">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
-            WES Luxembourg
+            WES Luxembourg for Education
           </h1>
           <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 mb-4">
             Mentorship Feedback Form

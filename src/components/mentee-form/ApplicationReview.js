@@ -15,10 +15,10 @@ export default function ApplicationReview({ formData, onChange }) {
 
       <div className="animate-fadeIn">
         <label className="block text-xl md:text-2xl font-bold text-gray-900 mb-2">
-          Overall Website Rating *
+          Overall Application Rating *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          How would you rate the overall interface of the Mentor Connect website?
+          How would you rate the overall interface of the Mentor Connect application?
         </p>
         <div className="flex gap-4 flex-wrap">
           {[1, 2, 3, 4, 5].map(num => (
@@ -52,7 +52,7 @@ export default function ApplicationReview({ formData, onChange }) {
           Ease of Navigation *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          How easy was it to navigate through the website and complete your application?
+          How easy was it to navigate through the application and complete it?
         </p>
         <select
           name="navigationEase"
@@ -115,7 +115,7 @@ export default function ApplicationReview({ formData, onChange }) {
           What changes would you like in the interface?
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          If you could change or improve anything about the website, what would it be?
+          If you could change or improve anything about the application, what would it be?
         </p>
         <textarea
           name="suggestedChanges"

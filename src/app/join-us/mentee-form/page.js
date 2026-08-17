@@ -244,9 +244,11 @@ export default function MenteeFormPage() {
           <div className="bg-white rounded-3xl p-12 max-w-md w-full text-center transform animate-scaleIn shadow-2xl">
             <div className="text-7xl mb-6 animate-bounce">✅</div>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Success!</h2>
+            <p className="text-lg text-gray-600 mb-2">
+              Thank you for sharing your feedback, We appreciate your valuable input!
+            </p>
             <p className="text-lg text-gray-600 mb-8">
-              Thank you for sharing your feedback. We&apos;ll get back to you with further details,
-              and if you will be eligible, you will be rewarded with a brochure. We appreciate your valuable input!
+              We&apos;ll get back to you with further details. if eligible, we will send you a reward voucher.
             </p>
             <button
               onClick={() => setShowSuccess(false)}

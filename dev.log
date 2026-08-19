@@ -112,3 +112,10 @@ Email error details: {
 ✓ Compiled in 84ms
 ✓ Compiled in 240ms
 ✓ Compiled in 108ms
+ GET / 200 in 496ms (compile: 12ms, render: 485ms)
+ GET / 200 in 239ms (compile: 13ms, render: 226ms)
+ GET /join-us/mentee-form 200 in 669ms (compile: 535ms, render: 134ms)
+ POST /api/upload-video/init 200 in 2.5s (compile: 140ms, render: 2.3s)
+ POST /api/upload-video/chunk 200 in 3.0s (compile: 6ms, render: 3.0s)
+ POST /api/upload-video/chunk 200 in 3.6s (compile: 5ms, render: 3.6s)
+ POST /api/upload-video/chunk 200 in 6.4s (compile: 8ms, render: 6.4s)

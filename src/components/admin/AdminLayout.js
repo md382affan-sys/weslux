@@ -12,6 +12,7 @@ export default function AdminLayout({ children }) {
   const pathname = usePathname();
   const router = useRouter();
 
+  
   // Detect mobile screen
   useEffect(() => {
     const checkMobile = () => {

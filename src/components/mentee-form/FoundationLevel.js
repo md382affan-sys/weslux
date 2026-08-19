@@ -264,10 +264,10 @@ export default function FoundationLevel({ formData, onChange }) {
           className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all"
         >
           <option value="">Select an option</option>
-          <option value="videos">Videos</option>
-          <option value="books">Books</option>
-          <option value="practical">Practical</option>
-          <option value="mentorship">Mentorship</option>
+          <option value="visual">Visual</option>
+          <option value="auditory">Auditory</option>
+          <option value="reading-writing">Reading/Writing</option>
+          <option value="hands-on">Hands-on/Practical</option>
           <option value="other">Other</option>
         </select>
       </div>

@@ -267,7 +267,7 @@ export default function VideoUpload({ onVideoUpload, videoUrl, subFolderName }) 
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
         <p className="text-sm text-blue-900">
-          💡 <strong>Tip:</strong> A 1-2 minute video works best. Talk naturally about your
+          💡 <strong>Tip:</strong> Please keep your video under one minute. Talk naturally about your
           background, goals, and why mentorship is important to you.
         </p>
       </div>

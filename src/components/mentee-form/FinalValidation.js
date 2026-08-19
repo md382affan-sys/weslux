@@ -55,7 +55,7 @@ export default function FinalValidation({ formData, onChange, category }) {
           Mentorship Necessity *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          In your honest opinion, is professional mentoring a "luxury" or a "necessity" for students in today's competitive environment?
+          Mentoring is "just good to have" or is it a "necessity / a must"?
         </p>
         <div className="flex gap-4">
           <label className="flex-1 cursor-pointer">
@@ -73,7 +73,7 @@ export default function FinalValidation({ formData, onChange, category }) {
                 ? 'bg-pink-500 text-white border-pink-500'
                 : 'bg-white text-gray-700 border-gray-300 hover:border-pink-300'
             }`}>
-              Luxury
+              Just good to have
             </div>
           </label>
           <label className="flex-1 cursor-pointer">
@@ -90,7 +90,7 @@ export default function FinalValidation({ formData, onChange, category }) {
                 ? 'bg-pink-500 text-white border-pink-500'
                 : 'bg-white text-gray-700 border-gray-300 hover:border-pink-300'
             }`}>
-              Necessity
+              Necessity / a must
             </div>
           </label>
         </div>
@@ -165,7 +165,7 @@ export default function FinalValidation({ formData, onChange, category }) {
           Outcome Expectation *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          What result would make this mentorship program "worth it" for you?
+          What result would make this mentorship program "worth it" for you? In which ways would you be able to assess if your mentoring is impactful and successful?
         </p>
         <textarea
           name="outcomeExpectation"

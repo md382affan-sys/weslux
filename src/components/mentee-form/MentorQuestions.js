@@ -60,7 +60,7 @@ export default function MentorQuestions({ formData, onChange }) {
           Resources *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          What kind of support or resources would you expect from a mentorship program (e.g. coordinators guidance) to help you succeed as a mentor? In which ways would you be able to assess if your mentoring is impactful and successful?
+          What kind of support or resources would you expect from a mentorship program (e.g. coordinators guidance) to help you succeed as a mentor?
         </p>
         <textarea
           name="resourcesNeeded"
@@ -69,7 +69,7 @@ export default function MentorQuestions({ formData, onChange }) {
           required
           rows="5"
           className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all resize-none"
-          placeholder="Describe needed support and success metrics..."
+          placeholder="Describe needed support..."
         />
       </div>
 
@@ -174,7 +174,7 @@ export default function MentorQuestions({ formData, onChange }) {
           Coordinators Involvement *
         </label>
         <p className="text-sm md:text-base text-gray-600 mb-4">
-          Given the program is providing online mentoring, what kind of program coordinators involvement would be helpful?
+          Given the program is providing online mentoring, do you expect any support from the program coordinators in your role as a mentor? If yes, what kind of support would be most helpful — for example, guidance on structuring sessions, resources and materials, help with matching mentees, troubleshooting challenges, or regular check-ins?
         </p>
         <textarea
           name="coordinatorInvolvement"
@@ -183,7 +183,7 @@ export default function MentorQuestions({ formData, onChange }) {
           required
           rows="4"
           className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all resize-none"
-          placeholder="Describe desired coordinator involvement..."
+          placeholder="Describe the kind of coordinator support you would need in your mentor role..."
         />
       </div>
     </div>

@@ -45,3 +45,4 @@
  GET /api/news 200 in 52ms (compile: 10ms, render: 41ms)
  GET /admin/login 200 in 124ms (compile: 14ms, render: 110ms)
  GET / 200 in 678ms (compile: 15ms, render: 663ms)
+ GET / 200 in 413ms (compile: 231ms, render: 182ms)

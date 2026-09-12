@@ -1,0 +1,15 @@
+node_modules
+.next
+.git
+.gitignore
+.env*.local
+dev.log
+README.md
+.kiro
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.vercel
+*.tsbuildinfo
+coverage

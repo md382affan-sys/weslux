@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    devIndicators: {
+  output: 'standalone',
+  devIndicators: {
     buildActivity: false,
   },
   images: {

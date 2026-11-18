@@ -2,7 +2,7 @@ import { Header, Footer } from '@/components';
 
 export default function VisionMissionPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col sitePage visionMissionPage">
       <Header />
       
       <main className="flex-grow">

@@ -1,8 +1,9 @@
 import { Header, Footer } from '@/components';
+import styles from '@/app/ContentPages.module.css';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={`min-h-screen flex flex-col ${styles.page} ${styles.about} sitePage`}>
       <Header />
       
       <main className="flex-grow">
@@ -128,7 +129,7 @@ export default function AboutPage() {
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                   <p className="text-gray-600 leading-relaxed mb-6">
-                    WES Luxembourg for Education is a porpuse driven orgnaisation committed to transforming the educational landscape by connecting students with real-world opportunities and experienced mentors from various industries.
+                    WES Luxembourg for Education is a purpose-driven organization committed to transforming the educational landscape by connecting students with real-world opportunities and experienced mentors from various industries.
                   </p>
                   <p className="text-gray-600 leading-relaxed mb-6">
                     We are a diverse team of educators, industry professionals, volunteers, and partners who share a common goal: to empower the next generation of leaders, innovators, and changemakers.
@@ -323,13 +324,13 @@ export default function AboutPage() {
                   <p className="text-gray-600 text-sm">Our supporters and partners</p>
                 </a>
 
-                <a href="/about/complaints-reports" className="bg-gradient-to-br from-red-50 to-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 group">
+                <a href="/about/Compliance-reports" className="bg-gradient-to-br from-red-50 to-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 group">
                   <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
                     <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-red-600">Complaints & Reports</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-red-600">Compliance Reports</h3>
                   <p className="text-gray-600 text-sm">Transparency and accountability</p>
                 </a>
 

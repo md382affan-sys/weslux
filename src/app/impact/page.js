@@ -4,7 +4,7 @@ import { SDG } from '@/components';
 
 export default function ImpactPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col sitePage">
       <Header />
       
       <main className="flex-grow">

@@ -2,7 +2,7 @@ import { Header, Footer } from '@/components';
 
 export default function WhoWeArePage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col sitePage">
       <Header />
       
       <main className="flex-grow">

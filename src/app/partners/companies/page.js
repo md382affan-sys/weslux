@@ -4,6 +4,7 @@ import { Header, Footer } from '@/components';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import SuccessModal from '@/components/SuccessModal';
+import styles from '@/app/ContentPages.module.css';
 
 export default function CompaniesPage() {
   const [showForm, setShowForm] = useState(false);
@@ -105,7 +106,7 @@ export default function CompaniesPage() {
   const closeSuccess = () => setShowSuccess(false);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={`min-h-screen flex flex-col ${styles.page} ${styles.partners} sitePage`}>
       <Header />
       
       <main className="flex-grow bg-gradient-to-br from-green-50 via-white to-green-50">

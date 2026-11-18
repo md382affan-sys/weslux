@@ -173,7 +173,7 @@ export default function MentorEnrollPage() {
   // Success Screen
   if (verified) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col sitePage">
         <Header />
         <main className="flex-grow flex items-center justify-center py-20">
           <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 text-center">
@@ -208,7 +208,7 @@ export default function MentorEnrollPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col sitePage">
       <Header />
       
       <main className="flex-grow">

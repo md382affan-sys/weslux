@@ -243,7 +243,7 @@ function ViewCertificateContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col sitePage">
         <Header />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
@@ -258,7 +258,7 @@ function ViewCertificateContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col sitePage">
         <Header />
         <main className="flex-grow flex items-center justify-center">
           <div className="max-w-md text-center">
@@ -279,7 +279,7 @@ function ViewCertificateContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col sitePage">
       <Header />
       
       <main className="flex-grow">
@@ -460,7 +460,7 @@ function ViewCertificateContent() {
 export default function ViewCertificatePage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col sitePage">
         <Header />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">

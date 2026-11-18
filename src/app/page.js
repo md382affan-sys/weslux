@@ -12,10 +12,11 @@ import {
   CTA,
   Footer,
 } from '@/components';
+import styles from './Home.module.css';
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className={`${styles.homePage} min-h-screen`}>
       <Header />
       <Hero />
       <About />

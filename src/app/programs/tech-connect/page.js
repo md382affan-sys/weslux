@@ -1,9 +1,10 @@
 import { Header, Footer } from '@/components';
 import Link from 'next/link';
+import styles from '@/app/ContentPages.module.css';
 
 export default function TechConnectPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={`min-h-screen flex flex-col ${styles.page} ${styles.programs} sitePage`}>
       <Header />
       
       <main className="flex-grow">

@@ -47,7 +47,7 @@ export default function GetCertificatePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col sitePage">
       <Header />
       
       <main className="flex-grow">

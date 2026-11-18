@@ -1,0 +1,1393 @@
+.homePage {
+  --home-warm: #fbfbfd;
+  --home-paper: #fff;
+  --home-neutral: #f3f5fa;
+  --home-blue-muted: #a9b5cf;
+  --home-primary: #3156c9;
+  --home-primary-dark: #203b82;
+  --home-primary-pale: #eaf0ff;
+  --home-blue-pale: #eaf2fa;
+  --home-lavender: #f1eaf8;
+  --home-ink: #1f2533;
+  --home-muted: #667085;
+  --home-line: #dfe5ef;
+  color: var(--home-ink);
+  background: var(--home-warm);
+  overflow: clip;
+}
+
+.homePage :global(*) {
+  box-sizing: border-box;
+}
+
+.homePage :global(a:focus-visible),
+.homePage :global(button:focus-visible) {
+  outline: 3px solid #7189d4;
+  outline-offset: 3px;
+}
+
+.homePage > :global(header) {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-color: var(--home-line);
+  background: rgb(251 251 253 / 96%);
+  box-shadow: 0 3px 14px rgb(31 37 51 / 5%);
+  backdrop-filter: blur(12px);
+}
+
+.homePage > :global(header) :global(.container) {
+  width: min(100% - 56px, 1200px);
+  margin-inline: auto;
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.homePage > :global(header) :global(.container > div > div:first-child h1) {
+  background: none;
+  color: var(--home-primary-dark);
+  -webkit-text-fill-color: currentColor;
+}
+
+.homePage > :global(header) :global(.container > div > div:first-child p) {
+  color: var(--home-muted);
+}
+
+.homePage > :global(header) :global(nav a),
+.homePage > :global(header) :global(nav button) {
+  color: var(--home-ink);
+}
+
+.homePage > :global(header) :global(nav a:hover),
+.homePage > :global(header) :global(nav button:hover) {
+  color: var(--home-primary-dark);
+  background: var(--home-primary-pale);
+}
+
+.homePage > :global(header) :global(nav a span span),
+.homePage > :global(header) :global(nav button svg) {
+  background-color: var(--home-primary);
+}
+
+.homePage > :global(header) :global(.bg-green-100) {
+  background-color: var(--home-primary-pale);
+}
+
+.homePage > :global(header) :global(.text-green-600) {
+  color: var(--home-primary);
+}
+
+.homePage > :global(header) :global(.container > div > nav + div a:first-child) {
+  border-color: var(--home-primary);
+  background: var(--home-primary);
+  box-shadow: none;
+}
+
+.homePage > :global(header) :global(.container > div > nav + div a:first-child:hover) {
+  background: var(--home-primary-dark);
+}
+
+.homePage > :global(header) :global(.container > div > nav + div a:last-child) {
+  border-color: var(--home-primary);
+  color: var(--home-primary-dark);
+}
+
+.homePage > :global(header) :global(.container > div > button) {
+  color: var(--home-primary-dark);
+}
+
+.homePage > :global(header) :global(.container > div:nth-child(2)) {
+  border-color: var(--home-line);
+  box-shadow: 0 14px 30px rgb(31 37 51 / 8%);
+}
+
+.homePage > :global(header) :global(.container > div:nth-child(2) a),
+.homePage > :global(header) :global(.container > div:nth-child(2) button) {
+  color: var(--home-ink);
+}
+
+.homePage > :global(header) :global(.container > div:nth-child(2) a:hover),
+.homePage > :global(header) :global(.container > div:nth-child(2) button:hover) {
+  background: var(--home-primary-pale);
+  color: var(--home-primary-dark);
+}
+
+.homePage :global(.homeSectionInner) {
+  width: min(100% - 56px, 1200px);
+  margin-inline: auto;
+}
+
+.homePage :global(.homeEyebrow) {
+  margin: 0 0 18px;
+  color: var(--home-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.homePage :global(.homeSectionHeading) {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 36px;
+  margin-bottom: 48px;
+}
+
+.homePage :global(.homeSectionHeading h2),
+.homePage :global(.homeAboutIntro h2),
+.homePage :global(.homePartnersIntro h2),
+.homePage :global(.homeCta h2) {
+  max-width: 700px;
+  margin: 0;
+  color: var(--home-ink);
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.homePage :global(.homeSectionHeading > p) {
+  max-width: 370px;
+  margin: 0 0 4px;
+  color: var(--home-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.homePage :global(.homeTextLink) {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  color: var(--home-primary-dark);
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.homePage :global(.homeTextLink span) {
+  font-size: 18px;
+  transition: transform 160ms ease;
+}
+
+.homePage :global(.homeTextLink:hover span) {
+  transform: translateX(3px);
+}
+
+.homePage :global(.homeHero) {
+  padding: clamp(54px, 6vw, 84px) 0;
+  background: var(--home-paper);
+}
+
+.homePage :global(.homeHeroInner) {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(400px, 1.05fr);
+  align-items: center;
+  gap: clamp(42px, 6vw, 88px);
+  width: min(100% - 56px, 1200px);
+  margin-inline: auto;
+}
+
+.homePage :global(.homeHeroCopy) {
+  max-width: 710px;
+}
+
+.homePage :global(.homeHeroCopy h1) {
+  max-width: 700px;
+  margin: 0;
+  color: var(--home-ink);
+  font-size: clamp(44px, 5.2vw, 68px);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 1.01;
+  text-wrap: balance;
+}
+
+.homePage :global(.homeHeroDescription) {
+  max-width: 570px;
+  margin: 25px 0 0;
+  color: var(--home-muted);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.homePage :global(.homeHeroActions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.homePage :global(.homeButton) {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 12px 19px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.homePage :global(.homeButtonPrimary) {
+  color: #fff;
+  background: var(--home-primary);
+}
+
+.homePage :global(.homeButtonPrimary:hover) {
+  background: var(--home-primary-dark);
+}
+
+.homePage :global(.homeButtonSecondary) {
+  border-color: var(--home-line);
+  color: var(--home-ink);
+  background: transparent;
+}
+
+.homePage :global(.homeButtonSecondary:hover) {
+  border-color: var(--home-primary);
+  background: var(--home-paper);
+}
+
+.homePage :global(.homeHeroPhoto) {
+  position: relative;
+  min-width: 0;
+  height: clamp(340px, 38vw, 500px);
+  overflow: hidden;
+  background: var(--home-blue-muted);
+  box-shadow: 0 18px 42px rgb(31 37 51 / 12%);
+}
+
+.homePage :global(.homeHeroSlide) {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  opacity: 0;
+  transition: opacity 850ms ease;
+}
+
+.homePage :global(.homeHeroSlide.isActive) {
+  opacity: 1;
+}
+
+.homePage :global(.homeHeroPhotoControls) {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  left: 20px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.homePage :global(.homeHeroPhotoControls > div) {
+  display: flex;
+  gap: 8px;
+}
+
+.homePage :global(.homeHeroPhotoControls button) {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 62%);
+  cursor: pointer;
+}
+
+.homePage :global(.homeHeroPhotoControls button[aria-current="true"]) {
+  width: 22px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.homePage :global(.homeAbout) {
+  padding: clamp(74px, 9vw, 118px) 0;
+  background: var(--home-blue-pale);
+}
+
+.homePage :global(.homeAboutInner) {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+  align-items: start;
+  gap: clamp(60px, 10vw, 150px);
+}
+
+.homePage :global(.homeAboutIntro h2) {
+  font-size: clamp(32px, 4vw, 48px);
+}
+
+.homePage :global(.homeAboutIntro > p:last-child),
+.homePage :global(.homePartnersIntro > p:last-child) {
+  max-width: 500px;
+  margin: 22px 0 0;
+  color: var(--home-muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.homePage :global(.homeAboutReasons) {
+  border-top: 1px solid var(--home-line);
+}
+
+.homePage :global(.homeAboutReason) {
+  display: grid;
+  grid-template-columns: 45px 1fr;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--home-line);
+}
+
+.homePage :global(.homeAboutIndex) {
+  padding-top: 3px;
+  color: var(--home-primary);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.homePage :global(.homeAboutReason h3) {
+  margin: 0;
+  color: var(--home-ink);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.homePage :global(.homeAboutReason p) {
+  max-width: 480px;
+  margin: 7px 0 0;
+  color: var(--home-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.homePage :global(.homePrograms) {
+  padding: clamp(74px, 9vw, 112px) 0;
+  background: var(--home-paper);
+}
+
+.homePage :global(.homeSectionHeading > div > .homeEyebrow) {
+  margin-bottom: 14px;
+}
+
+.homePage :global(.homeProgramList) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.homePage :global(.homeProgram) {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--home-line);
+  background: var(--home-paper);
+}
+
+.homePage :global(.homeProgramPhoto) {
+  position: relative;
+  aspect-ratio: 1.65;
+  overflow: hidden;
+  background: var(--home-neutral);
+}
+
+.homePage :global(.homeProgramPhoto img) {
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+.homePage :global(.homeProgram:hover .homeProgramPhoto img) {
+  transform: scale(1.025);
+}
+
+.homePage :global(.homeProgramContent) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.homePage :global(.homeProgramTopline) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.homePage :global(.homeProgramNumber) {
+  color: var(--home-primary);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.homePage :global(.homeProgramIcon) {
+  width: 30px;
+  height: 30px;
+  color: var(--home-primary);
+}
+
+.homePage :global(.homeProgram h3) {
+  margin: 0;
+  color: var(--home-ink);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.homePage :global(.homeProgramDescription) {
+  min-height: 0;
+  margin: 12px 0 20px;
+  color: var(--home-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.homePage :global(.homeProgram .homeTextLink) {
+  margin-top: auto;
+}
+
+.homePage :global(.homeImpact) {
+  padding: clamp(74px, 9vw, 112px) 0;
+  color: #fff;
+  background: var(--home-primary-dark);
+}
+
+.homePage :global(.homeImpact .homeEyebrow),
+.homePage :global(.homeImpact .homeTextLink),
+.homePage :global(.homeImpactIntro h2),
+.homePage :global(.homeImpact .homeImpactFigure dd) {
+  color: #fff;
+}
+
+.homePage :global(.homeImpactInner) {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(48px, 8vw, 120px);
+}
+
+.homePage :global(.homeImpactIntro h2) {
+  max-width: 520px;
+  margin: 0;
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1.08;
+}
+
+.homePage :global(.homeImpactIntro > p:not(.homeEyebrow)) {
+  max-width: 470px;
+  margin: 22px 0 24px;
+  color: #dce5fa;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.homePage :global(.homeImpact .homeTextLink:hover) {
+  color: #dce5ff;
+}
+
+.homePage :global(.homeImpact .homeImpactFigures) {
+  border-color: rgb(255 255 255 / 27%);
+}
+
+.homePage :global(.homeImpactFigures) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--home-line);
+  border-bottom: 1px solid var(--home-line);
+}
+
+.homePage :global(.homeImpactFigure) {
+  padding: 24px 20px;
+}
+
+.homePage :global(.homeImpactFigure:nth-child(even)) {
+  border-left: 1px solid rgb(255 255 255 / 27%);
+}
+
+.homePage :global(.homeImpactFigure:nth-child(odd)) {
+  border-left: 0;
+}
+
+.homePage :global(.homeImpactFigure:nth-child(n + 3)) {
+  border-top: 1px solid rgb(255 255 255 / 27%);
+}
+
+.homePage :global(.homeImpactFigure:first-child),
+.homePage :global(.homeImpactFigure:nth-child(odd)) {
+  padding-left: 0;
+}
+
+.homePage :global(.homeImpactFigure dt) {
+  color: #dce5fa;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.homePage :global(.homeImpactFigure dd) {
+  margin: 8px 0 0;
+  color: #fff;
+  font-size: clamp(34px, 4vw, 50px);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.homePage :global(.homeImpactHighlights) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px;
+  margin-top: 44px;
+}
+
+.homePage :global(.homeImpactHighlight) {
+  position: relative;
+  padding: 0 22px 0 0;
+}
+
+.homePage :global(.homeImpactHighlight + .homeImpactHighlight) {
+  padding-left: 24px;
+  border-left: 1px solid rgb(255 255 255 / 25%);
+}
+
+.homePage :global(.homeImpactIndex) {
+  color: #c5d2f3;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.homePage :global(.homeImpactHighlight h3) {
+  margin: 13px 0 7px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.homePage :global(.homeImpactHighlight p) {
+  max-width: 330px;
+  margin: 0;
+  color: #dce5fa;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.homePage :global(.homeStories) {
+  padding: clamp(74px, 9vw, 112px) 0;
+  background: var(--home-lavender);
+}
+
+.homePage :global(.homeStoriesLayout) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.homePage :global(.homeStoryFeature) {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.82fr) minmax(0, 1.18fr);
+  min-height: 440px;
+  overflow: hidden;
+  border-top: 3px solid var(--home-primary);
+  background: var(--home-paper);
+}
+
+.homePage :global(.homeStoryPhoto) {
+  position: relative;
+  min-height: 440px;
+  overflow: hidden;
+  background: var(--home-blue-muted);
+}
+
+.homePage :global(.homeStoryPhoto img) {
+  object-fit: cover;
+  object-position: center;
+}
+
+.homePage :global(.homeStoryPhoto::after) {
+  position: absolute;
+  inset: 45% 0 0;
+  content: "";
+  background: linear-gradient(transparent, rgb(37 43 41 / 52%));
+  pointer-events: none;
+}
+
+.homePage :global(.homeStoryPhoto > span) {
+  position: absolute;
+  z-index: 1;
+  right: 18px;
+  bottom: 17px;
+  left: 18px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.homePage :global(.homeStoryContent) {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(26px, 3.5vw, 42px);
+}
+
+.homePage :global(.homeQuoteMark) {
+  width: 38px;
+  height: 32px;
+  color: var(--home-blue-muted);
+}
+
+.homePage :global(.homeStoryProgram) {
+  margin: 23px 0 0;
+  color: var(--home-primary);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.homePage :global(.homeStoryProgram span) {
+  padding-inline: 5px;
+  color: var(--home-blue-muted);
+}
+
+.homePage :global(.homeStoryFeature blockquote) {
+  max-width: 720px;
+  margin: 16px 0 30px;
+  color: var(--home-ink);
+  font-size: clamp(19px, 2.4vw, 27px);
+  font-weight: 450;
+  letter-spacing: -0.025em;
+  line-height: 1.55;
+}
+
+.homePage :global(.homeStoryPerson) {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--home-line);
+}
+
+.homePage :global(.homeStoryPerson h3) {
+  margin: 0;
+  color: var(--home-ink);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.homePage :global(.homeStoryPerson p) {
+  margin: 5px 0 0;
+  color: var(--home-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.homePage :global(.homeStoryControls) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.homePage :global(.homeStoryControls > button) {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--home-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--home-primary-dark);
+  cursor: pointer;
+}
+
+.homePage :global(.homeStoryControls > button:hover) {
+  background: var(--home-primary-pale);
+}
+
+.homePage :global(.homeStoryControls svg) {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.homePage :global(.homeStoryDots) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.homePage :global(.homeStoryDots button) {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: #cbd6f3;
+  cursor: pointer;
+}
+
+.homePage :global(.homeStoryDots button[aria-current="true"]) {
+  width: 22px;
+  background: var(--home-primary);
+}
+
+.homePage :global(.homePartners) {
+  padding: clamp(74px, 9vw, 112px) 0;
+  background: var(--home-blue-pale);
+}
+
+.homePage :global(.homePartnersInner) {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(460px, 1.2fr);
+  gap: clamp(50px, 8vw, 112px);
+}
+
+.homePage :global(.homePartnersIntro h2) {
+  font-size: clamp(32px, 4vw, 46px);
+}
+
+.homePage :global(.homePartnerLinks) {
+  border-top: 1px solid var(--home-line);
+}
+
+.homePage :global(.homePartnerLink) {
+  display: grid;
+  grid-template-columns: 38px 1fr 22px;
+  align-items: center;
+  gap: 14px;
+  min-height: 78px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--home-line);
+  color: inherit;
+  text-decoration: none;
+  transition: padding 160ms ease, color 160ms ease;
+}
+
+.homePage :global(.homePartnerLink:hover) {
+  padding-right: 4px;
+  padding-left: 4px;
+  color: var(--home-primary-dark);
+}
+
+.homePage :global(.homePartnerIndex) {
+  color: var(--home-primary);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.homePage :global(.homePartnerText strong),
+.homePage :global(.homePartnerText small) {
+  display: block;
+}
+
+.homePage :global(.homePartnerText strong) {
+  color: var(--home-ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.homePage :global(.homePartnerText small) {
+  margin-top: 5px;
+  color: var(--home-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.homePage :global(.homePartnerArrow) {
+  color: var(--home-primary);
+  font-size: 18px;
+}
+
+.homePage :global(.homePartnerShowcase) {
+  padding: clamp(64px, 8vw, 96px) 0;
+  background: var(--home-neutral);
+}
+
+.homePage :global(.homePartnerShowcaseInner) {
+  display: block;
+}
+
+.homePage :global(.homePartnerShowcaseInner h2) {
+  max-width: 700px;
+  margin: 0;
+  color: var(--home-ink);
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+}
+
+.homePage :global(.homePartnerShowcaseHeading > p:last-child) {
+  max-width: 680px;
+  margin: 16px 0 0;
+  color: var(--home-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.homePage :global(.homePartnerShowcaseGrid) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 38px;
+}
+
+.homePage :global(.homePartnerShowcaseCard) {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--home-line);
+  background: var(--home-paper);
+}
+
+.homePage :global(.homePartnerShowcaseLogo) {
+  position: relative;
+  height: 92px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background: var(--home-blue-pale);
+}
+
+.homePage :global(.homePartnerShowcaseLogo img) {
+  object-fit: cover;
+}
+
+.homePage :global(.homePartnerShowcaseCard h3) {
+  margin: 0;
+  color: var(--home-ink);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.homePage :global(.homePartnerShowcaseCard > span) {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--home-primary);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.homePage :global(.homePartnerShowcaseCard > p) {
+  margin: 10px 0 0;
+  color: var(--home-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.homePage :global(.homePartnerShowcaseClosing) {
+  margin: 28px 0 0;
+  color: var(--home-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.homePage :global(.homeSdg) {
+  padding: clamp(65px, 8vw, 96px) 0;
+  background: var(--home-paper);
+}
+
+.homePage :global(.homeSdgList) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--home-line);
+  list-style: none;
+}
+
+.homePage :global(.homeSdgGoal) {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 108px;
+  padding: 23px 20px 20px 0;
+  border-bottom: 1px solid var(--home-line);
+}
+
+.homePage :global(.homeSdgGoal:not(:nth-child(3n + 1))) {
+  padding-left: 20px;
+  border-left: 1px solid var(--home-line);
+}
+
+.homePage :global(.homeSdgGoal img) {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.homePage :global(.homeSdgNumber) {
+  margin: 0 0 4px;
+  color: var(--home-primary);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.homePage :global(.homeSdgGoal h3) {
+  margin: 0;
+  color: var(--home-ink);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.homePage :global(.homeSdgLink) {
+  margin-top: 26px;
+}
+
+.homePage :global(.homeNews) {
+  padding: clamp(74px, 9vw, 112px) 0;
+  background: var(--home-primary-pale);
+}
+
+.homePage :global(.homeNewsList) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.homePage :global(.homeNewsItem) {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--home-line);
+  background: var(--home-paper);
+}
+
+.homePage :global(.homeNewsPhoto) {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.65;
+  overflow: hidden;
+  background: var(--home-blue-muted);
+}
+
+.homePage :global(.homeNewsPhoto img) {
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+.homePage :global(.homeNewsItem:hover .homeNewsPhoto img) {
+  transform: scale(1.035);
+}
+
+.homePage :global(.homeNewsContent h3) {
+  margin: 0;
+  color: var(--home-ink);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.homePage :global(.homeNewsContent) {
+  padding: 18px;
+}
+
+.homePage :global(.homeNewsContent h3) {
+  line-height: 1.4;
+}
+
+.homePage :global(.homeNewsItem > a) {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  justify-self: end;
+  margin: 0 18px 18px;
+  border: 1px solid var(--home-line);
+  border-radius: 50%;
+  color: var(--home-primary-dark);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.homePage :global(.homeNewsItem > a:hover) {
+  border-color: var(--home-primary);
+  background: var(--home-primary-pale);
+}
+
+.homePage :global(.homeCta) {
+  padding: clamp(54px, 7vw, 82px) 0;
+  color: #fff;
+  background: var(--home-primary);
+}
+
+.homePage :global(.homeCtaInner) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.homePage :global(.homeCta .homeEyebrow) {
+  color: #dce5ff;
+}
+
+.homePage :global(.homeCta h2) {
+  max-width: 700px;
+  color: #fff;
+  font-size: clamp(30px, 4vw, 44px);
+}
+
+.homePage :global(.homeCta p:last-child) {
+  margin: 14px 0 0;
+  color: #e3eaff;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.homePage :global(.homeButtonLight) {
+  flex: 0 0 auto;
+  border-color: #fff;
+  color: var(--home-primary-dark);
+  background: #fff;
+}
+
+.homePage :global(.homeButtonLight:hover) {
+  background: var(--home-primary-pale);
+}
+
+.homePage :global(.homeCtaActions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.homePage :global(.homeButtonOutline) {
+  border-color: rgb(255 255 255 / 70%);
+  color: #fff;
+  background: transparent;
+}
+
+.homePage :global(.homeButtonOutline:hover) {
+  background: rgb(255 255 255 / 12%);
+}
+
+.homePage > :global(footer) {
+  padding: 54px 0 26px;
+  background: #202a42;
+}
+
+.homePage > :global(footer) > .container {
+  width: min(100% - 56px, 1200px);
+  margin-inline: auto;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.homePage > :global(footer) a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.homePage > :global(footer) a:hover {
+  color: #dbe5ff;
+}
+
+@media (max-width: 1279px) {
+  .homePage > :global(header) :global(.container > div > nav),
+  .homePage > :global(header) :global(.container > div > nav + div) {
+    display: none !important;
+  }
+
+  .homePage > :global(header) :global(.container > div > button) {
+    display: grid !important;
+  }
+
+  .homePage > :global(header) :global(.container > div:nth-child(2)) {
+    display: block;
+  }
+
+  .homePage > :global(header) :global(.container > div:nth-child(2) a[href="/support"]) {
+    border-color: var(--home-primary);
+    background: var(--home-primary);
+    color: #fff;
+  }
+
+  .homePage > :global(header) :global(.container > div:nth-child(2) a[target="_blank"]) {
+    border-color: var(--home-primary);
+    color: var(--home-primary-dark);
+  }
+
+  .homePage :global(.homeProgramList) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homePage :global(.homeSdgList) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .homePage :global(.homeSdgGoal:not(:nth-child(3n + 1))) {
+    padding-left: 20px;
+    border-left: 1px solid var(--home-line);
+  }
+
+  .homePage :global(.homeNewsList) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1023px) {
+  .homePage :global(.homeHeroInner) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(290px, 0.95fr);
+    gap: 40px;
+  }
+
+  .homePage :global(.homeHeroPhoto) {
+    height: clamp(370px, 50vw, 490px);
+  }
+
+  .homePage :global(.homeAboutInner),
+  .homePage :global(.homePartnersInner) {
+    grid-template-columns: minmax(0, 0.85fr) minmax(340px, 1.15fr);
+    gap: 44px;
+  }
+
+  .homePage :global(.homeSdgList) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homePage :global(.homeSdgGoal:not(:nth-child(3n + 1))) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .homePage :global(.homeSdgGoal:nth-child(even)) {
+    padding-left: 20px;
+    border-left: 1px solid var(--home-line);
+  }
+}
+
+@media (max-width: 760px) {
+  .homePage :global(.homeSectionInner),
+  .homePage :global(.homeHeroInner) {
+    width: min(100% - 40px, 600px);
+  }
+
+  .homePage :global(.homeHero) {
+    padding: 54px 0 60px;
+    background: var(--home-paper);
+  }
+
+  .homePage :global(.homeHeroInner) {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .homePage :global(.homeHeroCopy h1) {
+    font-size: clamp(42px, 11vw, 62px);
+  }
+
+  .homePage :global(.homeHeroDescription) {
+    margin-top: 19px;
+    font-size: 16px;
+  }
+
+  .homePage :global(.homeHeroPhoto) {
+    height: clamp(300px, 78vw, 450px);
+  }
+
+  .homePage :global(.homeSectionHeading) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 34px;
+  }
+
+  .homePage :global(.homeSectionHeading > p) {
+    max-width: 510px;
+  }
+
+  .homePage :global(.homeAboutInner),
+  .homePage :global(.homePartnersInner) {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .homePage :global(.homePartnerShowcaseInner) {
+    display: block;
+  }
+
+  .homePage :global(.homePartnerShowcaseGrid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homePage :global(.homePartnerShowcaseCard) {
+    padding: 18px;
+  }
+
+  .homePage :global(.homeProgramList) {
+    grid-template-columns: 1fr;
+  }
+
+  .homePage :global(.homeProgramContent) {
+    padding: 22px;
+  }
+
+  .homePage :global(.homeProgramTopline) {
+    margin-bottom: 16px;
+  }
+
+  .homePage :global(.homeProgramDescription) {
+    min-height: 0;
+  }
+
+  .homePage :global(.homeImpactInner) {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .homePage :global(.homeImpactFigure) {
+    padding: 18px 16px;
+  }
+
+  .homePage :global(.homeImpactHighlights) {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 32px;
+  }
+
+  .homePage :global(.homeImpactHighlight),
+  .homePage :global(.homeImpactHighlight + .homeImpactHighlight) {
+    padding: 0 0 20px;
+    border-bottom: 1px solid rgb(255 255 255 / 25%);
+    border-left: 0;
+  }
+
+  .homePage :global(.homeStoriesLayout) {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .homePage :global(.homeStoryFeature) {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .homePage :global(.homeStoryPhoto) {
+    min-height: clamp(250px, 65vw, 380px);
+  }
+
+  .homePage :global(.homeStoryContent) {
+    padding: 28px 24px;
+  }
+
+  .homePage :global(.homeSdgList) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homePage :global(.homeSdgGoal:not(:nth-child(3n + 1))) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .homePage :global(.homeSdgGoal:nth-child(even)) {
+    padding-left: 18px;
+    border-left: 1px solid var(--home-line);
+  }
+
+  .homePage :global(.homeNewsList) {
+    grid-template-columns: 1fr;
+  }
+
+  .homePage :global(.homeNewsPhoto) {
+    aspect-ratio: 1.8;
+  }
+
+  .homePage :global(.homeCtaInner) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .homePage :global(.homeCtaActions) {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .homePage :global(.homeSectionInner),
+  .homePage :global(.homeHeroInner) {
+    width: min(100% - 32px, 420px);
+  }
+
+  .homePage > :global(header) :global(.container) {
+    width: min(100% - 32px, 420px);
+  }
+
+  .homePage :global(.homeHeroActions) {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .homePage :global(.homeButton) {
+    width: 100%;
+  }
+
+  .homePage :global(.homeHeroPhoto) {
+    height: clamp(285px, 84vw, 360px);
+  }
+
+  .homePage :global(.homePartnerLink) {
+    grid-template-columns: 26px 1fr 20px;
+    gap: 10px;
+  }
+
+  .homePage > :global(footer) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .homePage > :global(footer) > .container {
+    width: min(100% - 32px, 420px);
+  }
+
+  .homePage :global(.homeSdgList) {
+    grid-template-columns: 1fr;
+  }
+
+  .homePage :global(.homeSdgGoal),
+  .homePage :global(.homeSdgGoal:nth-child(even)) {
+    padding: 18px 0;
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homePage :global(*),
+  .homePage :global(*::before),
+  .homePage :global(*::after) {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
